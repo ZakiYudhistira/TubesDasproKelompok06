@@ -13,6 +13,6 @@ def login():
                 akses = True
         if akses == False:
             print("Username dan password tidak sesuai atau username tidak terdaftar, mohon coba lagi")
-        elif akses:
+        else :
             print("Login berhasil")
 login()
