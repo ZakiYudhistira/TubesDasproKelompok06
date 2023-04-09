@@ -41,10 +41,10 @@ def logout():
 def load_data(filename):
     file = open(filename, 'r').read()
     if filename == "user.csv":
-        NMax = 102
+        NMax = 103
         NParam = 3
     elif filename == "candi.csv":
-        NMax = 100
+        NMax = 101
         NParam = 5
     else:
         NMax = 4
