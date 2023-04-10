@@ -1,4 +1,4 @@
-import argparse, os, Module, csv
+import argparse, os, csv
 
 parser = argparse.ArgumentParser()
 parser.add_argument("nama_folder", help = "folder data yang ingin di-load")
@@ -7,16 +7,19 @@ args = parser.parse_args()
 filepath = os.path.dirname(os.path.realpath(__file__))
 folder_save = args.nama_folder
 
-class MatriksData:
-    def __init__(self, file, n_param, n_max, matriks = None):
-        self.file = file
-        self.n_param = n_param
-        self.n_max = n_max
-        self.matriks = Module.load_data(file, n_param, n_max)
-
 data_user_read = open(f"{filepath}\\save\\user.csv",'r') #inisialisasi read file csv
 data_user_reader = csv.reader(data_user_read,delimiter=';')
-#------------------------------------------------------------------------------------------------------------ Fungsi login
+
+class MatriksData:
+    def __init__(self, nama_file, nama_data, n_param, n_max, matriks = None):
+        self.nama_file = nama_file
+        self.nama_data = nama_data
+        self.n_param = n_param
+        self.n_max = n_max
+        self.matriks = load_data(nama_file, n_param, n_max)
+
+
+#-------------------------------------------------Fungsi login-----------------------------------------------------------
 def login(): # fungsi login yang akan mengoutput True bila login berhasil dan False bila login tidak berhasil
     data_user_read = open(f"{filepath}\\save\\user.csv",'r') #inisialisasi read file csv
     data_user_reader = csv.reader(data_user_read,delimiter=';')
@@ -46,13 +49,13 @@ def login(): # fungsi login yang akan mengoutput True bila login berhasil dan Fa
             print("Username tidak terdaftar!")
         return akses," ", " "
 
-#------------------------------------------------------------------------------------------------------------ Fungsi logout    
+#-------------------------------------------------Fungsi logout-----------------------------------------------------------
 def logout():
     return False, " ", " "
 
 
 
-#------------------------------------------------------------------------------------------------------------ Fungsi load_data
+#-------------------------------------------------Fungsi load_data-----------------------------------------------------------
 def load_data(nama_file, n_param, n_max):
     file = open(nama_file, 'r').read()
 
@@ -80,3 +83,35 @@ def load_data(nama_file, n_param, n_max):
         matriks_data[indeks_baris-1][indeks_kolom] = data
 
     return matriks_data
+
+
+#-------------------------------------------------Fungsi tulis_data_matriks-----------------------------------------------------------
+# Mengembalikan panjang matriks_data yang terisi.
+def panjang_matriks(matriks_data):
+    count = 0
+    for baris in range(matriks_data.n_max):
+        if matriks_data.matriks[baris][0] is not None:
+            count += 1
+        else:
+            break
+        
+    return count
+
+#-------------------------------------------------Fungsi tulis_data_matriks-----------------------------------------------------------
+# Mengembalikan string berisi data setiap MatriksData dengan format yang sama dengan isi file eksternal.
+def tulis_data_matriks(matriks_data):
+    if matriks_data.nama_data == "user":
+        string_data = "username;password;role\n"
+    elif matriks_data.nama_data == "candi":
+        string_data = "id;pembuat;pasir;batu;air\n"
+    elif matriks_data.nama_data == "bahan_bangunan":
+        string_data = "nama;deskripsi;jumlah\n"
+
+    for baris in range(panjang_matriks(matriks_data)):
+        for param in range(matriks_data.n_param):
+            if param != (matriks_data.n_param - 1):
+                string_data = string_data + matriks_data.matriks[baris][param] + ';'
+            else:
+                string_data = string_data + matriks_data.matriks[baris][param] + '\n'
+
+    return string_data
