@@ -8,27 +8,23 @@ filepath = os.path.dirname(os.path.realpath(__file__))
 folder = args.nama_folder
 save_folderpath = f"{filepath}\\{folder}"
 
-class MatriksData:
-    def __init__(self, nama_file, nama_data, n_param, n_max, matriks = None):
-        self.nama_file = nama_file
-        self.matriks = Module.load_data(nama_file, n_param, n_max)
-        self.n_param = n_param
-        self.n_max = n_max
-        self.nama_data = nama_data
 
 
 if os.path.exists(save_folderpath):
-    print("Loading...")
+    
+    Module.dotdotdot("Loading", 3, 0.5)
 
-    matriks_user = MatriksData(f"{save_folderpath}\\user.csv", "user", 3, 102)
-    matriks_candi = MatriksData(f"{save_folderpath}\\candi.csv", "candi", 5, 100)
-    matriks_bahan = MatriksData(f"{save_folderpath}\\bahan_bangunan.csv", "bahan_bangunan", 3, 3)
-
+    matriks_user = Module.MatriksData(f"{save_folderpath}\\user.csv", "user", 3, 102)
+    matriks_candi = Module.MatriksData(f"{save_folderpath}\\candi.csv", "candi", 5, 100)
+    matriks_bahan = Module.MatriksData(f"{save_folderpath}\\bahan_bangunan.csv", "bahan_bangunan", 3, 3)
+    tuple_matriks_data = ([matriks_user, matriks_candi, matriks_bahan], 3)
+    
     print("Selamat datang di program \"Manajerial Candi\"")
 
     program_jalan = True
     logged_in = False
-    logged_in_as = " "
+    logged_in_as = ""
+
     while program_jalan:
         command = str(input(">>> "))
         if command == "login":

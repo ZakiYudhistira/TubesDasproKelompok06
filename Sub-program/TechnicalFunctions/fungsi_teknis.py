@@ -1,20 +1,19 @@
-import argparse, os, Module
-
-#parser = argparse.ArgumentParser()
-#parser.add_argument("nama_folder", help="folder data yang ingin di-load")
-#args = parser.parse_args()
+import argparse, os, Module, time
 
 filepath = os.path.dirname(os.path.realpath(__file__))
-#folder = args.nama_folder
-#save_folderpath = f"{filepath}\\{folder}"
 
-class MatriksData:
-    def __init__(self, nama_file, nama_data, n_param, n_max, matriks = None):
-        self.nama_file = nama_file
-        self.matriks = Module.load_data(nama_file, n_param, n_max)
-        self.n_param = n_param
-        self.n_max = n_max
-        self.nama_data = nama_data
+def dotdotdot(teks, n_dot, interval):
+    print(teks, end="", flush=True)
+    time.sleep(interval)
+    for i in range(n_dot):
+        print('.', end="", flush=True)
+        time.sleep(interval)
+    print()
+
+
+def save_file(path, data):
+    with open(path, 'w') as file:
+        file.write(data)
 
 
 def load_data(nama_file, n_param, n_max):
@@ -45,6 +44,7 @@ def load_data(nama_file, n_param, n_max):
 
     return matriks_data
 
+
 def panjang_matriks(matriks_data):
     count = 0
     for baris in range(matriks_data.n_max):
@@ -52,23 +52,57 @@ def panjang_matriks(matriks_data):
             count += 1
         else:
             break
-        
+
     return count
 
-def tulis_data_matriks(matriks_data):
+
+def tulis_matriks_data(matriks_data):
     if matriks_data.nama_data == "user":
-        string_data = "username;password;role\n"
+        string_data = "username;password;role"
     elif matriks_data.nama_data == "candi":
-        string_data = "id;pembuat;pasir;batu;air\n"
+        string_data = "id;pembuat;pasir;batu;air"
     elif matriks_data.nama_data == "bahan_bangunan":
-        string_data = "nama;deskripsi;jumlah\n"
+        string_data = "nama;deskripsi;jumlah"
+
+    if panjang_matriks(matriks_data) != 0:
+        string_data += '\n'
 
     for baris in range(panjang_matriks(matriks_data)):
         for param in range(matriks_data.n_param):
             if param != (matriks_data.n_param - 1):
                 string_data = string_data + matriks_data.matriks[baris][param] + ';'
             else:
-                string_data = string_data + matriks_data.matriks[baris][param] + '\n'
+                if baris != (panjang_matriks(matriks_data) - 1):
+                    string_data = string_data + matriks_data.matriks[baris][param] + '\n'
+                else:
+                    string_data = string_data + matriks_data.matriks[baris][param]
+
 
     return string_data
 
+
+def save_data(data:tuple):
+    folderpath = input("Masukkan nama folder: ")
+    dotdotdot("Saving", 3, 0.5)
+    
+    directory = ""
+    for i in range(len(folderpath)):
+
+        if folderpath[i] == '/' or folderpath[i] == '\\':
+            if not os.path.exists(directory):
+                dotdotdot(f"Membuat folder {directory}", 3, 0.5)
+                os.makedirs(f"{filepath}\\{directory}")
+                time.sleep(0.5)
+
+        directory += folderpath[i]
+
+    if not os.path.exists(directory):
+        dotdotdot(f"Membuat folder {directory}", 3, 0.5)
+        os.makedirs(f"{filepath}\\{directory}")
+        time.sleep(0.5)
+
+    for i in range(data[1]):
+        save_file(f"{directory}\\{data[0][i].nama_data}.csv", tulis_matriks_data(data[0][i]))
+
+    time.sleep(0.5)
+    print(f"Berhasil menyimpan data di folder {directory}!")
