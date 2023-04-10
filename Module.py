@@ -1,9 +1,24 @@
-import csv # melakukan import library
-data_user_read = open('user.csv','r') #inisialisasi read file csv
+import argparse, os, Module, csv
+
+parser = argparse.ArgumentParser()
+parser.add_argument("nama_folder", help = "folder data yang ingin di-load")
+args = parser.parse_args()
+
+filepath = os.path.dirname(os.path.realpath(__file__))
+folder_save = args.nama_folder
+
+class MatriksData:
+    def __init__(self, file, n_param, n_max, matriks = None):
+        self.file = file
+        self.n_param = n_param
+        self.n_max = n_max
+        self.matriks = Module.load_data(file, n_param, n_max)
+
+data_user_read = open(f"{filepath}\\save\\user.csv",'r') #inisialisasi read file csv
 data_user_reader = csv.reader(data_user_read,delimiter=';')
 #------------------------------------------------------------------------------------------------------------ Fungsi login
 def login(): # fungsi login yang akan mengoutput True bila login berhasil dan False bila login tidak berhasil
-    data_user_read = open('user.csv','r') #inisialisasi read file csv
+    data_user_read = open(f"{filepath}\\save\\user.csv",'r') #inisialisasi read file csv
     data_user_reader = csv.reader(data_user_read,delimiter=';')
     akses = False
     username = True
@@ -38,19 +53,10 @@ def logout():
 
 
 #------------------------------------------------------------------------------------------------------------ Fungsi load_data
-def load_data(filename):
-    file = open(filename, 'r').read()
-    if filename == "user.csv":
-        NMax = 102
-        NParam = 3
-    elif filename == "candi.csv":
-        NMax = 100
-        NParam = 5
-    else:
-        NMax = 3
-        NParam = 3
+def load_data(nama_file, n_param, n_max):
+    file = open(nama_file, 'r').read()
 
-    matriks_data = [[None for i in range(NParam)] for j in range(NMax)]
+    matriks_data = [[None for i in range(n_param)] for j in range(n_max)]
     data = ''
     indeks_baris = 0
     indeks_kolom = 0
