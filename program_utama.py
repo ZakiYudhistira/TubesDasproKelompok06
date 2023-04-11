@@ -31,7 +31,7 @@ if os.path.exists(save_folderpath):
             if logged_in:
                 print("Login gagal! Anda telah login dengan username "+user+", silahkan lakukan “logout” sebelum melakukan login kembali.")
             else:
-                logged_in,user,logged_in_as = Module.login()
+                logged_in,user,logged_in_as = Module.login(matriks_user.matriks)
         elif command == "logout":
             if logged_in:
                 print("Terimakasih "+user+"! sampai jumpa di lain waktu")
@@ -50,4 +50,3 @@ if os.path.exists(save_folderpath):
             
 else:
     print(f"Folder \"{folder}\" tidak ditemukan.")
-

@@ -1,9 +1,9 @@
-import os, csv, time, random
+# Library fungsi - fungsi program
+import os, time, random
 
 filepath = os.path.dirname(os.path.realpath(__file__))
 
 data_user_read = open(f"{filepath}\\save\\user.csv",'r') #inisialisasi read file csv
-data_user_reader = csv.reader(data_user_read,delimiter=';')
 
 class MatriksData:
     def __init__(self, nama_file, nama_data, n_param, n_max, matriks = None):
@@ -33,28 +33,27 @@ def save_file(path, data):
 
 #-------------------------------------------------Fungsi login-----------------------------------------------------------
 # Fungsi login yang akan mengoutput True bila login berhasil dan False bila login tidak berhasil
-def login(): 
-    data_user_read = open(f"{filepath}\\save\\user.csv",'r') #inisialisasi read file csv
-    data_user_reader = csv.reader(data_user_read,delimiter=';')
+def login(matriks_data_user): # fungsi login yang akan mengoutput True bila login berhasil dan False bila login tidak berhasil
+    data_user = matriks_data_user
     akses = False
     username = True
     password_p = True
     user = input("Masukkan username : ")
     password = input("Masukkan password : ")
-    for row in data_user_reader: # loop pemrosesan file csv untuk menentukan password dan username
-        cek_user = (row[0],row[1])
-        logged_in_as = row[2]
-        if cek_user == (user,password):
-            akses = True
-        elif user == row[0] and password != row[1]:
-            username = True
-            password_p = False
-        elif user != row[0]:
-            username = False
+    for i in range(102): # loop pemrosesan file csv untuk menentukan password dan username
+        if data_user[i][0] == user:
+            if data_user[i][1] == password:
+                akses = True
+                break
+            else:
+                akses = False
+                password_p = False
+        else:
+            akses = False
     if akses:
         print("Selamat Datang, "+user+"!")
         print("Masukkan command “help” untuk daftar command yang dapat kamu panggil.")
-        return akses, user, logged_in_as
+        return akses,data_user[i][0],data_user[i][2]
     else :
         if username and not(password_p):
             print("Password salah!")
