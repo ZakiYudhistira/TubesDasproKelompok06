@@ -1,6 +1,5 @@
 import csv # melakukan import library
 data_user_read = open('user.csv','r') #inisialisasi read file csv
-data_user_reader = csv.reader(data_user_read,delimiter=';')
 #------------------------------------------------------------------------------------------------------------ Fungsi login
 def login(): # fungsi login yang akan mengoutput True bila login berhasil dan False bila login tidak berhasil
     data_user_read = open('user.csv','r') #inisialisasi read file csv
