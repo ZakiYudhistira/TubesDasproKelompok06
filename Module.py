@@ -3,8 +3,6 @@ import os, time, random
 
 filepath = os.path.dirname(os.path.realpath(__file__))
 
-data_user_read = open(f"{filepath}\\save\\user.csv",'r') #inisialisasi read file csv
-
 class MatriksData:
     def __init__(self, nama_file, nama_data, n_param, n_max, matriks = None):
         self.nama_file = nama_file
@@ -33,13 +31,14 @@ def save_file(path, data):
 
 #-------------------------------------------------Fungsi login-----------------------------------------------------------
 # Fungsi login yang akan mengoutput True bila login berhasil dan False bila login tidak berhasil
-def login(matriks_data_user): # fungsi login yang akan mengoutput True bila login berhasil dan False bila login tidak berhasil
+def login(matriks_data_user):
     data_user = matriks_data_user
     akses = False
     username = True
     password_p = True
     user = input("Masukkan username : ")
     password = input("Masukkan password : ")
+    
     for i in range(102): # loop pemrosesan file csv untuk menentukan password dan username
         if data_user[i][0] == user:
             if data_user[i][1] == password:
@@ -50,6 +49,7 @@ def login(matriks_data_user): # fungsi login yang akan mengoutput True bila logi
                 password_p = False
         else:
             akses = False
+
     if akses:
         print("Selamat Datang, "+user+"!")
         print("Masukkan command “help” untuk daftar command yang dapat kamu panggil.")
@@ -70,30 +70,31 @@ def logout():
 #-------------------------------------------------Fungsi load_data-----------------------------------------------------------
 # Mengembalikan sebuah martriks berisi data yang dibaca dengan jumlah baris n_max dan jumlah kolom n_param.
 def load_data(nama_file, n_param, n_max):
-    file = open(nama_file, 'r').read()
 
-    matriks_data = [[None for i in range(n_param)] for j in range(n_max)]
-    data = ''
-    indeks_baris = 0
-    indeks_kolom = 0
+    with open(nama_file, 'r') as file:
+        data_file = file.read()
+        matriks_data = [[None for i in range(n_param)] for j in range(n_max)]
+        data = ''
+        indeks_baris = 0
+        indeks_kolom = 0
 
-    for huruf in file:
-        if huruf == ';' or huruf == '\n':
-            if huruf != '\n':
-                if indeks_baris != 0:
-                    matriks_data[indeks_baris-1][indeks_kolom] = data
-                indeks_kolom += 1
+        for huruf in data_file:
+            if huruf == ';' or huruf == '\n':
+                if huruf != '\n':
+                    if indeks_baris != 0:
+                        matriks_data[indeks_baris-1][indeks_kolom] = data
+                    indeks_kolom += 1
+                else:
+                    if indeks_baris != 0:
+                        matriks_data[indeks_baris-1][indeks_kolom] = data
+                    indeks_baris += 1
+                    indeks_kolom = 0
+                data = ''
             else:
-                if indeks_baris != 0:
-                    matriks_data[indeks_baris-1][indeks_kolom] = data
-                indeks_baris += 1
-                indeks_kolom = 0
-            data = ''
-        else:
-            data += huruf
+                data += huruf
 
-    if data != '' and indeks_baris != 0:
-        matriks_data[indeks_baris-1][indeks_kolom] = data
+        if data != '' and indeks_baris != 0:
+            matriks_data[indeks_baris-1][indeks_kolom] = data
 
     return matriks_data
 
@@ -140,27 +141,23 @@ def tulis_matriks_data(matriks_data):
 #-------------------------------------------------Fungsi save_data-----------------------------------------------------------
 # Procedure untuk menyimpan data yang telah digunakan ke sebuah folder eksternal.
 def save_data(data:tuple):
-    folderpath = input("Masukkan nama folder: ")
+    nama_folder = input("Masukkan nama folder: ")
+    parent_folder = "save"
     dotdotdot("Saving", 3, 0.5)
     
-    directory = ""
-    for i in range(len(folderpath)):
+    save_directory = f"{parent_folder}\\{nama_folder}"
+    for i in range(len(save_directory)):
 
-        if folderpath[i] == '/' or folderpath[i] == '\\':
-            if not os.path.exists(directory):
-                dotdotdot(f"Membuat folder {directory}", 3, 0.5)
-                os.makedirs(f"{filepath}\\{directory}")
+        if save_directory[i] == '/' or save_directory[i] == '\\' or i == (len(save_directory) - 1):
+            if not os.path.exists(save_directory):
+                dotdotdot(f"Membuat folder {save_directory}", 3, 0.5)
+                os.makedirs(f"{filepath}\\{save_directory}")
                 time.sleep(0.5)
 
-        directory += folderpath[i]
-
-    if not os.path.exists(directory):
-        dotdotdot(f"Membuat folder {directory}", 3, 0.5)
-        os.makedirs(f"{filepath}\\{directory}")
-        time.sleep(0.5)
-
     for i in range(data[1]):
-        save_file(f"{directory}\\{data[0][i].nama_data}.csv", tulis_matriks_data(data[0][i]))
+        save_file(f"{save_directory}\\{data[0][i].nama_data}.csv", tulis_matriks_data(data[0][i]))
 
     time.sleep(0.5)
-    print(f"Berhasil menyimpan data di folder {directory}!")
+    print(f"Berhasil menyimpan data di folder {save_directory}!")
+
+
