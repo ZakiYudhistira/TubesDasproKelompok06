@@ -85,6 +85,20 @@ def cariSlotCandi(file_candi):
         if file_candi[i][0] == None:
             return i
  
+def hitungJinKumpul(file_user):
+    count = 0
+    for i in range(102):
+        if file_user[i][2] == "jin_pengumpul":
+            count += 1
+    return count
+
+def hitungJinBangun(file_user):
+    count = 0
+    for i in range(102):
+        if file_user[i][2] == "jin_pembangun":
+            count += 1
+    return count
+
 def summonjin(file_user):
     print('Jenis jin yang dapat dipanggil:\n (1) Pengumpul - Bertugas mengumpulkan bahan bangunan\n (2) Pembangun - Bertugas membangun candi\n (3) Tidak jadi summon jin')
     if cekJumlahJin(file_user):
@@ -165,7 +179,7 @@ def ubahTipeJin(file_user):
             elif command == "N":
                 print(f"Jin pengumpul dengan username {nama_jin} tidak jadi diganti.")
         elif file_user[Id_jin][2] == "jin_pembangun":
-            command = input(f"Jin ini bertipe “Pembangun”. Yakin ingin mengubah ke tipe “Pengumpul” (Y/N)? ")
+            command = input(f"Jin ini bertipe Pembangun”. Yakin ingin mengubah ke tipe “Pengumpul” (Y/N)? ")
             while not(command == "Y") and not(command == "N"):
                 print("Perintah tidak valid, tolong input ulang perintah.")
                 command = input(f"Jin ini bertipe “Pembangun”. Yakin ingin mengubah ke tipe “Pengumpul” (Y/N)? ")
@@ -192,13 +206,24 @@ def bangun(file_bahan,file_candi,jin_pembangun):
     else:
         print("Bahan bangunan tidak mencukupi.\nCandi tidak bisa dibangun!")
 
-file_user = Module.load_data("user.csv", 3 ,10)
+def batchKumpul(file_bahan, file_user):
+    count = hitungJinKumpul(file_user)
+    for i in range(count):
+        kumpul (file_bahan)
+
+def batchBangun(file_bahan, file_user, file_candi):
+    count = hitungJinBangun(file_user)
+
+def ambilLaporanCandi():
+    
+    
+file_user = Module.load_data("user.csv", 3 ,102)
 file_bahan = Module.load_data("bahan_bangunan.csv",3,3)
 file_candi = Module.load_data("candi.csv",5,100)
 # summonjin(file_utama)
 # summonjin(file_utama)
 # hapusJin(file_utama)
 # ubahTipeJin(file_utama)
-print(file_user)
-print(file_bahan)
-print(file_candi)
+# print(file_user)
+# print(file_bahan)
+print(len(file_user))
