@@ -182,18 +182,17 @@ def kumpul(file_bahan):
     ubahBahan (file_bahan,pasir,batu,air)
     print(f"Jin menemukan {pasir} pasir, {batu} batu, dan {air} air.")
 
-def bangun(file_bahan,file_candi):
+def bangun(file_bahan,file_candi,jin_pembangun):
     pasir,batu,air = generateBahan()
     IdCandi = cariSlotCandi(file_candi)
     if file_candi[0][2] >= pasir and file_candi[1][2] >= batu and file_candi[2][2]:
-        file_candi[IdCandi][2],file_candi[IdCandi][3],file_candi[IdCandi][4] = pasir,batu,air
+        file_candi[IdCandi][1],file_candi[IdCandi][2],file_candi[IdCandi][3],file_candi[IdCandi][4] = jin_pembangun,pasir,batu,air
         pasir,batu,air = pasir*-1,batu*-1,air*-1
         ubahBahan(file_bahan,pasir,batu,air)
     else:
         print("Bahan bangunan tidak mencukupi.\nCandi tidak bisa dibangun!")
 
-
-file_user = Module.load_data("user.csv", 3 ,100)
+file_user = Module.load_data("user.csv", 3 ,10)
 file_bahan = Module.load_data("bahan_bangunan.csv",3,3)
 file_candi = Module.load_data("candi.csv",5,100)
 # summonjin(file_utama)
