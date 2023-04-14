@@ -1,4 +1,4 @@
-import argparse, os, Module, time
+import os, time
 
 filepath = os.path.dirname(os.path.realpath(__file__))
 
@@ -39,7 +39,7 @@ def load_data(nama_file, n_param, n_max):
         else:
             data += huruf
 
-    if data != '':
+    if data != '' and indeks_baris != 0:
         matriks_data[indeks_baris-1][indeks_kolom] = data
 
     return matriks_data
