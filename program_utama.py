@@ -30,32 +30,34 @@ if os.path.exists(save_directory):
                 print("Login gagal! Anda telah login dengan username "+user+", silahkan lakukan “logout” sebelum melakukan login kembali.")
             else:
                 logged_in,user,logged_in_as = Module.login(matriks_user.matriks)
+
         elif command == "logout":
             if logged_in:
                 print("Terimakasih "+user+"! sampai jumpa di lain waktu")
                 logged_in,user,logged_in_as = Module.logout()
             else:
                 print("Logout gagal!"+'\n'+"Anda belum login, silahkan login terlebih dahulu sebelum melakukan logout")
+        
         elif command == "exit":
             if logged_in:
                 print("Mohon logout dulu sebelum keluar dari program")
-            else:                
+            else:
                 while True:
                     opsi = input("Apakah Anda mau melakukan penyimpanan file yang sudah diubah? (y/n) ").upper()
                     if opsi == "Y":
                         tuple_matriks_data = ([matriks_user, matriks_candi, matriks_bahan], 3)
                         Module.save_data(tuple_matriks_data)
-            
                         time.sleep(0.5)
                         print("Terima kasih sudah menjalankan program!")
                         break
                     elif opsi == "N":
                         break
-                    
                 program_jalan = False
+        
         elif command == "save":
             tuple_matriks_data = ([matriks_user, matriks_candi, matriks_bahan], 3)
             Module.save_data(tuple_matriks_data)
+        
         else:
             print("Perintah tidak dikenali")
             
