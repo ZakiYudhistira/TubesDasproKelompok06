@@ -67,6 +67,23 @@ def generateBahan():
     batu = random.randint(1,5)
     air = random.randint(1,5)
     return pasir,batu,air
+
+def ubahBahan(file_bahan,pasir,batu,air):
+    for i in range(len(file_bahan)):
+        if file_bahan[i][0] == "pasir":
+            bahan = int(file_bahan[i][2])
+            file_bahan[i][2] = str(pasir+bahan)
+        elif file_bahan[i][0] == "batu":
+            bahan = int(file_bahan[i][2])
+            file_bahan[i][2] = str(batu+bahan)
+        elif file_bahan[i][0] == "air":
+            bahan = int(file_bahan[i][2])
+            file_bahan[i][2] = str(air+bahan)
+
+def cariSlotCandi(file_candi):
+    for i in range(len(file_candi)):
+        if file_candi[i][0] == None:
+            return i
  
 def summonjin(file_user):
     print('Jenis jin yang dapat dipanggil:\n (1) Pengumpul - Bertugas mengumpulkan bahan bangunan\n (2) Pembangun - Bertugas membangun candi\n (3) Tidak jadi summon jin')
@@ -162,21 +179,27 @@ def ubahTipeJin(file_user):
 
 def kumpul(file_bahan):
     pasir,batu,air = generateBahan()
-    for i in range(len(file_bahan)):
-        if file_bahan[i][0] == "pasir":
-            bahan = int(file_bahan[i][2])
-            file_bahan[i][2] += str(pasir+bahan)
-        elif file_bahan[i][0] == "batu":
-            bahan = int(file_bahan[i][2])
-            file_bahan[i][2] += str(batu+bahan)
-        elif file_bahan[i][0] == "air":
-            bahan = int(file_bahan[i][2])
-            file_bahan[i][2] += str(air+bahan)
+    ubahBahan (file_bahan,pasir,batu,air)
     print(f"Jin menemukan {pasir} pasir, {batu} batu, dan {air} air.")
 
-file_utama = Module.load_data("user.csv", 3 ,102)
+def bangun(file_bahan,file_candi):
+    pasir,batu,air = generateBahan()
+    IdCandi = cariSlotCandi(file_candi)
+    if file_candi[0][2] >= pasir and file_candi[1][2] >= batu and file_candi[2][2]:
+        file_candi[IdCandi][2],file_candi[IdCandi][3],file_candi[IdCandi][4] = pasir,batu,air
+        pasir,batu,air = pasir*-1,batu*-1,air*-1
+        ubahBahan(file_bahan,pasir,batu,air)
+    else:
+        print("Bahan bangunan tidak mencukupi.\nCandi tidak bisa dibangun!")
+
+
+file_user = Module.load_data("user.csv", 3 ,100)
+file_bahan = Module.load_data("bahan_bangunan.csv",3,3)
+file_candi = Module.load_data("candi.csv",5,100)
 # summonjin(file_utama)
 # summonjin(file_utama)
 # hapusJin(file_utama)
-ubahTipeJin(file_utama)
-print(file_utama)
+# ubahTipeJin(file_utama)
+print(file_user)
+print(file_bahan)
+print(file_candi)
