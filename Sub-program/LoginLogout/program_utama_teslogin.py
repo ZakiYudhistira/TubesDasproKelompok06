@@ -15,8 +15,7 @@ while program_jalan:
             print("Terimakasih "+user+"! sampai jumpa di lain waktu")
             logged_in,user,logged_in_a = fungsi_login_logout.logout()
         else:
-            print("Logout gagal!")
-            print("Anda belum login, silahkan login terlebih dahulu sebelum melakukan logout")
+            print("Logout gagal!"+'\n'+"Anda belum login, silahkan login terlebih dahulu sebelum melakukan logout")
     elif command == "exit":
         if logged_in:
             print("Mohon logout dulu sebelum keluar dari program")
