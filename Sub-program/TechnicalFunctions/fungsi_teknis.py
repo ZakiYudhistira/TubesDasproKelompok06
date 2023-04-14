@@ -1,4 +1,4 @@
-import argparse, os, Module, time
+import os, time
 
 filepath = os.path.dirname(os.path.realpath(__file__))
 
@@ -16,35 +16,6 @@ def save_file(path, data):
         file.write(data)
 
 
-def load_data(nama_file, n_param, n_max):
-    file = open(nama_file, 'r').read()
-
-    matriks_data = [[None for i in range(n_param)] for j in range(n_max)]
-    data = ''
-    indeks_baris = 0
-    indeks_kolom = 0
-
-    for huruf in file:
-        if huruf == ';' or huruf == '\n':
-            if huruf != '\n':
-                if indeks_baris != 0:
-                    matriks_data[indeks_baris-1][indeks_kolom] = data
-                indeks_kolom += 1
-            else:
-                if indeks_baris != 0:
-                    matriks_data[indeks_baris-1][indeks_kolom] = data
-                indeks_baris += 1
-                indeks_kolom = 0
-            data = ''
-        else:
-            data += huruf
-
-    if data != '':
-        matriks_data[indeks_baris-1][indeks_kolom] = data
-
-    return matriks_data
-
-
 def panjang_matriks(matriks_data):
     count = 0
     for baris in range(matriks_data.n_max):
@@ -54,6 +25,36 @@ def panjang_matriks(matriks_data):
             break
 
     return count
+
+
+def load_data(nama_file, n_param, n_max):
+
+    with open(nama_file, 'r') as file:
+        data_file = file.read()
+        matriks_data = [[None for i in range(n_param)] for j in range(n_max)]
+        data = ''
+        indeks_baris = 0
+        indeks_kolom = 0
+
+        for huruf in data_file:
+            if huruf == ';' or huruf == '\n':
+                if huruf != '\n':
+                    if indeks_baris != 0:
+                        matriks_data[indeks_baris-1][indeks_kolom] = data
+                    indeks_kolom += 1
+                else:
+                    if indeks_baris != 0:
+                        matriks_data[indeks_baris-1][indeks_kolom] = data
+                    indeks_baris += 1
+                    indeks_kolom = 0
+                data = ''
+            else:
+                data += huruf
+
+        if data != '' and indeks_baris != 0:
+            matriks_data[indeks_baris-1][indeks_kolom] = data
+
+    return matriks_data
 
 
 def tulis_matriks_data(matriks_data):
@@ -82,27 +83,22 @@ def tulis_matriks_data(matriks_data):
 
 
 def save_data(data:tuple):
-    folderpath = input("Masukkan nama folder: ")
+    nama_folder = input("Masukkan nama folder: ")
+    parent_folder = "save"
     dotdotdot("Saving", 3, 0.5)
     
-    directory = ""
-    for i in range(len(folderpath)):
+    save_directory = f"{parent_folder}\\{nama_folder}"
+    for i in range(len(save_directory)):
 
-        if folderpath[i] == '/' or folderpath[i] == '\\':
-            if not os.path.exists(directory):
-                dotdotdot(f"Membuat folder {directory}", 3, 0.5)
-                os.makedirs(f"{filepath}\\{directory}")
+        if save_directory[i] == '/' or save_directory[i] == '\\' or i == (len(save_directory) - 1):
+            if not os.path.exists(save_directory):
+                dotdotdot(f"Membuat folder {save_directory}", 3, 0.5)
+                os.makedirs(f"{filepath}\\{save_directory}")
                 time.sleep(0.5)
 
-        directory += folderpath[i]
-
-    if not os.path.exists(directory):
-        dotdotdot(f"Membuat folder {directory}", 3, 0.5)
-        os.makedirs(f"{filepath}\\{directory}")
-        time.sleep(0.5)
-
     for i in range(data[1]):
-        save_file(f"{directory}\\{data[0][i].nama_data}.csv", tulis_matriks_data(data[0][i]))
+        save_file(f"{save_directory}\\{data[0][i].nama_data}.csv", tulis_matriks_data(data[0][i]))
 
     time.sleep(0.5)
-    print(f"Berhasil menyimpan data di folder {directory}!")
+    print(f"Berhasil menyimpan data di folder {save_directory}!")
+
