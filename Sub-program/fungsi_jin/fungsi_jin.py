@@ -1,5 +1,7 @@
 import time
 import Module
+import random
+
 def cekNamaJin(file_user,nama_jin):
     for i in range(len(file_user)):
         if nama_jin == file_user[i][0]:
@@ -60,6 +62,12 @@ def isiMatriksUser(file_user,nama_jin,password_jin,role_jin):
             break
     file_user[angka][0],file_user[angka][1],file_user[angka][2] = nama_jin,password_jin,role_jin
 
+def generateBahan():
+    pasir = random.randint(1,5)
+    batu = random.randint(1,5)
+    air = random.randint(1,5)
+    return pasir,batu,air
+ 
 def summonjin(file_user):
     print('Jenis jin yang dapat dipanggil:\n (1) Pengumpul - Bertugas mengumpulkan bahan bangunan\n (2) Pembangun - Bertugas membangun candi\n (3) Tidak jadi summon jin')
     if cekJumlahJin(file_user):
@@ -151,6 +159,20 @@ def ubahTipeJin(file_user):
                 print(f"Jin pembangun dengan username {nama_jin} tidak jadi diganti.")
     else:
         print("Tidak ada jin dengan username tersebut.")
+
+def kumpul(file_bahan):
+    pasir,batu,air = generateBahan()
+    for i in range(len(file_bahan)):
+        if file_bahan[i][0] == "pasir":
+            bahan = int(file_bahan[i][2])
+            file_bahan[i][2] += str(pasir+bahan)
+        elif file_bahan[i][0] == "batu":
+            bahan = int(file_bahan[i][2])
+            file_bahan[i][2] += str(batu+bahan)
+        elif file_bahan[i][0] == "air":
+            bahan = int(file_bahan[i][2])
+            file_bahan[i][2] += str(air+bahan)
+    print(f"Jin menemukan {pasir} pasir, {batu} batu, dan {air} air.")
 
 file_utama = Module.load_data("user.csv", 3 ,102)
 # summonjin(file_utama)
