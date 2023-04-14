@@ -22,10 +22,9 @@ def ayamBerkokok(matriks_data:Module.MatriksData):
     time.sleep(1)
 
     if jumlah_candi < 100:
-        print("""Selamat, Roro Jonggrang memenangkan permainan!
-        
-*Bandung Bondowoso angry noises*
-Roro Jonggrang dikutuk menjadi candi!""")
+        print("Selamat, Roro Jonggrang memenangkan permainan!")
+        Module.dotdotdot("", 3, 0.5)
+        print("*Bandung Bondowoso angry noises*\nRoro Jonggrang dikutuk menjadi candi!")
         
     else:
         print("Yah, Bandung Bondowoso memenangkan permainan!")
