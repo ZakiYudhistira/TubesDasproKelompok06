@@ -118,6 +118,8 @@ def login(matriks_data_user):
             print("Username tidak terdaftar!")
         return akses," ", " "
 
+#----------------------------------------------FUNGSI Help------------------------------------------------
+#Mengoutput keterangan command sesuai dengan current role pengguna
 def help(role):
     list_function_bondowoso= {
     'logout': 'Untuk keluar dari akun yang digunakan sekarang',
