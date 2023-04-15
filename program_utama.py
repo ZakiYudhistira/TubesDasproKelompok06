@@ -22,6 +22,7 @@ if os.path.exists(save_directory):
     program_jalan = True
     logged_in = False
     logged_in_as = ""
+    user = ""
 
     while program_jalan:
         command = str(input(">>> "))
@@ -29,7 +30,7 @@ if os.path.exists(save_directory):
             if logged_in:
                 print("Login gagal! Anda telah login dengan username "+user+", silahkan lakukan “logout” sebelum melakukan login kembali.")
             else:
-                logged_in,user,logged_in_as = Module.login(matriks_user.matriks)
+                logged_in,user,logged_in_as = Module.login(matriks_user)
 
         elif command == "logout":
             if logged_in:
@@ -37,6 +38,47 @@ if os.path.exists(save_directory):
                 logged_in,user,logged_in_as = Module.logout()
             else:
                 print("Logout gagal!"+'\n'+"Anda belum login, silahkan login terlebih dahulu sebelum melakukan logout")
+        
+        elif command == "bangun":
+            if logged_in_as == "jin_pembangun":
+                Module.bangun(matriks_bahan,matriks_candi,user)
+            else:
+                print("User bukan jin pembangun\nPembangunan candi tidak dilakukan.")
+        
+        # elif command == "hapusjin":
+        
+        elif command == "ubahjin":
+            if logged_in:
+                if logged_in_as == "bandung_bondowoso":
+                    Module.ubahTipeJin(matriks_user)
+                else:
+                    print("User bukan bandung bondowoso\nPengubahan jin tidak dilakukan.")
+            else:
+                print("User belum login.\nmohon lakukan login terlebih dahulu sebelum melakukan perintah.")
+        
+        elif command == "summonjin":
+            if logged_in:
+                if logged_in_as == "bandung_bondowoso":
+                    Module.summonjin(matriks_user)
+                else:
+                    print("User bukan bandung bondowoso\nSummon jin tidak dilakukan.")
+            else:
+                print("User belum login.\nmohon lakukan login terlebih dahulu sebelum melakukan perintah.")
+
+        elif command == "kumpul":
+            if logged_in:
+                if logged_in_as == "jin_pengumpul":
+                    Module.kumpul(matriks_bahan,False)
+                else:
+                    print("User bukan bandung bondowoso\nPembangunan candi tidak dilakukan.")
+            else:
+                print("User belum login.\nmohon lakukan login terlebih dahulu sebelum melakukan perintah.")
+        
+        elif command == "batchkumpul":
+            if logged_in_as == "bandung_bondowoso":
+                Module.batchKumpul(matriks_bahan,matriks_user)
+            else:
+                print("User bukan bandung bondowoso\nBatch kumpul bahan tidak dilakukan.")
         
         elif command == "exit":
             if logged_in:

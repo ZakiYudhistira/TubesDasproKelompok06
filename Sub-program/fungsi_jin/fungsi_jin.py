@@ -81,9 +81,14 @@ def ubahBahan(file_bahan,pasir,batu,air):
             file_bahan[i][2] = str(air+bahan)
 
 def cariSlotCandi(file_candi):
+    kosong = True
     for i in range(len(file_candi)):
         if file_candi[i][0] == None:
+            kosong = False
             return i
+    if kosong:
+        return None
+
  
 def hitungJinKumpul(file_user):
     count = 0
@@ -199,12 +204,15 @@ def kumpul(file_bahan):
 def bangun(file_bahan,file_candi,jin_pembangun):
     pasir,batu,air = generateBahan()
     IdCandi = cariSlotCandi(file_candi)
-    if file_candi[0][2] >= pasir and file_candi[1][2] >= batu and file_candi[2][2]:
-        file_candi[IdCandi][1],file_candi[IdCandi][2],file_candi[IdCandi][3],file_candi[IdCandi][4] = jin_pembangun,pasir,batu,air
-        pasir,batu,air = pasir*-1,batu*-1,air*-1
-        ubahBahan(file_bahan,pasir,batu,air)
+    if IdCandi != None:
+        if file_bahan[0][2] >= pasir and file_bahan[1][2] >= batu and file_bahan[2][2]:
+            file_candi[IdCandi][1],file_candi[IdCandi][2],file_candi[IdCandi][3],file_candi[IdCandi][4] = jin_pembangun,pasir,batu,air
+            pasir,batu,air = pasir*-1,batu*-1,air*-1
+            ubahBahan(file_bahan,pasir,batu,air)
+        else:
+            print("Bahan bangunan tidak mencukupi.\nCandi tidak bisa dibangun!")
     else:
-        print("Bahan bangunan tidak mencukupi.\nCandi tidak bisa dibangun!")
+        print("Candi sudah penuh.\nCandi tidak bisa dibangun!")
 
 def batchKumpul(file_bahan, file_user):
     count = hitungJinKumpul(file_user)
