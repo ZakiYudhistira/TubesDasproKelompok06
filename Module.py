@@ -64,6 +64,58 @@ def login(matriks_data_user):
             print("Username tidak terdaftar!")
         return akses," ", " "
 
+def help(role):
+    list_function_bondowoso= {
+    'logout': 'Untuk keluar dari akun yang digunakan sekarang',
+    'summonjin': 'Untuk memanggil jin',
+    'hapusjin': 'Untuk menghilangkan jin',
+    'ubahjin': 'Untuk mengubah Jin pengumpul jadi jin pembangun dan sebaliknya',
+    'batchkumpul': 'Untuk menyuruh semua jin pengumpul mengumpulkan bahan candi',
+    'batchbangun': 'Untuk menyuruh semua jin pembangun membuat candi',
+    'laporanjin': 'Menunjukkan jumlah jin yang ada dan propertinya',
+    'laporancandi': 'Menunjukkan jumlah candi yang sudah terbangung dan propertinya'
+    }
+    list_function_rorojongrang= {
+    'logout': 'Untuk keluar dari akun yang digunakan sekarang',
+    'ayamberkokok': 'Memalsukan waktu dan mengakhiri permainan',
+    'hancurkancandi': 'Menghancurkan candi yang telah dibuat'
+    }
+    list_function_jinpembangun={
+    'logout': 'Untuk keluar dari akun yang digunakan sekarang',
+    'bangun': 'Membangun candi dari bahan yang sudah terkumpulkan'
+    }
+    list_function_jinpengumpul={
+    'logout': 'Untuk keluar dari akun yang digunakan sekarang',
+    'kumpul': 'Mengumpulkan bahan bangunan candi'
+    }
+
+    if role == "bandung_bondowoso":
+        idx=0
+        for fngsi, keterangan in list_function_bondowoso.items():
+            idx+=1
+            print(f'{idx}.{fngsi}: {keterangan}')
+        idx=0
+
+    elif role == "roro_jonggrang":
+        idx=0
+        for fngsi, keterangan in list_function_rorojongrang.items():
+            idx+=1
+            print(f'{idx}.{fngsi}: {keterangan}')
+        idx=0
+
+    elif role == "jin_pengumpul":
+        idx=0
+        for fngsi, keterangan in list_function_jinpengumpul.items():
+            idx+=1
+            print(f'{idx}.{fngsi}: {keterangan}')
+        idx=0
+
+    elif role == "jin_pembangun":
+        idx=0
+        for fngsi, keterangan in list_function_jinpembangun.items():
+            idx+=1
+            print(f'{idx}.{fngsi}: {keterangan}')
+        idx=0
 #-------------------------------------------------Fungsi logout-----------------------------------------------------------
 def logout():
     return False, " ", " "

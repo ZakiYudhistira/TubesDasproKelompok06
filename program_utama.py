@@ -18,6 +18,7 @@ if os.path.exists(save_directory):
     tuple_matriks_data = ([matriks_user, matriks_candi, matriks_bahan], 3)
     
     print("Selamat datang di program \"Manajerial Candi\"")
+    print("Ketik help untuk menampilkan command")
 
     program_jalan = True
     logged_in = False
@@ -100,6 +101,20 @@ if os.path.exists(save_directory):
             tuple_matriks_data = ([matriks_user, matriks_candi, matriks_bahan], 3)
             Module.save_data(tuple_matriks_data)
         
+        elif command == "help":
+            if logged_in:
+                Module.help(logged_in_as)
+            else:
+                list_function_default={
+                'login' : 'Untuk masuk menggunakan akun',
+                'exit': 'Untuk keluar dari program',
+                }
+                idx=0
+                for fngsi, keterangan in list_function_default.items():
+                    idx+=1
+                    print(f'{idx}.{fngsi}: {keterangan}')
+                idx=0
+
         else:
             print("Perintah tidak dikenali")
             
