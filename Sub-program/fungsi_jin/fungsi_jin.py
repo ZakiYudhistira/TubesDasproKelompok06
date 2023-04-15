@@ -222,7 +222,7 @@ def batchKumpul(file_bahan, file_user):
 def batchBangun(file_bahan, file_user, file_candi):
     count = hitungJinBangun(file_user)
 
-def ambilLaporanCandi():
+# def ambilLaporanCandi():
     
     
 file_user = Module.load_data("user.csv", 3 ,102)
