@@ -104,6 +104,16 @@ if os.path.exists(save_directory):
             else:
                 print("User bukan Roro Jonggrang \nAyam tidak mau berkokok!")
 
+        elif command == "leaderboardjin":
+            print("Berikut merupakan leaderboard jin pembuat candi terbanyak:")
+            time.sleep(0.5)
+            Module.printLeaderboard(Module.data_leaderboard(Module.dataJinPembangun(matriks_candi)))
+        
+        elif command == "leaderboardcandi":
+            print("Berikut merupakan leaderboard candi dengan bahan termahal:")
+            time.sleep(0.5)
+            Module.printLeaderboard(Module.data_leaderboard(Module.dataHargaCandi(matriks_candi)))
+        
         elif command == "help":
             pass
         
