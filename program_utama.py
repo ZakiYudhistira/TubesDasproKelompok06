@@ -115,9 +115,6 @@ if os.path.exists(save_directory):
             time.sleep(0.5)
             Module.printLeaderboard(Module.data_leaderboard(Module.dataHargaCandi(matriks_candi)))
         
-        elif command == "help":
-            pass
-        
         elif command == "exit":
             if logged_in:
                 print("Mohon logout dulu sebelum keluar dari program")
