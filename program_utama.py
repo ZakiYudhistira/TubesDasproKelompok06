@@ -46,8 +46,15 @@ if os.path.exists(save_directory):
             else:
                 print("User bukan jin pembangun\nPembangunan candi tidak dilakukan.")
         
-        # elif command == "hapusjin":
-        
+        elif command == "hapusjin":
+            if logged_in:
+                if logged_in_as == "bandung_bondowoso":
+                    Module.hapusJin(matriks_user)
+                else:
+                    print("User bukan Bandung Bondowoso\nPengubahan jin tidak dilakukan.")
+            else:
+                print("User belum login.\nmohon lakukan login terlebih dahulu sebelum melakukan perintah.")
+
         elif command == "ubahjin":
             if logged_in:
                 if logged_in_as == "bandung_bondowoso":
@@ -71,7 +78,7 @@ if os.path.exists(save_directory):
                 if logged_in_as == "jin_pengumpul":
                     Module.kumpul(matriks_bahan,False)
                 else:
-                    print("User bukan Bandung Bondowoso\nPembangunan candi tidak dilakukan.")
+                    print("User bukan jin pengumpul\nPembangunan candi tidak dilakukan.")
             else:
                 print("User belum login.\nmohon lakukan login terlebih dahulu sebelum melakukan perintah.")
         

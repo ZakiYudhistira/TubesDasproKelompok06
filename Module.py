@@ -522,6 +522,17 @@ def batchKumpul(file_bahan_utama, file_user_utama):
         kumpul(file_bahan_utama,True)
     print(f"Mengerahkan {count} jin untuk mengumpulkan bahan.\nJin menemukan total {-1*pasir_awal + int(file_bahan[0][2])} pasir, {-1*batu_awal+int(file_bahan[1][2])} batu, dan {-1*air_awal+int(file_bahan[2][2])} air.")
 
+def batchBangun(file_bahan_utama, file_user_utama):
+    file_user = file_user_utama.matriks
+    file_bahan = file_bahan_utama.matriks
+    count = hitungJinBangun(file_user)
+    #unfinish
+    if count == 0:
+        print("Bangun candi gagal. Anda tidak punya jin pembangun. Silahkan summon terlebih dahulu.")
+    for i in range(count):
+        bangun(file_bahan_utama,True)
+    #unfinish
+    
 
 def hapusData(matriks_data:MatriksData, data):
     neff = panjang_matriks(matriks_data.matriks, matriks_data.n_maks)
