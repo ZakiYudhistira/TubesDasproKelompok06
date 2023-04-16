@@ -400,6 +400,7 @@ def summonjin(file_user_utama):
                     print("")
                     password_jin = input("Masukkan password jin: ")
                 printSummon(nama_jin)
+                print('Memilih jin "Pengumpul".')
                 role_jin = "jin_pengumpul"
                 isiMatriksUser(file_user_utama,nama_jin,password_jin,role_jin)
                 break
@@ -490,11 +491,20 @@ def bangun(file_bahan_utama,file_candi_utama,jin_pembangun,batch):
     file_candi = file_candi_utama.matriks
     pasir,batu,air = generateBahan()
     IdCandi = cariSlotCandi(file_candi_utama)
+    indeks = 0
+    ada = True
+    while indeks <= 99 and ada:
+        ada = False
+        for i in range(100):
+            if type(file_candi[i][0]) == str:
+                if indeks == int(file_candi[i][0]):
+                    ada = True
+                    indeks += 1
     if IdCandi != None:
         if int(file_bahan[0][2]) >= pasir and int(file_bahan[1][2]) >= batu and int(file_bahan[2][2]) >= air:
-            file_candi[IdCandi][0],file_candi[IdCandi][1],file_candi[IdCandi][2],file_candi[IdCandi][3],file_candi[IdCandi][4] = str(IdCandi),jin_pembangun,str(pasir),str(batu),str(air)
+            file_candi[IdCandi][0],file_candi[IdCandi][1],file_candi[IdCandi][2],file_candi[IdCandi][3],file_candi[IdCandi][4] = str(indeks),jin_pembangun,str(pasir),str(batu),str(air)
             pasir,batu,air = pasir*-1,batu*-1,air*-1
-            ubahBahan(file_bahan,pasir,batu,air)
+            ubahBahan(file_bahan_utama,pasir,batu,air)
             if not(batch):
                 print("Candi berhasil dibangun !")
             jumlahCandi = 0

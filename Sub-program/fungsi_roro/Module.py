@@ -436,9 +436,13 @@ def bangun(file_bahan_utama,file_candi_utama,jin_pembangun,batch):
     file_candi = file_candi_utama.matriks
     pasir,batu,air = generateBahan()
     IdCandi = cariSlotCandi(file_candi_utama)
+    for i in range(100):
+        if i != int(file_candi[i][0]):
+            IdCandiAssign = i
+            break
     if IdCandi != None:
         if int(file_bahan[0][2]) >= pasir and int(file_bahan[1][2]) >= batu and int(file_bahan[2][2]) >= air:
-            file_candi[IdCandi][0],file_candi[IdCandi][1],file_candi[IdCandi][2],file_candi[IdCandi][3],file_candi[IdCandi][4] = str(IdCandi),jin_pembangun,str(pasir),str(batu),str(air)
+            file_candi[IdCandi][0],file_candi[IdCandi][1],file_candi[IdCandi][2],file_candi[IdCandi][3],file_candi[IdCandi][4] = str(IdCandiAssign),jin_pembangun,str(pasir),str(batu),str(air)
             pasir,batu,air = pasir*-1,batu*-1,air*-1
             ubahBahan(file_bahan,pasir,batu,air)
             if not(batch):

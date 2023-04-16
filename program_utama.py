@@ -42,7 +42,7 @@ if os.path.exists(save_directory):
         
         elif command == "bangun":
             if logged_in_as == "jin_pembangun":
-                Module.bangun(matriks_bahan,matriks_candi,user)
+                Module.bangun(matriks_bahan,matriks_candi,user,False)
             else:
                 print("User bukan jin pembangun\nPembangunan candi tidak dilakukan.")
         
