@@ -90,7 +90,7 @@ def login(matriks_data_user):
     user = input("Masukkan username : ")
     password = input("Masukkan password : ")
     
-    for i in range(102): # loop pemrosesan file csv untuk menentukan password dan username
+    for i in range(matriks_data_user.n_maks): # loop pemrosesan file csv untuk menentukan password dan username
         akses = False
         username = True
         password_p = True
@@ -702,4 +702,3 @@ def printLeaderboard(matriks_leaderboard):
 
     for data in range(neff):
         print(f"{data+1}. \"{matriks_leaderboard[data][0]}\": {matriks_leaderboard[data][1]}")
-
