@@ -11,12 +11,12 @@ def dotdotdot(teks, n_dot, interval):
     print()
 
 
-def save_file(path, data):
+def saveFile(path, data):
     with open(path, 'w') as file:
         file.write(data)
 
 
-def panjang_matriks(matriks_data):
+def panjangMatriks(matriks_data):
     count = 0
     for baris in range(matriks_data.n_max):
         if matriks_data.matriks[baris][0] is not None:
@@ -27,7 +27,7 @@ def panjang_matriks(matriks_data):
     return count
 
 
-def load_data(nama_file, n_param, n_max):
+def loadData(nama_file, n_param, n_max):
 
     with open(nama_file, 'r') as file:
         data_file = file.read()
@@ -57,7 +57,7 @@ def load_data(nama_file, n_param, n_max):
     return matriks_data
 
 
-def tulis_matriks_data(matriks_data):
+def tulisMatriksData(matriks_data):
     if matriks_data.nama_data == "user":
         string_data = "username;password;role"
     elif matriks_data.nama_data == "candi":
@@ -65,15 +65,15 @@ def tulis_matriks_data(matriks_data):
     elif matriks_data.nama_data == "bahan_bangunan":
         string_data = "nama;deskripsi;jumlah"
 
-    if panjang_matriks(matriks_data) != 0:
+    if panjangMatriks(matriks_data) != 0:
         string_data += '\n'
 
-    for baris in range(panjang_matriks(matriks_data)):
+    for baris in range(panjangMatriks(matriks_data)):
         for param in range(matriks_data.n_param):
             if param != (matriks_data.n_param - 1):
                 string_data = string_data + matriks_data.matriks[baris][param] + ';'
             else:
-                if baris != (panjang_matriks(matriks_data) - 1):
+                if baris != (panjangMatriks(matriks_data) - 1):
                     string_data = string_data + matriks_data.matriks[baris][param] + '\n'
                 else:
                     string_data = string_data + matriks_data.matriks[baris][param]
@@ -82,7 +82,7 @@ def tulis_matriks_data(matriks_data):
     return string_data
 
 
-def save_data(data:tuple):
+def saveData(data:tuple):
     nama_folder = input("Masukkan nama folder: ")
     parent_folder = "save"
     dotdotdot("Saving", 3, 0.5)
@@ -97,7 +97,7 @@ def save_data(data:tuple):
                 time.sleep(0.5)
 
     for i in range(data[1]):
-        save_file(f"{save_directory}\\{data[0][i].nama_data}.csv", tulis_matriks_data(data[0][i]))
+        saveFile(f"{save_directory}\\{data[0][i].nama_data}.csv", tulisMatriksData(data[0][i]))
 
     time.sleep(0.5)
     print(f"Berhasil menyimpan data di folder {save_directory}!")

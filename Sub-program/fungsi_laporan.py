@@ -7,8 +7,9 @@ tuple_matriks_data = ([matriks_user, matriks_candi, matriks_bahan], 3)
 
 def jumlahBahan(matriks_candi:Module.MatriksData):
     pasir, batu, air = 0, 0, 0
+    neff = Module.panjangMatriks(matriks_candi.matriks, matriks_candi.n_maks)
 
-    for candi in range(Module.panjang_matriks(matriks_candi.matriks, matriks_candi.n_maks)):
+    for candi in range(neff):
         pasir += int(matriks_candi.matriks[candi][2])
         batu += int(matriks_candi.matriks[candi][3])
         air += int(matriks_candi.matriks[candi][4])
@@ -18,8 +19,9 @@ def jumlahBahan(matriks_candi:Module.MatriksData):
 
 def jumlahJin(matriks_user:Module.MatriksData):
     jumlah_jin, jumlah_pengumpul, jumlah_pembangun = 0, 0, 0
+    neff = Module.panjangMatriks(matriks_user.matriks, matriks_user.n_maks)
 
-    for jin in range(2, Module.panjang_matriks(matriks_user.matriks, matriks_user.n_maks)):
+    for jin in range(2, neff):
         jumlah_jin += 1
         if matriks_user.matriks[jin][2] == "jin_pengumpul":
             jumlah_pengumpul += 1
@@ -31,13 +33,13 @@ def jumlahJin(matriks_user:Module.MatriksData):
 
 def dataJinPembangun(matriks_candi:Module.MatriksData):
     nmaks_jin = 100
-    neff_jin = Module.panjang_matriks(matriks_candi.matriks, nmaks_jin)
+    neff_jin = Module.panjangMatriks(matriks_candi.matriks, nmaks_jin)
     matriks_data_pembangun = [[None, None] for i in range(nmaks_jin)]
 
     for candi in range(neff_jin):
         pembuat = matriks_candi.matriks[candi][1]
         id_pembuat = Module.getIndeks(matriks_data_pembangun, pembuat, nmaks_jin)
-        id_kosong = Module.panjang_matriks(matriks_data_pembangun, nmaks_jin)
+        id_kosong = Module.panjangMatriks(matriks_data_pembangun, nmaks_jin)
 
         if id_pembuat is None:
             matriks_data_pembangun[id_kosong] = [pembuat, 1]
@@ -49,7 +51,7 @@ def dataJinPembangun(matriks_candi:Module.MatriksData):
 
 def dataHargaCandi(matriks_candi:Module.MatriksData):
     nmaks_candi = 100
-    neff_candi = Module.panjang_matriks(matriks_candi.matriks, nmaks_candi)
+    neff_candi = Module.panjangMatriks(matriks_candi.matriks, nmaks_candi)
     matriks_data_harga = [[None, None] for i in range(nmaks_candi)]
 
     for candi in range(neff_candi):
@@ -64,10 +66,16 @@ def dataHargaCandi(matriks_candi:Module.MatriksData):
     return matriks_data_harga
 
 
-def data_leaderboard(matriks_data):
+def dataLeaderboard(matriks_data:Module.MatriksData, tipe:str):
     nmaks = 100
-    neff = Module.panjang_matriks(matriks_data, nmaks)
-    matriks_leaderboard = matriks_data
+    matriks_leaderboard = None
+
+    if tipe == "jin":
+        matriks_leaderboard = dataJinPembangun(matriks_data)
+    elif tipe == "candi":
+        matriks_leaderboard = dataHargaCandi(matriks_data)
+
+    neff = Module.panjangMatriks(matriks_leaderboard, nmaks)
 
     for i in range(1, neff):
         indeks = i
@@ -82,7 +90,7 @@ def data_leaderboard(matriks_data):
 
 
 def hapusData(matriks_data:Module.MatriksData, data):
-    neff = Module.panjang_matriks(matriks_data.matriks, matriks_data.n_maks)
+    neff = Module.panjangMatriks(matriks_data.matriks, matriks_data.n_maks)
     i_data = Module.getIndeks(matriks_data.matriks, data, matriks_data.n_maks)
 
     for param in range(matriks_data.n_param):
@@ -106,13 +114,11 @@ def laporanJin(matriks_user:Module.MatriksData, matriks_candi:Module.MatriksData
         i_maks = 0
         i_min = total_jin - 1
 
-        if data_leaderboard(dataJinPembangun(matriks_candi))[i_maks][0] is not None:
-            id_termahal = data_leaderboard(dataJinPembangun(matriks_candi))[i_maks][0]
-            harga_termahal = f"({data_leaderboard(dataJinPembangun(matriks_candi))[i_maks][1]})"
+        if dataLeaderboard(matriks_candi, "jin")[i_maks][0] is not None:
+            jin_terajin = dataLeaderboard(matriks_candi, "jin")[i_maks][0]
 
-        if data_leaderboard(dataJinPembangun(matriks_candi))[i_min][0] is not None:
-            id_termurah = data_leaderboard(dataJinPembangun(matriks_candi))[i_min][0]
-            harga_termurah = f"({data_leaderboard(dataJinPembangun(matriks_candi))[i_min][1]})"
+        if dataLeaderboard(matriks_candi, "jin")[i_min][0] is not None:
+            jin_termalas = dataLeaderboard(matriks_candi, "jin")[i_min][0]
 
     print(f"""
 > Total Jin: {total_jin}
@@ -127,7 +133,7 @@ def laporanJin(matriks_user:Module.MatriksData, matriks_candi:Module.MatriksData
 
 
 def laporanCandi(matriks_candi:Module.MatriksData):
-    total_candi = Module.panjang_matriks(matriks_candi.matriks, matriks_candi.n_maks)
+    total_candi = Module.panjangMatriks(matriks_candi.matriks, matriks_candi.n_maks)
     total_pasir, total_batu, total_air = jumlahBahan(matriks_candi)
     id_termahal, id_termurah = "-", "-"
     harga_termahal, harga_termurah = "", ""
@@ -136,13 +142,13 @@ def laporanCandi(matriks_candi:Module.MatriksData):
         i_maks = 0
         i_min = total_candi - 1
 
-        if data_leaderboard(dataHargaCandi(matriks_candi))[i_maks][0] is not None:
-            id_termahal = data_leaderboard(dataHargaCandi(matriks_candi))[i_maks][0]
-            harga_termahal = f"({data_leaderboard(dataHargaCandi(matriks_candi))[i_maks][1]})"
+        if dataLeaderboard(matriks_candi, "candi")[i_maks][0] is not None:
+            id_termahal = dataLeaderboard(matriks_candi, "candi")[i_maks][0]
+            harga_termahal = f"""({dataLeaderboard(matriks_candi, "candi")[i_maks][1]})"""
 
-        if data_leaderboard(dataHargaCandi(matriks_candi))[i_min][0] is not None:
-            id_termurah = data_leaderboard(dataHargaCandi(matriks_candi))[i_min][0]
-            harga_termurah = f"({data_leaderboard(dataHargaCandi(matriks_candi))[i_min][1]})"
+        if dataLeaderboard(matriks_candi, "candi")[i_min][0] is not None:
+            id_termurah = dataLeaderboard(matriks_candi, "candi")[i_min][0]
+            harga_termurah = f"""({dataLeaderboard(matriks_candi, "candi")[i_min][1]})"""
         
     print(f"""
 > Total Candi: {total_candi}
@@ -155,3 +161,4 @@ def laporanCandi(matriks_candi:Module.MatriksData):
 
 
 laporanCandi(matriks_candi)
+laporanJin(matriks_user, matriks_candi, matriks_bahan)

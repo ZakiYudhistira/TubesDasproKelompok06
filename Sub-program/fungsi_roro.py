@@ -7,7 +7,7 @@ tuple_matriks_data = ([matriks_user, matriks_candi, matriks_bahan], 3)
 
 def getIndeks(matriks_data, id, n_maks:int):
     indeks = None
-    neff = Module.panjang_matriks(matriks_data, n_maks)
+    neff = Module.panjangMatriks(matriks_data, n_maks)
     for i in range(neff):
         if matriks_data[i][0] == id:
             indeks = i
@@ -16,7 +16,7 @@ def getIndeks(matriks_data, id, n_maks:int):
 
 
 def hapusData(matriks_data:Module.MatriksData, data):
-    neff = Module.panjang_matriks(matriks_data.matriks, matriks_data.n_maks)
+    neff = Module.panjangMatriks(matriks_data.matriks, matriks_data.n_maks)
     i_data = getIndeks(matriks_data.matriks, data, matriks_data.n_maks)
 
     for param in range(matriks_data.n_param):
@@ -30,7 +30,7 @@ def hapusData(matriks_data:Module.MatriksData, data):
 
 
 def ayamBerkokok(matriks_candi:Module.MatriksData):
-    jumlah_candi = Module.panjang_matriks(matriks_candi.matriks, matriks_candi.n_maks)
+    jumlah_candi = Module.panjangMatriks(matriks_candi.matriks, matriks_candi.n_maks)
     print("Kukuruyuk..", end=" ", flush=True)
     time.sleep(0.5)
     print("Kukuruyuk..\n", flush=True)

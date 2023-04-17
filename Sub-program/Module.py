@@ -9,17 +9,17 @@ class MatriksData:
         self.nama_data = nama_data
         self.n_param = n_param
         self.n_maks = n_maks
-        self.matriks = load_data(nama_file, n_param, n_maks)
+        self.matriks = loadData(nama_file, n_param, n_maks)
 
 
-#-------------------------------------------------Fungsi save_file-----------------------------------------------------------
+#-------------------------------------------------Fungsi saveFile-----------------------------------------------------------
 # Procedure untuk menyimpan file berdasarkan path dan data yang diberikan.
-def save_file(path:str, data:str):
+def saveFile(path:str, data:str):
     with open(path, 'w') as file:
         file.write(data)
 
 
-#-------------------------------------------------Fungsi save_file-----------------------------------------------------------
+#-------------------------------------------------Fungsi saveFile-----------------------------------------------------------
 # Procedure mengoutput teks dengan dot dot dot yang dramatis.
 def dotdotdot(teks:str, n_dot:int, interval:int):
     print(teks, end="", flush=True)
@@ -30,9 +30,9 @@ def dotdotdot(teks:str, n_dot:int, interval:int):
     print()
 
 
-#-------------------------------------------------Fungsi panjang_matriks-----------------------------------------------------------
+#-------------------------------------------------Fungsi panjangMatriks-----------------------------------------------------------
 # Mengembalikan panjang matriks_data yang terisi.
-def panjang_matriks(matriks_data, n_maks):
+def panjangMatriks(matriks_data:list[list], n_maks:int):
     count = 0
     for baris in range(n_maks):
         if matriks_data[baris][0] is not None:
@@ -45,9 +45,9 @@ def panjang_matriks(matriks_data, n_maks):
 
 #-------------------------------------------------Fungsi getIndeks-----------------------------------------------------------
 # Fungsi yang mengembalikan indeks dari sebuah data yang dipilih pada sebuah matriks.
-def getIndeks(matriks_data, id, n_maks:int):
+def getIndeks(matriks_data:list[list], id, n_maks:int):
     indeks = None
-    neff = panjang_matriks(matriks_data, n_maks)
+    neff = panjangMatriks(matriks_data, n_maks)
     for i in range(neff):
         if matriks_data[i][0] == id:
             indeks = i
@@ -60,7 +60,7 @@ def getIndeks(matriks_data, id, n_maks:int):
 def jumlahBahan(matriks_candi:MatriksData):
     pasir, batu, air = 0, 0, 0
 
-    for candi in range(panjang_matriks(matriks_candi.matriks, matriks_candi.n_maks)):
+    for candi in range(panjangMatriks(matriks_candi.matriks, matriks_candi.n_maks)):
         pasir += int(matriks_candi.matriks[candi][2])
         batu += int(matriks_candi.matriks[candi][3])
         air += int(matriks_candi.matriks[candi][4])
@@ -73,7 +73,7 @@ def jumlahBahan(matriks_candi:MatriksData):
 def jumlahJin(matriks_user:MatriksData):
     jumlah_jin, jumlah_pengumpul, jumlah_pembangun = 0, 0, 0
 
-    for jin in range(2, panjang_matriks(matriks_user.matriks, matriks_user.n_maks)):
+    for jin in range(2, panjangMatriks(matriks_user.matriks, matriks_user.n_maks)):
         jumlah_jin += 1
         if matriks_user.matriks[jin][2] == "jin_pengumpul":
             jumlah_pengumpul += 1
@@ -90,7 +90,7 @@ def login(matriks_data_user):
     user = input("Masukkan username : ")
     password = input("Masukkan password : ")
     
-    for i in range(102): # loop pemrosesan file csv untuk menentukan password dan username
+    for i in range(matriks_data_user.n_maks): # loop pemrosesan file csv untuk menentukan password dan username
         akses = False
         username = True
         password_p = True
@@ -118,15 +118,69 @@ def login(matriks_data_user):
             print("Username tidak terdaftar!")
         return akses," ", " "
 
+#----------------------------------------------FUNGSI Help------------------------------------------------
+#Mengoutput keterangan command sesuai dengan current role pengguna
+def help(role):
+    list_function_bondowoso= {
+    'logout': 'Untuk keluar dari akun yang digunakan sekarang',
+    'summonjin': 'Untuk memanggil jin',
+    'hapusjin': 'Untuk menghilangkan jin',
+    'ubahjin': 'Untuk mengubah Jin pengumpul jadi jin pembangun dan sebaliknya',
+    'batchkumpul': 'Untuk menyuruh semua jin pengumpul mengumpulkan bahan candi',
+    'batchbangun': 'Untuk menyuruh semua jin pembangun membuat candi',
+    'laporanjin': 'Menunjukkan jumlah jin yang ada dan propertinya',
+    'laporancandi': 'Menunjukkan jumlah candi yang sudah terbangung dan propertinya'
+    }
+    list_function_rorojongrang= {
+    'logout': 'Untuk keluar dari akun yang digunakan sekarang',
+    'ayamberkokok': 'Memalsukan waktu dan mengakhiri permainan',
+    'hancurkancandi': 'Menghancurkan candi yang telah dibuat'
+    }
+    list_function_jinpembangun={
+    'logout': 'Untuk keluar dari akun yang digunakan sekarang',
+    'bangun': 'Membangun candi dari bahan yang sudah terkumpulkan'
+    }
+    list_function_jinpengumpul={
+    'logout': 'Untuk keluar dari akun yang digunakan sekarang',
+    'kumpul': 'Mengumpulkan bahan bangunan candi'
+    }
+
+    if role == "bandung_bondowoso":
+        idx=0
+        for fngsi, keterangan in list_function_bondowoso.items():
+            idx+=1
+            print(f'{idx}.{fngsi}: {keterangan}')
+        idx=0
+
+    elif role == "roro_jonggrang":
+        idx=0
+        for fngsi, keterangan in list_function_rorojongrang.items():
+            idx+=1
+            print(f'{idx}.{fngsi}: {keterangan}')
+        idx=0
+
+    elif role == "jin_pengumpul":
+        idx=0
+        for fngsi, keterangan in list_function_jinpengumpul.items():
+            idx+=1
+            print(f'{idx}.{fngsi}: {keterangan}')
+        idx=0
+
+    elif role == "jin_pembangun":
+        idx=0
+        for fngsi, keterangan in list_function_jinpembangun.items():
+            idx+=1
+            print(f'{idx}.{fngsi}: {keterangan}')
+        idx=0
 #-------------------------------------------------Fungsi logout-----------------------------------------------------------
 def logout():
     return False, " ", " "
 
 
 
-#-------------------------------------------------Fungsi load_data-----------------------------------------------------------
+#-------------------------------------------------Fungsi loadData-----------------------------------------------------------
 # Mengembalikan sebuah martriks berisi data yang dibaca dengan jumlah baris n_maks dan jumlah kolom n_param.
-def load_data(nama_file:str, n_param:int, n_maks:int):
+def loadData(nama_file:str, n_param:int, n_maks:int):
 
     with open(nama_file, 'r') as file:
         data_file = file.read()
@@ -156,9 +210,11 @@ def load_data(nama_file:str, n_param:int, n_maks:int):
     return matriks_data
 
 
-#-------------------------------------------------Fungsi tulis_matriks_data-----------------------------------------------------------
+#-------------------------------------------------Fungsi tulisMatriksData-----------------------------------------------------------
 # Mengembalikan string berisi data setiap MatriksData dengan format yang sama dengan isi file eksternal.
-def tulis_matriks_data(matriks_data:MatriksData):
+def tulisMatriksData(matriks_data:MatriksData):
+    neff = panjangMatriks(matriks_data.matriks, matriks_data.n_maks)
+
     if matriks_data.nama_data == "user":
         string_data = "username;password;role"
     elif matriks_data.nama_data == "candi":
@@ -166,15 +222,15 @@ def tulis_matriks_data(matriks_data:MatriksData):
     elif matriks_data.nama_data == "bahan_bangunan":
         string_data = "nama;deskripsi;jumlah"
 
-    if panjang_matriks(matriks_data.matriks, matriks_data.n_maks) != 0:
+    if panjangMatriks(matriks_data.matriks, matriks_data.n_maks) != 0:
         string_data += '\n'
 
-    for baris in range(panjang_matriks(matriks_data.matriks, matriks_data.n_maks)):
+    for baris in range(panjangMatriks(matriks_data.matriks, matriks_data.n_maks)):
         for param in range(matriks_data.n_param):
             if param != (matriks_data.n_param - 1):
                 string_data = string_data + matriks_data.matriks[baris][param] + ';'
             else:
-                if baris != (panjang_matriks(matriks_data.matriks, matriks_data.n_maks) - 1):
+                if baris != (panjangMatriks(matriks_data.matriks, matriks_data.n_maks) - 1):
                     string_data = string_data + matriks_data.matriks[baris][param] + '\n'
                 else:
                     string_data = string_data + matriks_data.matriks[baris][param]
@@ -183,9 +239,9 @@ def tulis_matriks_data(matriks_data:MatriksData):
     return string_data
 
 
-#-------------------------------------------------Fungsi save_data-----------------------------------------------------------
+#-------------------------------------------------Fungsi saveData-----------------------------------------------------------
 # Procedure untuk menyimpan data yang telah digunakan ke sebuah folder eksternal.
-def save_data(data:tuple):
+def saveData(data:tuple):
     nama_folder = input("Masukkan nama folder: ")
     parent_folder = "save"
     dotdotdot("Saving", 3, 0.5)
@@ -200,7 +256,7 @@ def save_data(data:tuple):
                 time.sleep(0.5)
 
     for i in range(data[1]):
-        save_file(f"{save_directory}\\{data[0][i].nama_data}.csv", tulis_matriks_data(data[0][i]))
+        saveFile(f"{save_directory}\\{data[0][i].nama_data}.csv", tulisMatriksData(data[0][i]))
 
     time.sleep(0.5)
     print(f"Berhasil menyimpan data di folder {save_directory}!")
@@ -346,6 +402,7 @@ def summonjin(file_user_utama):
                     print("")
                     password_jin = input("Masukkan password jin: ")
                 printSummon(nama_jin)
+                print('Memilih jin "Pengumpul".')
                 role_jin = "jin_pengumpul"
                 isiMatriksUser(file_user_utama,nama_jin,password_jin,role_jin)
                 break
@@ -436,11 +493,20 @@ def bangun(file_bahan_utama,file_candi_utama,jin_pembangun,batch):
     file_candi = file_candi_utama.matriks
     pasir,batu,air = generateBahan()
     IdCandi = cariSlotCandi(file_candi_utama)
+    indeks = 0
+    ada = True
+    while indeks <= 99 and ada:
+        ada = False
+        for i in range(100):
+            if type(file_candi[i][0]) == str:
+                if indeks == int(file_candi[i][0]):
+                    ada = True
+                    indeks += 1
     if IdCandi != None:
         if int(file_bahan[0][2]) >= pasir and int(file_bahan[1][2]) >= batu and int(file_bahan[2][2]) >= air:
-            file_candi[IdCandi][0],file_candi[IdCandi][1],file_candi[IdCandi][2],file_candi[IdCandi][3],file_candi[IdCandi][4] = str(IdCandi),jin_pembangun,str(pasir),str(batu),str(air)
+            file_candi[IdCandi][0],file_candi[IdCandi][1],file_candi[IdCandi][2],file_candi[IdCandi][3],file_candi[IdCandi][4] = str(indeks),jin_pembangun,str(pasir),str(batu),str(air)
             pasir,batu,air = pasir*-1,batu*-1,air*-1
-            ubahBahan(file_bahan,pasir,batu,air)
+            ubahBahan(file_bahan_utama,pasir,batu,air)
             if not(batch):
                 print("Candi berhasil dibangun !")
             jumlahCandi = 0
@@ -468,9 +534,20 @@ def batchKumpul(file_bahan_utama, file_user_utama):
         kumpul(file_bahan_utama,True)
     print(f"Mengerahkan {count} jin untuk mengumpulkan bahan.\nJin menemukan total {-1*pasir_awal + int(file_bahan[0][2])} pasir, {-1*batu_awal+int(file_bahan[1][2])} batu, dan {-1*air_awal+int(file_bahan[2][2])} air.")
 
+def batchBangun(file_bahan_utama, file_user_utama):
+    file_user = file_user_utama.matriks
+    file_bahan = file_bahan_utama.matriks
+    count = hitungJinBangun(file_user)
+    #unfinish
+    if count == 0:
+        print("Bangun candi gagal. Anda tidak punya jin pembangun. Silahkan summon terlebih dahulu.")
+    for i in range(count):
+        bangun(file_bahan_utama,True)
+    #unfinish
+    
 
 def hapusData(matriks_data:MatriksData, data):
-    neff = panjang_matriks(matriks_data.matriks, matriks_data.n_maks)
+    neff = panjangMatriks(matriks_data.matriks, matriks_data.n_maks)
     i_data = getIndeks(matriks_data.matriks, data, matriks_data.n_maks)
 
     for param in range(matriks_data.n_param):
@@ -484,7 +561,7 @@ def hapusData(matriks_data:MatriksData, data):
 
 
 def ayamBerkokok(matriks_candi:MatriksData):
-    jumlah_candi = panjang_matriks(matriks_candi.matriks, matriks_candi.n_maks)
+    jumlah_candi = panjangMatriks(matriks_candi.matriks, matriks_candi.n_maks)
     print("Kukuruyuk..", end=" ", flush=True)
     time.sleep(0.5)
     print("Kukuruyuk..\n", flush=True)
@@ -522,13 +599,13 @@ def hancurkanCandi(matriks_candi:MatriksData):
 
 def dataJinPembangun(matriks_candi:MatriksData):
     nmaks_jin = 100
-    neff_jin = panjang_matriks(matriks_candi.matriks, nmaks_jin)
+    neff_jin = panjangMatriks(matriks_candi.matriks, nmaks_jin)
     matriks_data_pembangun = [[None, None] for i in range(nmaks_jin)]
 
     for candi in range(neff_jin):
         pembuat = matriks_candi.matriks[candi][1]
         id_pembuat = getIndeks(matriks_data_pembangun, pembuat, nmaks_jin)
-        id_kosong = panjang_matriks(matriks_data_pembangun, nmaks_jin)
+        id_kosong = panjangMatriks(matriks_data_pembangun, nmaks_jin)
 
         if id_pembuat is None:
             matriks_data_pembangun[id_kosong] = [pembuat, 1]
@@ -540,7 +617,7 @@ def dataJinPembangun(matriks_candi:MatriksData):
 
 def dataHargaCandi(matriks_candi:MatriksData):
     nmaks_candi = 100
-    neff_candi = panjang_matriks(matriks_candi.matriks, nmaks_candi)
+    neff_candi = panjangMatriks(matriks_candi.matriks, nmaks_candi)
     matriks_data_harga = [[None, None] for i in range(nmaks_candi)]
 
     for candi in range(neff_candi):
@@ -555,10 +632,16 @@ def dataHargaCandi(matriks_candi:MatriksData):
     return matriks_data_harga
 
 
-def data_leaderboard(matriks_data):
+def dataLeaderboard(matriks_data:MatriksData, tipe:str):
     nmaks = 100
-    neff = panjang_matriks(matriks_data, nmaks)
-    matriks_leaderboard = matriks_data
+    matriks_leaderboard = None
+
+    if tipe == "jin":
+        matriks_leaderboard = dataJinPembangun(matriks_data)
+    elif tipe == "candi":
+        matriks_leaderboard = dataHargaCandi(matriks_data)
+
+    neff = panjangMatriks(matriks_leaderboard, nmaks)
 
     for i in range(1, neff):
         indeks = i
@@ -583,13 +666,11 @@ def laporanJin(matriks_user:MatriksData, matriks_candi:MatriksData, matriks_baha
         i_maks = 0
         i_min = total_jin - 1
 
-        if data_leaderboard(dataJinPembangun(matriks_candi))[i_maks][0] is not None:
-            id_termahal = data_leaderboard(dataJinPembangun(matriks_candi))[i_maks][0]
-            harga_termahal = f"({data_leaderboard(dataJinPembangun(matriks_candi))[i_maks][1]})"
+        if dataLeaderboard(matriks_candi, "jin")[i_maks][0] is not None:
+            jin_terajin = dataLeaderboard(matriks_candi, "jin")[i_maks][0]
 
-        if data_leaderboard(dataJinPembangun(matriks_candi))[i_min][0] is not None:
-            id_termurah = data_leaderboard(dataJinPembangun(matriks_candi))[i_min][0]
-            harga_termurah = f"({data_leaderboard(dataJinPembangun(matriks_candi))[i_min][1]})"
+        if dataLeaderboard(matriks_candi, "jin")[i_min][0] is not None:
+            jin_termalas = dataLeaderboard(matriks_candi, "jin")[i_min][0]
 
     print(f"""
 > Total Jin: {total_jin}
@@ -604,7 +685,7 @@ def laporanJin(matriks_user:MatriksData, matriks_candi:MatriksData, matriks_baha
 
 
 def laporanCandi(matriks_candi:MatriksData):
-    total_candi = panjang_matriks(matriks_candi.matriks, matriks_candi.n_maks)
+    total_candi = panjangMatriks(matriks_candi.matriks, matriks_candi.n_maks)
     total_pasir, total_batu, total_air = jumlahBahan(matriks_candi)
     id_termahal, id_termurah = "-", "-"
     harga_termahal, harga_termurah = "", ""
@@ -613,13 +694,13 @@ def laporanCandi(matriks_candi:MatriksData):
         i_maks = 0
         i_min = total_candi - 1
 
-        if data_leaderboard(dataHargaCandi(matriks_candi))[i_maks][0] is not None:
-            id_termahal = data_leaderboard(dataHargaCandi(matriks_candi))[i_maks][0]
-            harga_termahal = f"({data_leaderboard(dataHargaCandi(matriks_candi))[i_maks][1]})"
+        if dataLeaderboard(matriks_candi, "candi")[i_maks][0] is not None:
+            id_termahal = dataLeaderboard(matriks_candi, "candi")[i_maks][0]
+            harga_termahal = f"""({dataLeaderboard(matriks_candi, "candi")[i_maks][1]})"""
 
-        if data_leaderboard(dataHargaCandi(matriks_candi))[i_min][0] is not None:
-            id_termurah = data_leaderboard(dataHargaCandi(matriks_candi))[i_min][0]
-            harga_termurah = f"({data_leaderboard(dataHargaCandi(matriks_candi))[i_min][1]})"
+        if dataLeaderboard(matriks_candi, "candi")[i_min][0] is not None:
+            id_termurah = dataLeaderboard(matriks_candi, "candi")[i_min][0]
+            harga_termurah = f"""({dataLeaderboard(matriks_candi, "candi")[i_min][1]})"""
         
     print(f"""
 > Total Candi: {total_candi}
@@ -631,10 +712,9 @@ def laporanCandi(matriks_candi:MatriksData):
 """)
 
 
-def printLeaderboard(matriks_leaderboard):
+def printLeaderboard(matriks_leaderboard:list[list]):
     nmaks = 100
-    neff = panjang_matriks(matriks_leaderboard, nmaks)
+    neff = panjangMatriks(matriks_leaderboard, nmaks)
 
     for data in range(neff):
         print(f"{data+1}. \"{matriks_leaderboard[data][0]}\": {matriks_leaderboard[data][1]}")
-

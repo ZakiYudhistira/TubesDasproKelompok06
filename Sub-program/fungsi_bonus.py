@@ -5,11 +5,14 @@ matriks_candi = Module.MatriksData("save\\backup\\candi.csv", "candi", 5, 100)
 matriks_bahan = Module.MatriksData("save\\backup\\bahan_bangunan.csv", "bahan_bangunan", 3, 3)
 tuple_matriks_data = ([matriks_user, matriks_candi, matriks_bahan], 3)
 
-def data_leaderboard(matriks_data):
-    
+def dataLeaderboard(matriks_data:Module.MatriksData, tipe:str):
     nmaks = 100
-    neff = Module.panjang_matriks(matriks_data, nmaks)
-    matriks_leaderboard = matriks_data
+    if tipe == "jin":
+        matriks_leaderboard = Module.dataJinPembangun(matriks_data)
+    elif tipe == "candi":
+        matriks_leaderboard = Module.dataHargaCandi(matriks_data)
+
+    neff = Module.panjangMatriks(matriks_leaderboard, nmaks)
 
     for i in range(1, neff):
         indeks = i
@@ -25,10 +28,10 @@ def data_leaderboard(matriks_data):
 
 def printLeaderboard(matriks_leaderboard):
     nmaks = 100
-    neff = Module.panjang_matriks(matriks_leaderboard, nmaks)
+    neff = Module.panjangMatriks(matriks_leaderboard, nmaks)
 
     for data in range(neff):
         print(f"{data+1}. \"{matriks_leaderboard[data][0]}\": {matriks_leaderboard[data][1]}")
 
 
-printLeaderboard(data_leaderboard(Module.dataHargaCandi(matriks_candi)))
+printLeaderboard(dataLeaderboard(matriks_candi, "jin"))
