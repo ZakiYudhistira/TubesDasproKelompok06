@@ -8,7 +8,6 @@ tuple_matriks_data = ([matriks_user, matriks_candi, matriks_bahan], 3)
 def bubbleSortMatriks(matriks_data:list[list], nmaks:int, i_data:int, naik=False):
     matriks_sorted = matriks_data
     neff = Module.panjangMatriks(matriks_sorted, nmaks)
-    print(matriks_data)
 
     for i in range(1, neff):
         indeks = i
@@ -30,22 +29,30 @@ def bubbleSortMatriks(matriks_data:list[list], nmaks:int, i_data:int, naik=False
     return matriks_sorted
     
 
-def isTerurutLekso(kata1:str, kata2:str):
+def isTerurutLeksi(kata1:str, kata2:str):
     terurut = True
-    i_huruf = None
+    i_huruf = 0
 
     if kata1 != "" and kata2 != "":
-        while not terurut:
-            
+        if len(kata1) > len(kata2):
+            ref_len = len(kata2)
+        else:
+            ref_len = len(kata1)
+
+        while terurut:
+            if i_huruf > ref_len - 1:
+                if ref_len == len(kata2):
+                    terurut = False
+                break    
+                
+            if kata1[i_huruf] > kata2[i_huruf]:
+                terurut = False
 
             i_huruf += 1
-            pass
+
     else:
         if kata1 == "":
             terurut = False
-        else:
-            terurut = True
-
 
     return terurut
 
@@ -57,10 +64,29 @@ def dataLeaderboard(matriks_data:Module.MatriksData, tipe:str):
     elif tipe == "candi":
         matriks_leaderboard = Module.dataHargaCandi(matriks_data)
 
-    return bubbleSortMatriks(matriks_leaderboard, nmaks, 1)
+    neff = Module.panjangMatriks(matriks_leaderboard, nmaks)
+    for i in range(1, neff):
+        indeks = i 
+
+        while indeks > 0 and matriks_leaderboard[indeks][1] >= matriks_leaderboard[indeks-1][1]:
+            kondisi_lekso = isTerurutLeksi(matriks_leaderboard[indeks-1][0], matriks_leaderboard[indeks][0])
+
+            if matriks_leaderboard[indeks][1] == matriks_leaderboard[indeks-1][1] and not kondisi_lekso:
+                temp = matriks_leaderboard[indeks]
+                matriks_leaderboard[indeks] = matriks_leaderboard[indeks-1]
+                matriks_leaderboard[indeks-1] = temp
+
+            else:
+                temp = matriks_leaderboard[indeks]
+                matriks_leaderboard[indeks] = matriks_leaderboard[indeks-1]
+                matriks_leaderboard[indeks-1] = temp
+
+            indeks -= 1
+
+    return matriks_leaderboard
 
 
-def printLeaderboard(matriks_leaderboard):
+def printLeaderboard(matriks_leaderboard:list[list]):
     nmaks = 100
     neff = Module.panjangMatriks(matriks_leaderboard, nmaks)
 
@@ -68,4 +94,4 @@ def printLeaderboard(matriks_leaderboard):
         print(f"{data+1}. \"{matriks_leaderboard[data][0]}\": {matriks_leaderboard[data][1]}")
 
 
-printLeaderboard(dataLeaderboard(matriks_candi, "jin"))
+printLeaderboard(dataLeaderboard(matriks_candi, 'jin'))
