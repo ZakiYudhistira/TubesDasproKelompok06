@@ -88,6 +88,12 @@ if os.path.exists(save_directory):
             else:
                 print("User bukan Bandung Bondowoso\nBatch kumpul bahan tidak dilakukan.")
 
+        elif command == "batchbangun":
+            if logged_in_as == "bandung_bondowoso":
+                Module.batchBangun(matriks_bahan,matriks_candi,user,matriks_user)
+            else:
+                print("User bukan Bandung Bondowoso\nBatch bangun bahan tidak dilakukan.")
+
         elif command == "laporanjin":
             if logged_in_as == "bandung_bondowoso":
                 Module.laporanJin(matriks_user, matriks_candi, matriks_bahan)   

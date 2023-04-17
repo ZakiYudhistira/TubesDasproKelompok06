@@ -121,56 +121,56 @@ def login(matriks_data_user):
 #----------------------------------------------FUNGSI Help------------------------------------------------
 #Mengoutput keterangan command sesuai dengan current role pengguna
 def help(role):
-    list_function_bondowoso= {
-    'logout': 'Untuk keluar dari akun yang digunakan sekarang',
-    'summonjin': 'Untuk memanggil jin',
-    'hapusjin': 'Untuk menghilangkan jin',
-    'ubahjin': 'Untuk mengubah Jin pengumpul jadi jin pembangun dan sebaliknya',
-    'batchkumpul': 'Untuk menyuruh semua jin pengumpul mengumpulkan bahan candi',
-    'batchbangun': 'Untuk menyuruh semua jin pembangun membuat candi',
-    'laporanjin': 'Menunjukkan jumlah jin yang ada dan propertinya',
-    'laporancandi': 'Menunjukkan jumlah candi yang sudah terbangung dan propertinya'
-    }
-    list_function_rorojongrang= {
-    'logout': 'Untuk keluar dari akun yang digunakan sekarang',
-    'ayamberkokok': 'Memalsukan waktu dan mengakhiri permainan',
-    'hancurkancandi': 'Menghancurkan candi yang telah dibuat'
-    }
-    list_function_jinpembangun={
-    'logout': 'Untuk keluar dari akun yang digunakan sekarang',
-    'bangun': 'Membangun candi dari bahan yang sudah terkumpulkan'
-    }
-    list_function_jinpengumpul={
-    'logout': 'Untuk keluar dari akun yang digunakan sekarang',
-    'kumpul': 'Mengumpulkan bahan bangunan candi'
-    }
+    list_function_bondowoso= [
+    'logout: Untuk keluar dari akun yang digunakan sekarang',
+    'summonjin: Untuk memanggil jin',
+    'hapusjin: Untuk menghilangkan jin',
+    'ubahjin: Untuk mengubah Jin pengumpul jadi jin pembangun dan sebaliknya',
+    'batchkumpul: Untuk menyuruh semua jin pengumpul mengumpulkan bahan candi',
+    'batchbangun: Untuk menyuruh semua jin pembangun membuat candi',
+    'laporanjin: Menunjukkan jumlah jin yang ada dan propertinya',
+    'laporancandi: Menunjukkan jumlah candi yang sudah terbangung dan propertinya'
+    ]
+    list_function_rorojongrang= [
+    'logout: Untuk keluar dari akun yang digunakan sekarang',
+    'ayamberkokok: Memalsukan waktu dan mengakhiri permainan',
+    'hancurkancandi: Menghancurkan candi yang telah dibuat'
+    ]
+    list_function_jinpembangun=[
+    'logout: Untuk keluar dari akun yang digunakan sekarang',
+    'bangun: Membangun candi dari bahan yang sudah terkumpulkan'
+    ]
+    list_function_jinpengumpul=[
+    'logout: Untuk keluar dari akun yang digunakan sekarang',
+    'kumpul: Mengumpulkan bahan bangunan candi'
+    ]
 
     if role == "bandung_bondowoso":
         idx=0
-        for fngsi, keterangan in list_function_bondowoso.items():
+        for i in list_function_bondowoso:
             idx+=1
-            print(f'{idx}.{fngsi}: {keterangan}')
+            print(f'{idx}.{i}')
         idx=0
 
     elif role == "roro_jonggrang":
         idx=0
-        for fngsi, keterangan in list_function_rorojongrang.items():
+        for i in list_function_rorojongrang:
             idx+=1
-            print(f'{idx}.{fngsi}: {keterangan}')
+            print(f'{idx}.{i}')
         idx=0
 
     elif role == "jin_pengumpul":
         idx=0
-        for fngsi, keterangan in list_function_jinpengumpul.items():
+        for i in list_function_jinpengumpul:
             idx+=1
-            print(f'{idx}.{fngsi}: {keterangan}')
+            print(f'{idx}.{i}')
         idx=0
 
     elif role == "jin_pembangun":
         idx=0
-        for fngsi, keterangan in list_function_jinpembangun.items():
+        for i in list_function_jinpembangun:
             idx+=1
-            print(f'{idx}.{fngsi}: {keterangan}')
+            print(f'{idx}.{i}')
         idx=0
 #-------------------------------------------------Fungsi logout-----------------------------------------------------------
 def logout():
@@ -209,6 +209,7 @@ def loadData(nama_file:str, n_param:int, n_maks:int):
 
     return matriks_data
 
+#def rng_LCG():
 
 #-------------------------------------------------Fungsi tulisMatriksData-----------------------------------------------------------
 # Mengembalikan string berisi data setiap MatriksData dengan format yang sama dengan isi file eksternal.
@@ -481,7 +482,6 @@ def ubahTipeJin(file_user_utama):
 
 
 def kumpul(file_bahan_utama, batch):
-    file_bahan = file_bahan_utama.matriks
     pasir,batu,air = generateBahan()
     ubahBahan (file_bahan_utama,pasir,batu,air)
     if not(batch):
@@ -502,6 +502,7 @@ def bangun(file_bahan_utama,file_candi_utama,jin_pembangun,batch):
                 if indeks == int(file_candi[i][0]):
                     ada = True
                     indeks += 1
+
     if IdCandi != None:
         if int(file_bahan[0][2]) >= pasir and int(file_bahan[1][2]) >= batu and int(file_bahan[2][2]) >= air:
             file_candi[IdCandi][0],file_candi[IdCandi][1],file_candi[IdCandi][2],file_candi[IdCandi][3],file_candi[IdCandi][4] = str(indeks),jin_pembangun,str(pasir),str(batu),str(air)
@@ -515,6 +516,8 @@ def bangun(file_bahan_utama,file_candi_utama,jin_pembangun,batch):
                     jumlahCandi += 1
             if not(batch):
                 print(f"Sisa candi yang perlu dibangun: {jumlahCandi}")
+            else: 
+                print(f"Berhasil membuat {jumlahCandi}")
         else:
             if not(batch):
                 print("Bahan bangunan tidak mencukupi.\nCandi tidak bisa dibangun!")
@@ -534,16 +537,48 @@ def batchKumpul(file_bahan_utama, file_user_utama):
         kumpul(file_bahan_utama,True)
     print(f"Mengerahkan {count} jin untuk mengumpulkan bahan.\nJin menemukan total {-1*pasir_awal + int(file_bahan[0][2])} pasir, {-1*batu_awal+int(file_bahan[1][2])} batu, dan {-1*air_awal+int(file_bahan[2][2])} air.")
 
-def batchBangun(file_bahan_utama, file_user_utama):
+def batchBangun(file_bahan_utama,file_candi_utama, jin_pembangun, file_user_utama):
     file_user = file_user_utama.matriks
     file_bahan = file_bahan_utama.matriks
-    count = hitungJinBangun(file_user)
-    #unfinish
-    if count == 0:
+    file_candi = file_candi_utama.matriks
+    countjin = hitungJinBangun(file_user)
+    pasir, batu, air = 0,0,0   
+    pasir_awal, batu_awal, air_awal = int(file_bahan[0][2]) , int(file_bahan[1][2]), int(file_bahan[2][2])
+    for i in range(countjin):
+        # Get the random values
+        x, y, z = generateBahan()
+        # Add them to the existing values
+        pasir += x
+        batu += y
+        air += z
+
+    if countjin == 0:
         print("Bangun candi gagal. Anda tidak punya jin pembangun. Silahkan summon terlebih dahulu.")
-    for i in range(count):
-        bangun(file_bahan_utama,True)
-    #unfinish
+    
+    else: 
+        print(f"Mengerahkan {countjin} jin untuk membangun candi dengan total bahan {pasir} pasir, {batu} batu, dan {air} air.")
+        if pasir_awal>=pasir and batu_awal>=batu and air_awal>=air:
+            IdCandi = cariSlotCandi(file_candi_utama)
+            indeks = 0
+            ada = True
+            while indeks <= 99 and ada:
+                ada = False
+                for i in range(100):
+                    if type(file_candi[i][0]) == str:
+                        if indeks == int(file_candi[i][0]):
+                            ada = True
+                            indeks += 1
+
+            if IdCandi != None:
+                if int(file_bahan[0][2]) >= pasir and int(file_bahan[1][2]) >= batu and int(file_bahan[2][2]) >= air:
+                    file_candi[IdCandi][0],file_candi[IdCandi][1],file_candi[IdCandi][2],file_candi[IdCandi][3],file_candi[IdCandi][4] = str(indeks),jin_pembangun,str(pasir),str(batu),str(air)
+                    pasir,batu,air = pasir*-1,batu*-1,air*-1
+                    ubahBahan(file_bahan_utama,pasir,batu,air)
+                    print(f"Berhasil membangun total {countjin} candi.")
+            
+        else:
+            print(f"Bangun gagal. Kurang {pasir-pasir_awal} pasir, {batu-batu_awal} batu, dan {air-air_awal} air.")
+    #review this pls 
     
 
 def hapusData(matriks_data:MatriksData, data):
