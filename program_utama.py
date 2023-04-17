@@ -136,7 +136,7 @@ if os.path.exists(save_directory):
                     opsi = input("Apakah Anda mau melakukan penyimpanan file yang sudah diubah? (y/n) ").upper()
                     if opsi == "Y":
                         tuple_matriks_data = ([matriks_user, matriks_candi, matriks_bahan], 3)
-                        Module.save_data(tuple_matriks_data)
+                        Module.saveData(tuple_matriks_data)
                         time.sleep(0.5)
                         print("Terima kasih sudah menjalankan program!")
                         time.sleep(0.5)
@@ -151,20 +151,21 @@ if os.path.exists(save_directory):
         
         elif command == "save":
             tuple_matriks_data = ([matriks_user, matriks_candi, matriks_bahan], 3)
-            Module.save_data(tuple_matriks_data)
+            Module.saveData(tuple_matriks_data)
         
         elif command == "help":
             if logged_in:
                 Module.help(logged_in_as)
             else:
                 list_function_default={
-                'login' : 'Untuk masuk menggunakan akun',
-                'exit': 'Untuk keluar dari program',
+                'login : Untuk masuk menggunakan akun',
+                'save : Untuk menyimpan hasil permainan',
+                'exit: Untuk keluar dari program',
                 }
                 idx=0
-                for fngsi, keterangan in list_function_default.items():
+                for i in list_function_default:
                     idx+=1
-                    print(f'{idx}.{fngsi}: {keterangan}')
+                    print(f'{idx}.{i}')
                 idx=0
 
         else:
