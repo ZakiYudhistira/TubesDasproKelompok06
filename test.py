@@ -1,6 +1,6 @@
 import argparse, os, time, Module
 
-parser = argparse.ArgumentParser()
+"""parser = argparse.ArgumentParser()
 parser.add_argument("nama_folder", help = "folder data yang ingin di-load")
 args = parser.parse_args()
 
@@ -20,3 +20,4 @@ if os.path.exists(folder_data):
     Module.save_data(tuple_matriks_data)
 else:
     print(f"Folder \"{folder_data}\" tidak ditemukan.")
+"""

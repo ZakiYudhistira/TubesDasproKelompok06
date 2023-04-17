@@ -32,7 +32,7 @@ def dotdotdot(teks:str, n_dot:int, interval:int):
 
 #-------------------------------------------------Fungsi panjang_matriks-----------------------------------------------------------
 # Mengembalikan panjang matriks_data yang terisi.
-def panjang_matriks(matriks_data, n_maks):
+def panjang_matriks(matriks_data:list[list], n_maks:int):
     count = 0
     for baris in range(n_maks):
         if matriks_data[baris][0] is not None:
@@ -45,7 +45,7 @@ def panjang_matriks(matriks_data, n_maks):
 
 #-------------------------------------------------Fungsi getIndeks-----------------------------------------------------------
 # Fungsi yang mengembalikan indeks dari sebuah data yang dipilih pada sebuah matriks.
-def getIndeks(matriks_data, id, n_maks:int):
+def getIndeks(matriks_data:list[list], id, n_maks:int):
     indeks = None
     neff = panjang_matriks(matriks_data, n_maks)
     for i in range(neff):
@@ -539,7 +539,7 @@ def dataJinPembangun(matriks_candi:MatriksData):
 
 
 def dataHargaCandi(matriks_candi:MatriksData):
-    nmaks_candi = 100
+    nmaks_candi = matriks_candi.n_maks
     neff_candi = panjang_matriks(matriks_candi.matriks, nmaks_candi)
     matriks_data_harga = [[None, None] for i in range(nmaks_candi)]
 
@@ -555,7 +555,7 @@ def dataHargaCandi(matriks_candi:MatriksData):
     return matriks_data_harga
 
 
-def data_leaderboard(matriks_data):
+def data_leaderboard(matriks_data:list[list]):
     nmaks = 100
     neff = panjang_matriks(matriks_data, nmaks)
     matriks_leaderboard = matriks_data
@@ -631,7 +631,7 @@ def laporanCandi(matriks_candi:MatriksData):
 """)
 
 
-def printLeaderboard(matriks_leaderboard):
+def printLeaderboard(matriks_leaderboard:list[list]):
     nmaks = 100
     neff = panjang_matriks(matriks_leaderboard, nmaks)
 
