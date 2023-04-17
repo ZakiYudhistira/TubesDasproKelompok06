@@ -11,17 +11,18 @@ class MatriksData:
         self.n_maks = n_maks
         self.matriks = loadData(nama_file, n_param, n_maks)
 
+Matriks = list[list[str|int]]
 
 #-------------------------------------------------Fungsi saveFile-----------------------------------------------------------
 # Procedure untuk menyimpan file berdasarkan path dan data yang diberikan.
-def saveFile(path:str, data:str):
+def saveFile(path:str, data:str) -> None:
     with open(path, 'w') as file:
         file.write(data)
 
 
 #-------------------------------------------------Fungsi saveFile-----------------------------------------------------------
 # Procedure mengoutput teks dengan dot dot dot yang dramatis.
-def dotdotdot(teks:str, n_dot:int, interval:int):
+def dotdotdot(teks:str, n_dot:int, interval:int) -> None:
     print(teks, end="", flush=True)
     time.sleep(interval)
     for i in range(n_dot):
@@ -32,7 +33,7 @@ def dotdotdot(teks:str, n_dot:int, interval:int):
 
 #-------------------------------------------------Fungsi panjangMatriks-----------------------------------------------------------
 # Mengembalikan panjang matriks_data yang terisi.
-def panjangMatriks(matriks_data:list[list], n_maks:int):
+def panjangMatriks(matriks_data:Matriks, n_maks:int) -> int:
     count = 0
     for baris in range(n_maks):
         if matriks_data[baris][0] is not None:
@@ -45,11 +46,11 @@ def panjangMatriks(matriks_data:list[list], n_maks:int):
 
 #-------------------------------------------------Fungsi getIndeks-----------------------------------------------------------
 # Fungsi yang mengembalikan indeks dari sebuah data yang dipilih pada sebuah matriks.
-def getIndeks(matriks_data:list[list], id, n_maks:int):
+def getIndeks(matriks_data:Matriks, data:str|int, n_maks:int) -> int:
     indeks = None
     neff = panjangMatriks(matriks_data, n_maks)
     for i in range(neff):
-        if matriks_data[i][0] == id:
+        if matriks_data[i][0] == data:
             indeks = i
 
     return indeks
@@ -57,7 +58,7 @@ def getIndeks(matriks_data:list[list], id, n_maks:int):
 
 #-------------------------------------------------Fungsi bubbleSortMatriks-----------------------------------------------------------
 # Fungsi yang mengembalikan matriks yang sudah terurut berdasarkan data yang dijadikan referensi.
-def bubbleSortMatriks(matriks_data:list[list], nmaks:int, i_data:int, naik=False):
+def bubbleSortMatriks(matriks_data:Matriks, nmaks:int, i_data:int, naik=False) -> Matriks:
     matriks_sorted = matriks_data
     neff = panjangMatriks(matriks_sorted, nmaks)
 
@@ -83,7 +84,7 @@ def bubbleSortMatriks(matriks_data:list[list], nmaks:int, i_data:int, naik=False
 
 #-------------------------------------------------Fungsi isTerurutRekso-----------------------------------------------------------
 # Fungsi yang mengembalikan nilai True jika kedua kata terurut secara leksikografis.
-def isTerurutLeksi(kata1:str, kata2:str):
+def isTerurutLeksi(kata1:str, kata2:str) -> bool:
     terurut = True
     i_huruf = 0
 
@@ -113,7 +114,7 @@ def isTerurutLeksi(kata1:str, kata2:str):
 
 #-------------------------------------------------Fungsi jumlahBahan-----------------------------------------------------------
 # Fungsi yang mengembalikan 3 data bahan (pasir, batu, air) pada data bahan_bangunan.
-def jumlahBahan(matriks_candi:MatriksData):
+def jumlahBahan(matriks_candi:MatriksData) -> tuple[int, int, int]:
     pasir, batu, air = 0, 0, 0
 
     for candi in range(panjangMatriks(matriks_candi.matriks, matriks_candi.n_maks)):
@@ -126,7 +127,7 @@ def jumlahBahan(matriks_candi:MatriksData):
 
 #-------------------------------------------------Fungsi jumlahJin-----------------------------------------------------------
 # Fungsi yang mengembalikan 3 data total jin (total, pengumpul, pembangun) pada data user.
-def jumlahJin(matriks_user:MatriksData):
+def jumlahJin(matriks_user:MatriksData) -> tuple[int, int, int]:
     jumlah_jin, jumlah_pengumpul, jumlah_pembangun = 0, 0, 0
 
     for jin in range(2, panjangMatriks(matriks_user.matriks, matriks_user.n_maks)):
@@ -602,7 +603,7 @@ def batchBangun(file_bahan_utama, file_user_utama):
     #unfinish
     
 
-def hapusData(matriks_data:MatriksData, data):
+def hapusData(matriks_data:MatriksData, data:str|int) -> None:
     neff = panjangMatriks(matriks_data.matriks, matriks_data.n_maks)
     i_data = getIndeks(matriks_data.matriks, data, matriks_data.n_maks)
 
@@ -616,7 +617,7 @@ def hapusData(matriks_data:MatriksData, data):
         matriks_data.matriks[neff][param] = None
 
 
-def ayamBerkokok(matriks_candi:MatriksData):
+def ayamBerkokok(matriks_candi:MatriksData) -> None:
     jumlah_candi = panjangMatriks(matriks_candi.matriks, matriks_candi.n_maks)
     print("Kukuruyuk..", end=" ", flush=True)
     time.sleep(0.5)
@@ -634,7 +635,7 @@ def ayamBerkokok(matriks_candi:MatriksData):
         print("Yah, Bandung Bondowoso memenangkan permainan!")
 
 
-def hancurkanCandi(matriks_candi:MatriksData):
+def hancurkanCandi(matriks_candi:MatriksData) -> None:
     id = input("Masukkan ID candi: ")
     indeks = getIndeks(matriks_candi.matriks, id, matriks_candi.n_maks)
 
@@ -653,7 +654,7 @@ def hancurkanCandi(matriks_candi:MatriksData):
             print("Understandable, have a nice day.")
 
 
-def dataJinPembangun(matriks_candi:MatriksData):
+def dataJinPembangun(matriks_candi:MatriksData) -> Matriks:
     nmaks_jin = 100
     neff_jin = panjangMatriks(matriks_candi.matriks, nmaks_jin)
     matriks_data_pembangun = [[None, None] for i in range(nmaks_jin)]
@@ -671,7 +672,7 @@ def dataJinPembangun(matriks_candi:MatriksData):
     return matriks_data_pembangun
 
 
-def dataHargaCandi(matriks_candi:MatriksData):
+def dataHargaCandi(matriks_candi:MatriksData) -> Matriks:
     nmaks_candi = 100
     neff_candi = panjangMatriks(matriks_candi.matriks, nmaks_candi)
     matriks_data_harga = [[None, None] for i in range(nmaks_candi)]
@@ -688,7 +689,7 @@ def dataHargaCandi(matriks_candi:MatriksData):
     return matriks_data_harga
 
 
-def dataLeaderboard(matriks_data:MatriksData, tipe:str):
+def dataLeaderboard(matriks_data:MatriksData, tipe:str) -> Matriks:
     nmaks = 100
     if tipe == "jin":
         matriks_leaderboard = dataJinPembangun(matriks_data)
@@ -717,7 +718,7 @@ def dataLeaderboard(matriks_data:MatriksData, tipe:str):
     return matriks_leaderboard
 
 
-def laporanJin(matriks_user:MatriksData, matriks_candi:MatriksData, matriks_bahan:MatriksData):
+def laporanJin(matriks_user:MatriksData, matriks_candi:MatriksData, matriks_bahan:MatriksData) -> None:
     total_jin, total_pengumpul, total_pembangun = jumlahJin(matriks_user)
     sisa_pasir = matriks_bahan.matriks[0][2]
     sisa_batu = matriks_bahan.matriks[1][2]
@@ -746,7 +747,7 @@ def laporanJin(matriks_user:MatriksData, matriks_candi:MatriksData, matriks_baha
 """)
 
 
-def laporanCandi(matriks_candi:MatriksData):
+def laporanCandi(matriks_candi:MatriksData) -> None:
     total_candi = panjangMatriks(matriks_candi.matriks, matriks_candi.n_maks)
     total_pasir, total_batu, total_air = jumlahBahan(matriks_candi)
     id_termahal, id_termurah = "-", "-"
@@ -774,7 +775,7 @@ def laporanCandi(matriks_candi:MatriksData):
 """)
 
 
-def printLeaderboard(matriks_leaderboard:list[list]):
+def printLeaderboard(matriks_leaderboard:Matriks) -> None:
     nmaks = 100
     neff = panjangMatriks(matriks_leaderboard, nmaks)
 
