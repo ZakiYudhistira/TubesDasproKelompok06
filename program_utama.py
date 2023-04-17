@@ -18,6 +18,7 @@ if os.path.exists(save_directory):
     tuple_matriks_data = ([matriks_user, matriks_candi, matriks_bahan], 3)
     
     print("Selamat datang di program \"Manajerial Candi\"")
+    print("Ketik help untuk menampilkan command")
 
     program_jalan = True
     logged_in = False
@@ -41,12 +42,19 @@ if os.path.exists(save_directory):
         
         elif command == "bangun":
             if logged_in_as == "jin_pembangun":
-                Module.bangun(matriks_bahan,matriks_candi,user)
+                Module.bangun(matriks_bahan,matriks_candi,user,False)
             else:
                 print("User bukan jin pembangun\nPembangunan candi tidak dilakukan.")
         
-        # elif command == "hapusjin":
-        
+        elif command == "hapusjin":
+            if logged_in:
+                if logged_in_as == "bandung_bondowoso":
+                    Module.hapusJin(matriks_user)
+                else:
+                    print("User bukan Bandung Bondowoso\nPengubahan jin tidak dilakukan.")
+            else:
+                print("User belum login.\nmohon lakukan login terlebih dahulu sebelum melakukan perintah.")
+
         elif command == "ubahjin":
             if logged_in:
                 if logged_in_as == "bandung_bondowoso":
@@ -70,7 +78,7 @@ if os.path.exists(save_directory):
                 if logged_in_as == "jin_pengumpul":
                     Module.kumpul(matriks_bahan,False)
                 else:
-                    print("User bukan Bandung Bondowoso\nPembangunan candi tidak dilakukan.")
+                    print("User bukan jin pengumpul\nPembangunan candi tidak dilakukan.")
             else:
                 print("User belum login.\nmohon lakukan login terlebih dahulu sebelum melakukan perintah.")
         
@@ -114,9 +122,6 @@ if os.path.exists(save_directory):
             time.sleep(0.5)
             Module.printLeaderboard(Module.data_leaderboard(Module.dataHargaCandi(matriks_candi)))
         
-        elif command == "help":
-            pass
-        
         elif command == "exit":
             if logged_in:
                 print("Mohon logout dulu sebelum keluar dari program")
@@ -142,6 +147,20 @@ if os.path.exists(save_directory):
             tuple_matriks_data = ([matriks_user, matriks_candi, matriks_bahan], 3)
             Module.save_data(tuple_matriks_data)
         
+        elif command == "help":
+            if logged_in:
+                Module.help(logged_in_as)
+            else:
+                list_function_default={
+                'login' : 'Untuk masuk menggunakan akun',
+                'exit': 'Untuk keluar dari program',
+                }
+                idx=0
+                for fngsi, keterangan in list_function_default.items():
+                    idx+=1
+                    print(f'{idx}.{fngsi}: {keterangan}')
+                idx=0
+
         else:
             print("Perintah tidak dikenali")
             
