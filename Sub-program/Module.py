@@ -55,6 +55,62 @@ def getIndeks(matriks_data:list[list], id, n_maks:int):
     return indeks
 
 
+#-------------------------------------------------Fungsi bubbleSortMatriks-----------------------------------------------------------
+# Fungsi yang mengembalikan matriks yang sudah terurut berdasarkan data yang dijadikan referensi.
+def bubbleSortMatriks(matriks_data:list[list], nmaks:int, i_data:int, naik=False):
+    matriks_sorted = matriks_data
+    neff = panjangMatriks(matriks_sorted, nmaks)
+
+    for i in range(1, neff):
+        indeks = i
+        if naik:
+            while indeks > 0 and matriks_sorted[indeks][i_data] < matriks_sorted[indeks-1][i_data]:
+                temp = matriks_sorted[indeks]
+                matriks_sorted[indeks] = matriks_sorted[indeks-1]
+                matriks_sorted[indeks-1] = temp
+
+                indeks -= 1
+        else:
+            while indeks > 0 and matriks_sorted[indeks][i_data] > matriks_sorted[indeks-1][i_data]:
+                temp = matriks_sorted[indeks]
+                matriks_sorted[indeks] = matriks_sorted[indeks-1]
+                matriks_sorted[indeks-1] = temp
+
+                indeks -= 1
+
+    return matriks_sorted
+    
+
+#-------------------------------------------------Fungsi isTerurutRekso-----------------------------------------------------------
+# Fungsi yang mengembalikan nilai True jika kedua kata terurut secara leksikografis.
+def isTerurutLeksi(kata1:str, kata2:str):
+    terurut = True
+    i_huruf = 0
+
+    if kata1 != "" and kata2 != "":
+        if len(kata1) > len(kata2):
+            ref_len = len(kata2)
+        else:
+            ref_len = len(kata1)
+
+        while terurut:
+            if i_huruf > ref_len - 1:
+                if ref_len == len(kata2):
+                    terurut = False
+                break    
+                
+            if kata1[i_huruf] > kata2[i_huruf]:
+                terurut = False
+
+            i_huruf += 1
+
+    else:
+        if kata1 == "":
+            terurut = False
+
+    return terurut
+
+
 #-------------------------------------------------Fungsi jumlahBahan-----------------------------------------------------------
 # Fungsi yang mengembalikan 3 data bahan (pasir, batu, air) pada data bahan_bangunan.
 def jumlahBahan(matriks_candi:MatriksData):
@@ -634,21 +690,27 @@ def dataHargaCandi(matriks_candi:MatriksData):
 
 def dataLeaderboard(matriks_data:MatriksData, tipe:str):
     nmaks = 100
-    matriks_leaderboard = None
-
     if tipe == "jin":
         matriks_leaderboard = dataJinPembangun(matriks_data)
     elif tipe == "candi":
         matriks_leaderboard = dataHargaCandi(matriks_data)
 
     neff = panjangMatriks(matriks_leaderboard, nmaks)
-
     for i in range(1, neff):
-        indeks = i
-        while indeks > 0 and matriks_leaderboard[indeks][1] > matriks_leaderboard[indeks - 1][1]:
-            temp = matriks_leaderboard[indeks]
-            matriks_leaderboard[indeks] = matriks_leaderboard[indeks - 1]
-            matriks_leaderboard[indeks - 1] = temp
+        indeks = i 
+
+        while indeks > 0 and matriks_leaderboard[indeks][1] >= matriks_leaderboard[indeks-1][1]:
+            kondisi_lekso = isTerurutLeksi(matriks_leaderboard[indeks-1][0], matriks_leaderboard[indeks][0])
+
+            if matriks_leaderboard[indeks][1] == matriks_leaderboard[indeks-1][1] and not kondisi_lekso:
+                temp = matriks_leaderboard[indeks]
+                matriks_leaderboard[indeks] = matriks_leaderboard[indeks-1]
+                matriks_leaderboard[indeks-1] = temp
+
+            else:
+                temp = matriks_leaderboard[indeks]
+                matriks_leaderboard[indeks] = matriks_leaderboard[indeks-1]
+                matriks_leaderboard[indeks-1] = temp
 
             indeks -= 1
 
