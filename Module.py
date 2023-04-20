@@ -262,22 +262,22 @@ def saveData(data:tuple):
     print(f"Berhasil menyimpan data di folder {save_directory}!")
 
 
-def cekNamaJin(file_user_utama,nama_jin):
-    file_user = file_user_utama.matriks
-    for i in range(file_user_utama.n_maks):
+def cekNamaJin(matriks_user:MatriksData,nama_jin:str):
+    file_user = matriks_user.matriks
+    for i in range(matriks_user.n_maks):
         if nama_jin == file_user[i][0]:
             return True
     return False
 
 
-def getIdJin(file_user_utama,nama_jin):
-    file_user = file_user_utama.matriks
-    for i in range(file_user_utama.n_maks):
+def getIdJin(matriks_user:MatriksData,nama_jin:str):
+    file_user = matriks_user.matriks
+    for i in range(matriks_user.n_maks):
         if nama_jin == file_user[i][0]:
             return i
 
 
-def cekPanjangPassword (password):
+def cekPanjangPassword (password:str):
     char = 0
     for i in password:
         char+=1
@@ -287,14 +287,14 @@ def cekPanjangPassword (password):
         return False
 
 
-def cekJumlahJin(file_user):
-    if type(file_user[101][0]) == None:
+def cekJumlahJin(file_user:list[list]):
+    if file_user[101][0] == None:
         return True
     else:
         return False
 
 
-def printSummon(nama):
+def printSummon(nama:str):
     print("Mengumpulkan sesajen...")
     time.sleep(0.5)
     print("Menyerahkan sesajen...")
@@ -304,7 +304,7 @@ def printSummon(nama):
     print(f"Jin {nama} berhasil dipanggil!")
 
 
-def printHapus(nama):
+def printHapus(nama:str):
     print(f"Dicari jin {nama}...")
     time.sleep(0.5)
     print(f"Telah ditangkap jin {nama}...")
@@ -314,7 +314,7 @@ def printHapus(nama):
     print("Jin telah berhasil dihapus dari alam gaib.")
 
 
-def printGanti(nama):
+def printGanti(nama:str):
     print(f"Dicari jin {nama}...")
     time.sleep(0.5)
     print(f"Telah ditangkap jin {nama}...")
@@ -324,9 +324,9 @@ def printGanti(nama):
     print("Jin telah berhasil diubah.")
 
 
-def isiMatriksUser(file_user_utama,nama_jin,password_jin,role_jin):
-    file_user = file_user_utama.matriks
-    for i in range(file_user_utama.n_maks):
+def isiMatriksUser(matriks_user:MatriksData,nama_jin:str,password_jin:str,role_jin:str):
+    file_user = matriks_user.matriks
+    for i in range(matriks_user.n_maks):
         if file_user[i][0] == None:
             angka = i
             break
@@ -340,9 +340,9 @@ def generateBahan():
     return pasir,batu,air
 
 
-def ubahBahan(file_bahan_utama,pasir,batu,air):
-    file_bahan = file_bahan_utama.matriks
-    for i in range(file_bahan_utama.n_maks):
+def ubahBahan(matriks_bahan:MatriksData,pasir:int,batu:int,air:int):
+    file_bahan = matriks_bahan.matriks
+    for i in range(matriks_bahan.n_maks):
         if file_bahan[i][0] == "pasir":
             bahan = int(file_bahan[i][2])
             file_bahan[i][2] = str(pasir+bahan)
@@ -354,10 +354,10 @@ def ubahBahan(file_bahan_utama,pasir,batu,air):
             file_bahan[i][2] = str(air+bahan)
 
 
-def cariSlotCandi(file_candi_utama):
-    file_candi = file_candi_utama.matriks
+def cariSlotCandi(matriks_candi:MatriksData):
+    file_candi = matriks_candi.matriks
     kosong = True
-    for i in range(file_candi_utama.n_maks):
+    for i in range(matriks_candi.n_maks):
         if file_candi[i][0] == None:
             kosong = False
             return i
@@ -365,7 +365,7 @@ def cariSlotCandi(file_candi_utama):
         return None
 
 
-def hitungJinKumpul(file_user):
+def hitungJinKumpul(file_user:list[list]):
     count = 0
     for i in range(102):
         if file_user[i][2] == "jin_pengumpul":
@@ -373,7 +373,7 @@ def hitungJinKumpul(file_user):
     return count
 
 
-def hitungJinBangun(file_user):
+def hitungJinBangun(file_user:list[list]):
     count = 0
     for i in range(102):
         if file_user[i][2] == "jin_pembangun":
@@ -381,8 +381,8 @@ def hitungJinBangun(file_user):
     return count
 
 
-def summonjin(file_user_utama):
-    file_user = file_user_utama.matriks
+def summonjin(matriks_user:MatriksData):
+    file_user = matriks_user.matriks
     print('Jenis jin yang dapat dipanggil:\n (1) Pengumpul - Bertugas mengumpulkan bahan bangunan\n (2) Pembangun - Bertugas membangun candi\n (3) Tidak jadi summon jin')
     if cekJumlahJin(file_user):
         print("Jumlah Jin telah maksimal! (100 jin). Bandung tidak dapat men-summon lebih dari itu")
@@ -392,7 +392,7 @@ def summonjin(file_user_utama):
             if nomor_jin == 1:
                 print('Memilih jin "Pengumpul".')
                 nama_jin = str(input("Masukkan nama jin: "))
-                while cekNamaJin(file_user_utama,nama_jin):
+                while cekNamaJin(matriks_user,nama_jin):
                     print(f"Username “{nama_jin}” sudah diambil!")
                     print("")
                     nama_jin = input("Masukkan nama jin: ")
@@ -404,12 +404,12 @@ def summonjin(file_user_utama):
                 printSummon(nama_jin)
                 print('Memilih jin "Pengumpul".')
                 role_jin = "jin_pengumpul"
-                isiMatriksUser(file_user_utama,nama_jin,password_jin,role_jin)
+                isiMatriksUser(matriks_user,nama_jin,password_jin,role_jin)
                 break
             elif nomor_jin == 2:
                 print('Memilih jin "Pembangun".')
                 nama_jin = str(input("Masukkan nama jin: "))
-                while cekNamaJin(file_user_utama,nama_jin):
+                while cekNamaJin(matriks_user,nama_jin):
                     print(f"Username “{nama_jin}” sudah diambil!")
                     print("")
                     nama_jin = input("Masukkan nama jin: ")
@@ -421,7 +421,7 @@ def summonjin(file_user_utama):
                 printSummon(nama_jin)
                 print('Memilih jin "Pembangun".')
                 role_jin = "jin_pembangun"
-                isiMatriksUser(file_user_utama,nama_jin,password_jin,role_jin)
+                isiMatriksUser(matriks_user,nama_jin,password_jin,role_jin)
                 break
             elif nomor_jin == 3:
                 print("Tidak ada jin yang disummon")
@@ -430,8 +430,8 @@ def summonjin(file_user_utama):
                 print(f'Tidak ada jenis jin bernomor"{nomor_jin}"')
 
 
-def hapusJin(file_user_utama):
-    file_user = file_user_utama.matriks
+def hapusJin(matriks_user:MatriksData):
+    file_user = matriks_user.matriks
     nama_jin = input("Masukkan username jin : ")
     if cekNamaJin(file_user,nama_jin):
         Id_jin = getIdJin(file_user,nama_jin)
@@ -441,9 +441,9 @@ def hapusJin(file_user_utama):
             command = input(f"Apakah anda yakin ingin menghapus jin dengan username {nama_jin} (Y/N)? ")
         if command == "Y":
             file_user[Id_jin] = [None,None,None]
-            for i in range(Id_jin,(file_user_utama.n_maks-1)):
+            for i in range(Id_jin,(matriks_user.n_maks-1)):
                 file_user[i] = file_user[i+1]
-            file_user[file_user_utama.n_maks-1] = [None,None,None]
+            file_user[matriks_user.n_maks-1] = [None,None,None]
             printHapus(nama_jin)
         elif command == "N":
             print(f"Jin {nama_jin} tidak jadi dihapus dari alam ghaib.")
@@ -451,11 +451,11 @@ def hapusJin(file_user_utama):
         print("Tidak ada jin dengan username tersebut.")
 
 
-def ubahTipeJin(file_user_utama):
-    file_user = file_user_utama.matriks
+def ubahTipeJin(matriks_user:MatriksData):
+    file_user = matriks_user.matriks
     nama_jin = input("Masukkan username jin : ")
-    if cekNamaJin(file_user_utama,nama_jin):
-        Id_jin = getIdJin(file_user_utama,nama_jin)
+    if cekNamaJin(matriks_user,nama_jin):
+        Id_jin = getIdJin(matriks_user,nama_jin)
         if file_user[Id_jin][2] == "jin_pengumpul":
             command = input(f"Jin ini bertipe “Pengumpul”. Yakin ingin mengubah ke tipe “Pembangun” (Y/N)? ")
             while not(command == "Y") and not(command == "N"):
@@ -480,19 +480,19 @@ def ubahTipeJin(file_user_utama):
         print("Tidak ada jin dengan username tersebut.")
 
 
-def kumpul(file_bahan_utama, batch):
-    file_bahan = file_bahan_utama.matriks
+def kumpul(matriks_bahan:MatriksData, batch:bool):
+    file_bahan = matriks_bahan.matriks
     pasir,batu,air = generateBahan()
-    ubahBahan (file_bahan_utama,pasir,batu,air)
+    ubahBahan (matriks_bahan,pasir,batu,air)
     if not(batch):
         print(f"Jin menemukan {pasir} pasir, {batu} batu, dan {air} air.")
 
 
-def bangun(file_bahan_utama,file_candi_utama,jin_pembangun,batch):
-    file_bahan = file_bahan_utama.matriks
-    file_candi = file_candi_utama.matriks
+def bangun(matriks_bahan:MatriksData, matriks_candi:MatriksData, jin_pembangun:str, batch:bool):
+    file_bahan = matriks_bahan.matriks
+    file_candi = matriks_candi.matriks
     pasir,batu,air = generateBahan()
-    IdCandi = cariSlotCandi(file_candi_utama)
+    IdCandi = cariSlotCandi(matriks_candi)
     indeks = 0
     ada = True
     while indeks <= 99 and ada:
@@ -506,11 +506,11 @@ def bangun(file_bahan_utama,file_candi_utama,jin_pembangun,batch):
         if int(file_bahan[0][2]) >= pasir and int(file_bahan[1][2]) >= batu and int(file_bahan[2][2]) >= air:
             file_candi[IdCandi][0],file_candi[IdCandi][1],file_candi[IdCandi][2],file_candi[IdCandi][3],file_candi[IdCandi][4] = str(indeks),jin_pembangun,str(pasir),str(batu),str(air)
             pasir,batu,air = pasir*-1,batu*-1,air*-1
-            ubahBahan(file_bahan_utama,pasir,batu,air)
+            ubahBahan(matriks_bahan,pasir,batu,air)
             if not(batch):
                 print("Candi berhasil dibangun !")
             jumlahCandi = 0
-            for i in range(file_candi_utama.n_maks):
+            for i in range(matriks_candi.n_maks):
                 if file_candi[i][0] == None:
                     jumlahCandi += 1
             if not(batch):
@@ -523,26 +523,26 @@ def bangun(file_bahan_utama,file_candi_utama,jin_pembangun,batch):
             print("Candi sudah penuh.\nCandi tidak bisa dibangun!")
 
 
-def batchKumpul(file_bahan_utama, file_user_utama):
-    file_user = file_user_utama.matriks
-    file_bahan = file_bahan_utama.matriks
+def batchKumpul(matriks_bahan:MatriksData, matriks_user:MatriksData):
+    file_user = matriks_user.matriks
+    file_bahan = matriks_bahan.matriks
     count = hitungJinKumpul(file_user)
     pasir_awal, batu_awal, air_awal = int(file_bahan[0][2]) , int(file_bahan[1][2]), int(file_bahan[2][2])
     if count == 0:
         print("Kumpul gagal. Anda tidak punya jin pengumpul. Silahkan summon terlebih dahulu.")
     for i in range(count):
-        kumpul(file_bahan_utama,True)
+        kumpul(matriks_bahan,True)
     print(f"Mengerahkan {count} jin untuk mengumpulkan bahan.\nJin menemukan total {-1*pasir_awal + int(file_bahan[0][2])} pasir, {-1*batu_awal+int(file_bahan[1][2])} batu, dan {-1*air_awal+int(file_bahan[2][2])} air.")
 
-def batchBangun(file_bahan_utama, file_user_utama):
-    file_user = file_user_utama.matriks
-    file_bahan = file_bahan_utama.matriks
+def batchBangun(matriks_bahan:MatriksData, matriks_user:MatriksData):
+    file_user = matriks_user.matriks
+    file_bahan = matriks_bahan.matriks
     count = hitungJinBangun(file_user)
     #unfinish
     if count == 0:
         print("Bangun candi gagal. Anda tidak punya jin pembangun. Silahkan summon terlebih dahulu.")
     for i in range(count):
-        bangun(file_bahan_utama,True)
+        bangun(matriks_bahan,True)
     #unfinish
     
 
