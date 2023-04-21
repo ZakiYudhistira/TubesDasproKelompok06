@@ -204,30 +204,30 @@ def help(role):
 
     if role == "bandung_bondowoso":
         idx=0
-        for i in list_function_bondowoso:
+        for i in range(8):
             idx+=1
-            print(f'{idx}.{i}')
+            print(f'{idx}.{list_function_bondowoso[i]}')
         idx=0
 
     elif role == "roro_jonggrang":
         idx=0
-        for i in list_function_rorojongrang:
+        for i in range(3):
             idx+=1
-            print(f'{idx}.{i}')
+            print(f'{idx}.{list_function_rorojongrang[i]}')
         idx=0
 
     elif role == "jin_pengumpul":
         idx=0
-        for i in list_function_jinpengumpul:
+        for i in range(2):
             idx+=1
-            print(f'{idx}.{i}')
+            print(f'{idx}.{list_function_jinpengumpul[i]}')
         idx=0
 
     elif role == "jin_pembangun":
         idx=0
-        for i in list_function_jinpembangun:
+        for i in range(2):
             idx+=1
-            print(f'{idx}.{i}')
+            print(f'{idx}.{list_function_jinpembangun[i]}')
         idx=0
 #-------------------------------------------------Fungsi logout-----------------------------------------------------------
 def logout() -> tuple[bool,str,str]:
@@ -577,16 +577,18 @@ def batchKumpul(matriks_bahan:MatriksData, matriks_user:MatriksData):
         kumpul(matriks_bahan,True)
     print(f"Mengerahkan {count} jin untuk mengumpulkan bahan.\nJin menemukan total {-1*pasir_awal + int(matriks_bahan.matriks[0][2])} pasir, {-1*batu_awal+int(matriks_bahan.matriks[1][2])} batu, dan {-1*air_awal+int(matriks_bahan.matriks[2][2])} air.")
 
-def batchBangun(matriks_bahan:MatriksData, matriks_user:MatriksData, matriks_candi:MatriksData):
-    a,b,count = jumlahJin(matriks_user)
-    #unfinish
+def batchBangun(matriks_bahan:MatriksData, matriks_candi:MatriksData, jin_pembangun:str ,matriks_user:MatriksData):
+    count = hitungJinBangun(matriks_user)
     if count == 0:
         print("Bangun candi gagal. Anda tidak punya jin pembangun. Silahkan summon terlebih dahulu.")
-    for i in range(count):
-        bangun(matriks_bahan,True)
-    #unfinish
-    
     else: 
+        pasir, batu, air = 0, 0, 0
+        for i in range(5):
+            x, y, z = generateBahan()
+            pasir += x
+            batu += y
+            air += z
+        pasir_awal, batu_awal, air_awal = int(matriks_bahan.matriks[0][2]) , int(matriks_bahan.matriks[1][2]), int(matriks_bahan.matriks[2][2])    
         print(f"Mengerahkan {count} jin untuk membangun candi dengan total bahan {pasir} pasir, {batu} batu, dan {air} air.")
         if pasir_awal>=pasir and batu_awal>=batu and air_awal>=air:
             IdCandi = cariSlotCandi(matriks_candi)
@@ -605,7 +607,7 @@ def batchBangun(matriks_bahan:MatriksData, matriks_user:MatriksData, matriks_can
                     matriks_candi.matriks[IdCandi][0],matriks_candi.matriks[IdCandi][1],matriks_candi.matriks[IdCandi][2],matriks_candi.matriks[IdCandi][3],matriks_candi.matriks[IdCandi][4] = str(indeks),jin_pembangun,str(pasir),str(batu),str(air)
                     pasir,batu,air = pasir*-1,batu*-1,air*-1
                     ubahBahan(matriks_bahan,pasir,batu,air)
-                    print(f"Berhasil membangun total {countjin} candi.")
+                    print(f"Berhasil membangun total {count} candi.")
             
         else:
             print(f"Bangun gagal. Kurang {pasir-pasir_awal} pasir, {batu-batu_awal} batu, dan {air-air_awal} air.")
