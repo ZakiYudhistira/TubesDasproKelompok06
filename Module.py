@@ -578,7 +578,7 @@ def batchKumpul(matriks_bahan:MatriksData, matriks_user:MatriksData):
     print(f"Mengerahkan {count} jin untuk mengumpulkan bahan.\nJin menemukan total {-1*pasir_awal + int(matriks_bahan.matriks[0][2])} pasir, {-1*batu_awal+int(matriks_bahan.matriks[1][2])} batu, dan {-1*air_awal+int(matriks_bahan.matriks[2][2])} air.")
 
 def batchBangun(matriks_bahan:MatriksData, matriks_candi:MatriksData, jin_pembangun:str ,matriks_user:MatriksData):
-    count = hitungJinBangun(matriks_user)
+    a,b,count = jumlahJin(matriks_user)
     if count == 0:
         print("Bangun candi gagal. Anda tidak punya jin pembangun. Silahkan summon terlebih dahulu.")
     else: 
