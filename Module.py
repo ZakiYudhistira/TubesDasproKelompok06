@@ -612,7 +612,13 @@ def batchBangun(matriks_bahan:MatriksData, matriks_candi:MatriksData, jin_pemban
         else:
             print(f"Bangun gagal. Kurang {pasir-pasir_awal} pasir, {batu-batu_awal} batu, dan {air-air_awal} air.")
     #review this pls 
-    
+#-------------------------------------------------Fungsi Tunjukkan Bahan-----------------------------------------------------------
+# Procedure untuk menunjukkan bahan candi yang tersedia
+def showBahan(matriks_bahan:MatriksData):
+    print(f"""Persediaan bahan candi :
+Pasir : {matriks_bahan.matriks[0][2]}
+Batu  : {matriks_bahan.matriks[1][2]}
+Air   : {matriks_bahan.matriks[2][2]}""")
 
 def hapusData(matriks_data:MatriksData, data:str|int) -> None:
     neff = panjangMatriks(matriks_data.matriks, matriks_data.n_maks)

@@ -121,12 +121,15 @@ if os.path.exists(save_directory):
         elif command == "leaderboardjin":
             print("Berikut merupakan leaderboard jin pembuat candi terbanyak:")
             time.sleep(0.5)
-            Module.printLeaderboard(Module.data_leaderboard(Module.dataJinPembangun(matriks_candi)))
+            Module.printLeaderboard(Module.dataLeaderboard(Module.dataJinPembangun(matriks_candi),"jin"))
         
         elif command == "leaderboardcandi":
             print("Berikut merupakan leaderboard candi dengan bahan termahal:")
             time.sleep(0.5)
-            Module.printLeaderboard(Module.data_leaderboard(Module.dataHargaCandi(matriks_candi)))
+            Module.printLeaderboard(Module.dataLeaderboard(Module.dataHargaCandi(matriks_candi),"candi"))
+
+        elif command == "showbahan":
+            Module.showBahan(matriks_bahan)
         
         elif command == "exit":
             if logged_in:
