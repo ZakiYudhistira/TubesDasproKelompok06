@@ -449,7 +449,7 @@ def hapusJin(matriks_user:MatriksData):
         while not(command == "Y") and not(command == "N"):
             print("Perintah tidak valid, tolong input ulang perintah.")
             command = input(f"Apakah anda yakin ingin menghapus jin dengan username {nama_jin} (Y/N)? ")
-        if command == "Y" or command ="y":
+        if command == "Y" or command =="y":
             matriks_user.matriks[Id_jin] = [None,None,None]
             for i in range(Id_jin,(matriks_user.n_maks-1)):
                 matriks_user.matriks[i] = matriks_user.matriks[i+1]
