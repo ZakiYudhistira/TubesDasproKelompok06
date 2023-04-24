@@ -285,10 +285,10 @@ def hitungJinBangun(file_user):
 
 def summonjin(file_user_utama):
     file_user = file_user_utama.matriks
-    print('Jenis jin yang dapat dipanggil:\n (1) Pengumpul - Bertugas mengumpulkan bahan bangunan\n (2) Pembangun - Bertugas membangun candi\n (3) Tidak jadi summon jin')
     if cekJumlahJin(file_user):
         print("Jumlah Jin telah maksimal! (100 jin). Bandung tidak dapat men-summon lebih dari itu")
     else:
+        print('Jenis jin yang dapat dipanggil:\n (1) Pengumpul - Bertugas mengumpulkan bahan bangunan\n (2) Pembangun - Bertugas membangun candi\n (3) Tidak jadi summon jin')
         while True:
             nomor_jin = int((input("Masukkan nomor jenis jin yang ingin dipanggil: ")))
             if nomor_jin == 1:

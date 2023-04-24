@@ -88,6 +88,12 @@ if os.path.exists(save_directory):
             else:
                 print("User bukan Bandung Bondowoso\nBatch kumpul bahan tidak dilakukan.")
 
+        elif command == "batchbangun":
+            if logged_in_as == "bandung_bondowoso":
+                Module.batchBangun(matriks_bahan,matriks_candi,user,matriks_user)
+            else:
+                print("User bukan Bandung Bondowoso\nBatch bangun bahan tidak dilakukan.")
+
         elif command == "laporanjin":
             if logged_in_as == "bandung_bondowoso":
                 Module.laporanJin(matriks_user, matriks_candi, matriks_bahan)   
@@ -121,6 +127,9 @@ if os.path.exists(save_directory):
             print("Berikut merupakan leaderboard candi dengan bahan termahal:")
             time.sleep(0.5)
             Module.printLeaderboard(Module.dataLeaderboard(matriks_candi, "candi"))
+
+        elif command == "showbahan":
+            Module.showBahan(matriks_bahan)
         
         elif command == "exit":
             if logged_in:
@@ -152,13 +161,14 @@ if os.path.exists(save_directory):
                 Module.help(logged_in_as)
             else:
                 list_function_default={
-                'login' : 'Untuk masuk menggunakan akun',
-                'exit': 'Untuk keluar dari program',
+                'login : Untuk masuk menggunakan akun',
+                'save : Untuk menyimpan hasil permainan',
+                'exit: Untuk keluar dari program',
                 }
                 idx=0
-                for fngsi, keterangan in list_function_default.items():
+                for i in list_function_default:
                     idx+=1
-                    print(f'{idx}.{fngsi}: {keterangan}')
+                    print(f'{idx}.{i}')
                 idx=0
 
         else:
