@@ -46,11 +46,11 @@ def panjangMatriks(matriks_data:Matriks, n_maks:int) -> int:
 
 #-------------------------------------------------Fungsi getIndeks-----------------------------------------------------------
 # Fungsi yang mengembalikan indeks dari sebuah data yang dipilih pada sebuah matriks.
-def getIndeks(matriks_data:Matriks, data:str|int, n_maks:int, i_data=0) -> int:
+def getIndeks(matriks_data:Matriks, data:str|int, n_maks:int) -> int:
     indeks = None
     neff = panjangMatriks(matriks_data, n_maks)
     for i in range(neff):
-        if matriks_data[i][i_data] == data:
+        if matriks_data[i][0] == data:
             indeks = i
 
     return indeks
@@ -169,13 +169,12 @@ def login(matriks_data_user:MatriksData) -> tuple[bool,str,str]:
         print("Selamat Datang, "+user+"!")
         print("Masukkan command “help” untuk daftar command yang dapat kamu panggil.")
         return akses,data_user[i][0],data_user[i][2]
-    else:
+    else :
         if username == True and password_p == False:
             print("Password salah!")
         elif username == False and password_p == False:
             print("Username tidak terdaftar!")
         return akses," ", " "
-
 
 #----------------------------------------------Prosedur Help------------------------------------------------
 # Prosedur untuk mengoutput keterangan command sesuai dengan current role pengguna.
@@ -267,9 +266,7 @@ def loadData(nama_file:str, n_param:int, n_maks:int) -> None:
 
     return matriks_data
 
-
 #def rng_LCG():
-
 
 #-------------------------------------------------Fungsi tulisMatriksData-----------------------------------------------------------
 # Fungsi yang mengembalikan string berisi data setiap MatriksData dengan format yang sama dengan isi file eksternal.
@@ -322,7 +319,6 @@ def saveData(data:tuple[list[MatriksData]|int]) -> None:
     time.sleep(0.5)
     print(f"Berhasil menyimpan data di folder {save_directory}!")
 
-
 #-------------------------------------------------Fungsi cekNamajin-----------------------------------------------------------
 # Fungsi untuk melakukan pengecekan apakah suatu nama jin sudah terdaftar atau belum.
 def cekNamaJin(matriks_user:MatriksData,nama_jin:str) -> bool:
@@ -331,14 +327,12 @@ def cekNamaJin(matriks_user:MatriksData,nama_jin:str) -> bool:
             return True
     return False
 
-
 #-------------------------------------------------Fungsi getIdJin-----------------------------------------------------------
 # Fungsi untuk mendapatkan Id jin berdasarkan dengan nama jin.
 def getIdJin(matriks_user:MatriksData,nama_jin:str) -> int:
     for i in range(matriks_user.n_maks):
         if nama_jin == matriks_user.matriks[i][0]:
             return i
-
 
 #-------------------------------------------------Fungsi cekPanjangPassword-----------------------------------------------------------
 # Fungsi untuk memvalidasi panjang password yang sesuai.
@@ -351,7 +345,6 @@ def cekPanjangPassword (password:str) -> bool:
     else:
         return False
 
-
 #-------------------------------------------------Fungsi cekJumlahJin-----------------------------------------------------------
 # Fungsi untuk mengecek kapasitas jin, mengembalikan nilai True bila jumlah jin di bawah 100.
 def cekJumlahJin(matriks_user:MatriksData) -> bool:
@@ -360,26 +353,33 @@ def cekJumlahJin(matriks_user:MatriksData) -> bool:
     else:
         return True
 
-
 #-------------------------------------------------Prosedur printJin-----------------------------------------------------------
 # Prosedur untuk mengoutput tulisan saat jin disummon, dihapus, atau diganti.
 def printJin(nama:str,jenis:str) -> None:
     if jenis == "summon":
-        dotdotdot("Mengumpulkan sesajen", 3, 0.3)
-        dotdotdot("Menyerahkan sesajen", 3, 0.3)
-        dotdotdot("Membacakan mantra", 3, 0.3)
+        print("Mengumpulkan sesajen...")
+        time.sleep(0.5)
+        print("Menyerahkan sesajen...")
+        time.sleep(0.5)
+        print("Membacakan mantra...")
+        time.sleep(0.5)
         print(f"Jin {nama} berhasil dipanggil!")
     elif jenis == "hapus":
-        dotdotdot(f"Dicari jin {nama}", 3, 0.3)
-        dotdotdot(f"Telah ditangkap jin {nama}", 3, 0.3)
-        dotdotdot("Membacakan mantra", 3, 0.3)
+        print(f"Dicari jin {nama}...")
+        time.sleep(0.5)
+        print(f"Telah ditangkap jin {nama}...")
+        time.sleep(0.5)
+        print("Membacakan mantra...")
+        time.sleep(0.5)
         print("Jin telah berhasil dihapus dari alam gaib.")
     elif jenis == "ganti":
-        dotdotdot(f"Dicari jin {nama}", 3, 0.3)
-        dotdotdot(f"Telah ditangkap jin {nama}", 3, 0.3)
-        dotdotdot("Membacakan mantra", 3, 0.3)
+        print(f"Dicari jin {nama}...")
+        time.sleep(0.5)
+        print(f"Telah ditangkap jin {nama}...")
+        time.sleep(0.5)
+        print("Membacakan mantra...")
+        time.sleep(0.5)
         print("Jin telah berhasil diubah.")
-
 
 #-------------------------------------------------Fungsi isiMatriksUser-----------------------------------------------------------
 # Fungsi untuk mengisi data ke matriks yang telah ditentukan.
@@ -390,7 +390,6 @@ def isiMatriksUser(matriks_user:MatriksData,nama_jin:str,password_jin:str,role_j
             break
     matriks_user.matriks[angka][0],matriks_user.matriks[angka][1],matriks_user.matriks[angka][2] = nama_jin,password_jin,role_jin
 
-
 #-------------------------------------------------Prosedur summnJin-----------------------------------------------------------
 # Prosedur untuk menciptakan jin baru, akan dilakukan validasi jumlah jin terlebih dahulu.
 def summonJin(matriks_user:MatriksData) -> None:
@@ -399,78 +398,72 @@ def summonJin(matriks_user:MatriksData) -> None:
         print("Jumlah Jin telah maksimal! (100 jin). Bandung tidak dapat men-summon lebih dari itu")
     else:
         while True:
-            nomor_jin = int(input("Masukkan nomor jenis jin yang ingin dipanggil: "))
+            nomor_jin = int((input("Masukkan nomor jenis jin yang ingin dipanggil: ")))
             if nomor_jin == 1:
-
-                dotdotdot('Memilih jin "Pengumpul"', 3, 0.5)
+                print('Memilih jin "Pengumpul".')
                 nama_jin = str(input("Masukkan nama jin: "))
                 while cekNamaJin(matriks_user,nama_jin):
-                    print(f"Username “{nama_jin}” sudah diambil!\n")
+                    print(f"Username “{nama_jin}” sudah diambil!")
+                    print("")
                     nama_jin = input("Masukkan nama jin: ")
-
                 password_jin = str(input("Masukkan password jin: "))
                 while cekPanjangPassword(password_jin):
-                    print("Password panjangnya harus 5-25 karakter!\n")
+                    print("Password panjangnya harus 5-25 karakter!")
+                    print("")
                     password_jin = input("Masukkan password jin: ")
-
                 printJin(nama_jin,"summon")
+                print('Memilih jin "Pengumpul".')
                 role_jin = "jin_pengumpul"
                 isiMatriksUser(matriks_user,nama_jin,password_jin,role_jin)
                 break
-
             elif nomor_jin == 2:
-
-                dotdotdot('Memilih jin "Pembangun"', 3, 0.5)
+                print('Memilih jin "Pembangun".')
                 nama_jin = str(input("Masukkan nama jin: "))
                 while cekNamaJin(matriks_user,nama_jin):
-                    print(f"Username “{nama_jin}” sudah diambil!\n")
+                    print(f"Username “{nama_jin}” sudah diambil!")
+                    print("")
                     nama_jin = input("Masukkan nama jin: ")
-
                 password_jin = str(input("Masukkan password jin: "))
                 while cekPanjangPassword(password_jin):
-                    print("Password panjangnya harus 5-25 karakter!\n")
+                    print("Password panjangnya harus 5-25 karakter!")
+                    print("")
                     password_jin = input("Masukkan password jin: ")
-
                 printJin(nama_jin,"summon")
+                print('Memilih jin "Pembangun".')
                 role_jin = "jin_pembangun"
                 isiMatriksUser(matriks_user,nama_jin,password_jin,role_jin)
                 break
-
             elif nomor_jin == 3:
-                print("Oke.")
-                time.sleep(0.5)
-                print("Tidak ada jin yang di-summon.")
+                print("Tidak ada jin yang disummon")
                 break
             else:
-                print(f'Tidak ada jenis jin bernomor "{nomor_jin}"')
-
+                print(f'Tidak ada jenis jin bernomor"{nomor_jin}"')
 
 #-------------------------------------------------Prosedur hapusJin-----------------------------------------------------------
 # Prosedur untuk menghapus jin dari matriks user utama.
-def hapusJin(matriks_user:MatriksData, matriks_candi:MatriksData) -> None:
-    nama_jin = input("Masukkan username jin: ")
+def hapusJin(matriks_user:MatriksData) -> None:
+    nama_jin = input("Masukkan username jin : ")
     if cekNamaJin(matriks_user,nama_jin):
         Id_jin = getIdJin(matriks_user,nama_jin)
-        command = input(f"Apakah anda yakin ingin menghapus jin dengan username {nama_jin} (Y/N)? ").upper()
-        while not(command == "Y" or command == "N"):
+        command = input(f"Apakah anda yakin ingin menghapus jin dengan username {nama_jin} (Y/N)? ")
+        while not(command == "Y") and not(command == "N"):
             print("Perintah tidak valid, tolong input ulang perintah.")
-            command = input(f"Apakah anda yakin ingin menghapus jin dengan username {nama_jin} (Y/N)? ").upper()
-        if command == "Y":
-            hapusData(matriks_user, nama_jin)
-            while getIndeks(matriks_candi.matriks, nama_jin, matriks_user.n_maks, 1) is not None:
-                hapusData(matriks_candi, nama_jin, 1)
+            command = input(f"Apakah anda yakin ingin menghapus jin dengan username {nama_jin} (Y/N)? ")
+        if command == "Y" or command =="y":
+            matriks_user.matriks[Id_jin] = [None,None,None]
+            for i in range(Id_jin,(matriks_user.n_maks-1)):
+                matriks_user.matriks[i] = matriks_user.matriks[i+1]
+            matriks_user.matriks[matriks_user.n_maks-1] = [None,None,None]
             printJin(nama_jin,"hapus")
-            
-        else:
+        elif command == "N" or command == "n":
             print(f"Jin {nama_jin} tidak jadi dihapus dari alam ghaib.")
     else:
         print("Tidak ada jin dengan username tersebut.")
 
-
 #-------------------------------------------------Prosedur ubahTipeJin-----------------------------------------------------------
 # Prosedur untuk mengubah tipe suatu jin pada matriks user utama.
 def ubahTipeJin(matriks_user:MatriksData) -> None:
-    nama_jin = input("Masukkan username jin: ")
+    nama_jin = input("Masukkan username jin : ")
     if cekNamaJin(matriks_user,nama_jin):
         Id_jin = getIdJin(matriks_user,nama_jin)
         if matriks_user.matriks[Id_jin][2] == "jin_pengumpul":
@@ -496,7 +489,6 @@ def ubahTipeJin(matriks_user:MatriksData) -> None:
     else:
         print("Tidak ada jin dengan username tersebut.")
 
-
 #-------------------------------------------------Fungsi generateBahan-----------------------------------------------------------
 # Fungsi yang akan mengembalikan 3 nilai int yang merepresentasikan nilai pasir, batu, dan air.
 def generateBahan() -> tuple[int ,int ,int]:
@@ -504,7 +496,6 @@ def generateBahan() -> tuple[int ,int ,int]:
     batu = random.randint(1,5)
     air = random.randint(1,5)
     return pasir,batu,air
-
 
 #-------------------------------------------------Prosedur saveData-----------------------------------------------------------
 # Prosedur untuk mengubah nilai bahan pada matriks bahan.
@@ -520,7 +511,6 @@ def ubahBahan(matriks_bahan:MatriksData,pasir:int,batu:int,air:int) -> None:
             bahan = int(matriks_bahan.matriks[i][2])
             matriks_bahan.matriks[i][2] = str(air+bahan)
 
-
 #-------------------------------------------------Fungsi cariSlotCandi-----------------------------------------------------------
 # Fungsi untuk mencari slot candi yang kosong.
 def cariSlotCandi(matriks_candi:MatriksData) -> int|None:
@@ -532,7 +522,6 @@ def cariSlotCandi(matriks_candi:MatriksData) -> int|None:
     if kosong:
         return None
     
-
 #-------------------------------------------------Prosedur kumpul-----------------------------------------------------------
 # Prosedur untuk mengumpulkan bahan dasar pembuatan candi.
 def kumpul(matriks_bahan:MatriksData, batch:bool) -> None:
@@ -540,7 +529,6 @@ def kumpul(matriks_bahan:MatriksData, batch:bool) -> None:
     ubahBahan (matriks_bahan,pasir,batu,air)
     if not(batch):
         print(f"Jin menemukan {pasir} pasir, {batu} batu, dan {air} air.")
-
 
 #-------------------------------------------------Prosedur bangun-----------------------------------------------------------
 # Prosedur untuk membangun candi.
@@ -577,7 +565,6 @@ def bangun(matriks_bahan:MatriksData, matriks_candi:MatriksData, jin_pembangun:s
     else:
         if not(batch):
             print("Candi sudah penuh.\nCandi tidak bisa dibangun!")
-
 
 #-------------------------------------------------Prosedur batchKumpul-----------------------------------------------------------
 # Prosedur yang mengerahkan jin yang ada untuk mengumpulkan bahan dasar pembuatan candi.
@@ -632,17 +619,17 @@ def batchBangun(matriks_bahan:MatriksData, matriks_candi:MatriksData, jin_pemban
 #-------------------------------------------------Prosedur showBahan-----------------------------------------------------------
 # Prosedur untuk menunjukkan bahan candi yang tersedia.
 def showBahan(matriks_bahan:MatriksData) -> None:
-    print(f"""Persediaan bahan candi:
-Pasir: {matriks_bahan.matriks[0][2]}
-Batu : {matriks_bahan.matriks[1][2]}
-Air  : {matriks_bahan.matriks[2][2]}""")
+    print(f"""Persediaan bahan candi :
+Pasir : {matriks_bahan.matriks[0][2]}
+Batu  : {matriks_bahan.matriks[1][2]}
+Air   : {matriks_bahan.matriks[2][2]}""")
 
 
 #-------------------------------------------------Prosedur hapusData-----------------------------------------------------------
 # Prosedur untuk menghapus data yang diinginkan pada sebuah MatriksData.
-def hapusData(matriks_data:MatriksData, data:str|int, i_data=0) -> None:
+def hapusData(matriks_data:MatriksData, data:str|int) -> None:
     neff = panjangMatriks(matriks_data.matriks, matriks_data.n_maks)
-    i_data = getIndeks(matriks_data.matriks, data, matriks_data.n_maks, i_data)
+    i_data = getIndeks(matriks_data.matriks, data, matriks_data.n_maks)
 
     for param in range(matriks_data.n_param):
         matriks_data.matriks[i_data][param] = None
@@ -674,8 +661,6 @@ def ayamBerkokok(matriks_candi:MatriksData) -> None:
         print("Yah, Bandung Bondowoso memenangkan permainan!")
 
 
-#-------------------------------------------------Prosedur hancurkanCandi-----------------------------------------------------------
-# Prosedur untuk menghancurkan candi berdasarkan id yang diinginkan roro.
 def hancurkanCandi(matriks_candi:MatriksData) -> None:
     id = input("Masukkan ID candi: ")
     indeks = getIndeks(matriks_candi.matriks, id, matriks_candi.n_maks)
@@ -684,9 +669,10 @@ def hancurkanCandi(matriks_candi:MatriksData) -> None:
         print("Tidak ada candi dengan ID tersebut.")
     else:
         opsi = input(f"Apakah anda yakin ingin menghancurkan candi ID: {id} (Y/N)? ").upper()
-        while not(opsi == "Y" or opsi == "N"):
+        while not (opsi == "Y" or opsi == "N"):
             print("Perintah tidak valid, tolong input ulang perintah.")
             opsi = input(f"Apakah anda yakin ingin menghancurkan candi ID: {id} (Y/N)? ").upper()
+
         if opsi == "Y":
             hapusData(matriks_candi, id)
             print("Candi telah berhasil dihancurkan.")
@@ -696,23 +682,19 @@ def hancurkanCandi(matriks_candi:MatriksData) -> None:
 
 #-------------------------------------------------Fungsi dataJinPembangun-----------------------------------------------------------
 # Fungsi yang mengembalikan matriks berisi data jumlah candi yang dibangun oleh setiap jin pembangun.
-def dataJinPembangun(matriks_user:MatriksData, matriks_candi:MatriksData) -> Matriks:
-    neff_user = panjangMatriks(matriks_user.matriks, matriks_user.n_maks)
-    nmaks_pembangun = jumlahJin(matriks_user)[2]
-    matriks_data_pembangun = [[None, 0] for i in range(nmaks_pembangun)]
+def dataJinPembangun(matriks_candi:MatriksData) -> Matriks:
+    nmaks_jin = 100
+    neff_jin = panjangMatriks(matriks_candi.matriks, nmaks_jin)
+    matriks_data_pembangun = [[None, None] for i in range(nmaks_jin)]
 
-    for user in range(neff_user):
-        pembangun = matriks_user.matriks[user][0]
-        id_kosong = panjangMatriks(matriks_data_pembangun, nmaks_pembangun)
+    for candi in range(neff_jin):
+        pembuat = matriks_candi.matriks[candi][1]
+        id_pembuat = getIndeks(matriks_data_pembangun, pembuat, nmaks_jin)
+        id_kosong = panjangMatriks(matriks_data_pembangun, nmaks_jin)
 
-        if matriks_user.matriks[user][2] == "jin_pembangun":
-            matriks_data_pembangun[id_kosong][0] = pembangun
-
-    for candi in range(matriks_candi.n_maks):
-        pembangun = matriks_candi.matriks[candi][1]
-        id_pembuat = getIndeks(matriks_data_pembangun, pembangun, nmaks_pembangun)
-
-        if id_pembuat is not None:
+        if id_pembuat is None:
+            matriks_data_pembangun[id_kosong] = [pembuat, 1]
+        else:
             matriks_data_pembangun[id_pembuat][1] += 1
 
     return matriks_data_pembangun
@@ -739,13 +721,12 @@ def dataHargaCandi(matriks_candi:MatriksData) -> Matriks:
 
 #-------------------------------------------------Fungsi dataLeaderboard-----------------------------------------------------------
 # Fungsi yang mengembalikan matriks yang sudah terurut dari tertinggi ke terendah.
-def dataLeaderboard(matriks_user:MatriksData, matriks_candi:MatriksData, matriks_bahan:MatriksData, tipe:str) -> Matriks:
+def dataLeaderboard(matriks_data:MatriksData, tipe:str) -> Matriks:
+    nmaks = 100
     if tipe == "jin":
-        nmaks = jumlahJin(matriks_user)[2]
-        matriks_leaderboard = dataJinPembangun(matriks_user, matriks_candi)
+        matriks_leaderboard = dataJinPembangun(matriks_data)
     elif tipe == "candi":
-        nmaks = 100
-        matriks_leaderboard = dataHargaCandi(matriks_candi)
+        matriks_leaderboard = dataHargaCandi(matriks_data)
 
     neff = panjangMatriks(matriks_leaderboard, nmaks)
     for i in range(1, neff):
@@ -781,13 +762,12 @@ def laporanJin(matriks_user:MatriksData, matriks_candi:MatriksData, matriks_baha
     if total_jin > 0:
         i_maks = 0
         i_min = total_pembangun - 1
-        matriks_leaderboard = dataLeaderboard(matriks_user, matriks_candi, matriks_bahan, "jin")
 
-        if matriks_leaderboard[i_maks][0] is not None:
-            jin_terajin = matriks_leaderboard[i_maks][0]
+        if dataLeaderboard(matriks_candi, "jin")[i_maks][0] is not None:
+            jin_terajin = dataLeaderboard(matriks_candi, "jin")[i_maks][0]
 
-        if matriks_leaderboard[i_min][0] is not None:
-            jin_termalas = matriks_leaderboard[i_min][0]
+        if dataLeaderboard(matriks_candi, "jin")[i_min][0] is not None:
+            jin_termalas = dataLeaderboard(matriks_candi, "jin")[i_min][0]
 
     print(f"""
 > Total Jin: {total_jin}
@@ -803,7 +783,7 @@ def laporanJin(matriks_user:MatriksData, matriks_candi:MatriksData, matriks_baha
 
 #-------------------------------------------------Prosedur laporanCandi-----------------------------------------------------------
 # Prosedur untuk menuliskan laporan akhir dari semua candi yang berhasil dibangun Bondowoso bersama semua jinnya.
-def laporanCandi(matriks_user:MatriksData, matriks_candi:MatriksData, matriks_bahan:MatriksData) -> None:
+def laporanCandi(matriks_candi:MatriksData) -> None:
     total_candi = panjangMatriks(matriks_candi.matriks, matriks_candi.n_maks)
     total_pasir, total_batu, total_air = jumlahBahan(matriks_candi)
     id_termahal, id_termurah = "-", "-"
@@ -812,15 +792,14 @@ def laporanCandi(matriks_user:MatriksData, matriks_candi:MatriksData, matriks_ba
     if total_candi > 0:
         i_maks = 0
         i_min = total_candi - 1
-        matriks_leaderboard = dataLeaderboard(matriks_user, matriks_candi, matriks_bahan, "candi")
 
-        if matriks_leaderboard[i_maks][0] is not None:
-            id_termahal = matriks_leaderboard[i_maks][0]
-            harga_termahal = f"""({matriks_leaderboard[i_maks][1]})"""
+        if dataLeaderboard(matriks_candi, "candi")[i_maks][0] is not None:
+            id_termahal = dataLeaderboard(matriks_candi, "candi")[i_maks][0]
+            harga_termahal = f"""({dataLeaderboard(matriks_candi, "candi")[i_maks][1]})"""
 
-        if matriks_leaderboard[i_min][0] is not None:
-            id_termurah = matriks_leaderboard[i_min][0]
-            harga_termurah = f"""({matriks_leaderboard[i_min][1]})"""
+        if dataLeaderboard(matriks_candi, "candi")[i_min][0] is not None:
+            id_termurah = dataLeaderboard(matriks_candi, "candi")[i_min][0]
+            harga_termurah = f"""({dataLeaderboard(matriks_candi, "candi")[i_min][1]})"""
         
     print(f"""
 > Total Candi: {total_candi}
@@ -834,14 +813,8 @@ def laporanCandi(matriks_user:MatriksData, matriks_candi:MatriksData, matriks_ba
 
 #-------------------------------------------------Prosedur printLeaderboard-----------------------------------------------------------
 # Prosedur untuk menuliskan leaderboard berdasarkan matriks yang diberikan.
-def printLeaderboard(matriks_user:MatriksData, matriks_candi:MatriksData, matriks_bahan:MatriksData, tipe:str) -> None:
-    if tipe == "jin":
-        nmaks = jumlahJin(matriks_user)[2]
-        matriks_leaderboard = dataJinPembangun(matriks_user, matriks_candi)
-    elif tipe == "candi":
-        nmaks = 100
-        matriks_leaderboard = dataHargaCandi(matriks_candi)
-        
+def printLeaderboard(matriks_leaderboard:Matriks) -> None:
+    nmaks = 100
     neff = panjangMatriks(matriks_leaderboard, nmaks)
 
     for data in range(neff):

@@ -26,19 +26,19 @@ if os.path.exists(save_directory):
     user = ""
 
     while program_jalan:
-        command = str(input(">>> "))
+        command = input(">>> ")
         if command == "login":
             if logged_in:
-                print("Login gagal! Anda telah login dengan username "+user+", silahkan lakukan “logout” sebelum melakukan login kembali.")
+                print("Login gagal! Anda telah login dengan username "+user+", silakan lakukan “logout” sebelum melakukan login kembali.")
             else:
                 logged_in,user,logged_in_as = Module.login(matriks_user)
 
         elif command == "logout":
             if logged_in:
-                print("Terimakasih "+user+"! sampai jumpa di lain waktu")
+                print("Terimakasih "+user+"! Sampai jumpa di lain waktu")
                 logged_in,user,logged_in_as = Module.logout()
             else:
-                print("Logout gagal!"+'\n'+"Anda belum login, silahkan login terlebih dahulu sebelum melakukan logout")
+                print("Logout gagal!\nAnda belum login, silakan login terlebih dahulu sebelum melakukan logout.")
         
         elif command == "bangun":
             if logged_in_as == "jin_pembangun":
@@ -49,11 +49,11 @@ if os.path.exists(save_directory):
         elif command == "hapusjin":
             if logged_in:
                 if logged_in_as == "bandung_bondowoso":
-                    Module.hapusJin(matriks_user)
+                    Module.hapusJin(matriks_user, matriks_candi)
                 else:
                     print("User bukan Bandung Bondowoso\nPengubahan jin tidak dilakukan.")
             else:
-                print("User belum login.\nmohon lakukan login terlebih dahulu sebelum melakukan perintah.")
+                print("User belum login.\nMohon lakukan login terlebih dahulu sebelum melakukan perintah.")
 
         elif command == "ubahjin":
             if logged_in:
@@ -62,16 +62,16 @@ if os.path.exists(save_directory):
                 else:
                     print("User bukan Bandung Bondowoso\nPengubahan jin tidak dilakukan.")
             else:
-                print("User belum login.\nmohon lakukan login terlebih dahulu sebelum melakukan perintah.")
+                print("User belum login.\nMohon lakukan login terlebih dahulu sebelum melakukan perintah.")
         
-        elif command == "summonjin":
+        elif command == "summonJin":
             if logged_in:
                 if logged_in_as == "bandung_bondowoso":
-                    Module.summonjin(matriks_user)
+                    Module.summonJin(matriks_user)
                 else:
                     print("User bukan Bandung Bondowoso\nSummon jin tidak dilakukan.")
             else:
-                print("User belum login.\nmohon lakukan login terlebih dahulu sebelum melakukan perintah.")
+                print("User belum login.\nMohon lakukan login terlebih dahulu sebelum melakukan perintah.")
 
         elif command == "kumpul":
             if logged_in:
@@ -80,7 +80,7 @@ if os.path.exists(save_directory):
                 else:
                     print("User bukan jin pengumpul\nPembangunan candi tidak dilakukan.")
             else:
-                print("User belum login.\nmohon lakukan login terlebih dahulu sebelum melakukan perintah.")
+                print("User belum login.\nMohon lakukan login terlebih dahulu sebelum melakukan perintah.")
         
         elif command == "batchkumpul":
             if logged_in_as == "bandung_bondowoso":
@@ -102,7 +102,7 @@ if os.path.exists(save_directory):
 
         elif command == "laporancandi":
             if logged_in_as == "bandung_bondowoso":
-                Module.laporanCandi(matriks_candi)
+                Module.laporanCandi(matriks_user, matriks_candi, matriks_bahan)
             else:
                 print("User bukan Bandung Bondowoso\nTidak bisa mengambil laporan candi!")
 
@@ -110,46 +110,48 @@ if os.path.exists(save_directory):
             if logged_in_as == "roro_jonggrang":
                 Module.hancurkanCandi(matriks_candi)
             else:
-                print("User bukan Roro Jonggrang \nTidak boleh menghancurkan candi orang!")
+                print("User bukan Roro Jonggrang\nTidak boleh menghancurkan candi orang!")
 
         elif command == "ayamberkokok":
             if logged_in_as == "roro_jonggrang":
                 Module.ayamBerkokok(matriks_candi)
             else:
-                print("User bukan Roro Jonggrang \nAyam tidak mau berkokok!")
+                print("User bukan Roro Jonggrang\nAyam tidak mau berkokok!")
 
         elif command == "leaderboardjin":
             print("Berikut merupakan leaderboard jin pembuat candi terbanyak:")
             time.sleep(0.5)
-            Module.printLeaderboard(Module.dataLeaderboard(matriks_candi, "jin"))
+            Module.printLeaderboard(matriks_user, matriks_candi, matriks_bahan, "jin")
         
         elif command == "leaderboardcandi":
             print("Berikut merupakan leaderboard candi dengan bahan termahal:")
             time.sleep(0.5)
-            Module.printLeaderboard(Module.dataLeaderboard(matriks_candi, "candi"))
+            Module.printLeaderboard(matriks_user, matriks_candi, matriks_bahan, "candi")
 
         elif command == "showbahan":
             Module.showBahan(matriks_bahan)
         
         elif command == "exit":
             if logged_in:
-                print("Mohon logout dulu sebelum keluar dari program")
+                print("Mohon logout dulu sebelum keluar dari program.")
             else:
-                while True:
+                opsi = input("Apakah Anda mau melakukan penyimpanan file yang sudah diubah? (y/n) ").upper()
+                while not(opsi == "Y" or opsi == "N"):
+                    print("Perintah tidak valid, tolong input ulang perintah.")
                     opsi = input("Apakah Anda mau melakukan penyimpanan file yang sudah diubah? (y/n) ").upper()
-                    if opsi == "Y":
-                        tuple_matriks_data = ([matriks_user, matriks_candi, matriks_bahan], 3)
-                        Module.saveData(tuple_matriks_data)
-                        time.sleep(0.5)
-                        print("Terima kasih sudah menjalankan program!")
-                        time.sleep(0.5)
-                        break
-                    elif opsi == "N":
-                        print("Baik.")
-                        time.sleep(0.5)
-                        print("Terima kasih sudah menjalankan program!")
-                        time.sleep(0.5)
-                        break
+
+                if opsi == "Y":
+                    tuple_matriks_data = ([matriks_user, matriks_candi, matriks_bahan], 3)
+                    Module.saveData(tuple_matriks_data)
+                    time.sleep(0.5)
+                    print("Terima kasih sudah menjalankan program!")
+                    time.sleep(0.5)
+                else:
+                    print("Baik.")
+                    time.sleep(0.5)
+                    print("Terima kasih sudah menjalankan program!")
+                    time.sleep(0.5)
+
                 program_jalan = False
         
         elif command == "save":
@@ -160,16 +162,9 @@ if os.path.exists(save_directory):
             if logged_in:
                 Module.help(logged_in_as)
             else:
-                list_function_default={
-                'login : Untuk masuk menggunakan akun',
-                'save : Untuk menyimpan hasil permainan',
-                'exit: Untuk keluar dari program',
-                }
-                idx=0
-                for i in list_function_default:
-                    idx+=1
-                    print(f'{idx}.{i}')
-                idx=0
+                print("""1.login: Untuk masuk menggunakan akun.
+2.save: Untuk menyimpan hasil permainan.
+3.exit: untuk keluar dari program.""")
 
         else:
             print("Perintah tidak dikenali")
