@@ -86,28 +86,21 @@ def bubbleSortMatriks(matriks_data:Matriks, nmaks:int, i_data:int, naik=False) -
 # Fungsi yang mengembalikan nilai True jika kedua kata terurut secara leksikografis.
 def isTerurutLeksi(kata1:str, kata2:str) -> bool:
     terurut = True
-    i_huruf = 0
 
-    if kata1 != "" and kata2 != "":
-        if len(kata1) > len(kata2):
-            ref_len = len(kata2)
-        else:
-            ref_len = len(kata1)
+    if len(kata1) > len(kata2):
+        ref_len = len(kata2)
+    else:
+        ref_len = len(kata1)
 
-        while terurut:
-            if i_huruf > ref_len - 1:
-                if ref_len == len(kata2):
-                    terurut = False
-                break    
-                
+    for i_huruf in range(ref_len):
+        if kata1[i_huruf] != kata2[i_huruf]:
             if kata1[i_huruf] > kata2[i_huruf]:
                 terurut = False
+            break
 
-            i_huruf += 1
-
-    else:
-        if kata1 == "":
-            terurut = False
+        if i_huruf == ref_len - 1:
+            if ref_len == len(kata2):
+                terurut = False            
 
     return terurut
 
@@ -752,18 +745,19 @@ def dataLeaderboard(matriks_user:MatriksData, matriks_candi:MatriksData, matriks
         indeks = i 
 
         while indeks > 0 and matriks_leaderboard[indeks][1] >= matriks_leaderboard[indeks-1][1]:
-            kondisi_leksi = isTerurutLeksi(matriks_leaderboard[indeks-1][0], matriks_leaderboard[indeks][0])
 
-            if matriks_leaderboard[indeks][1] == matriks_leaderboard[indeks-1][1] and not kondisi_leksi:
+            if matriks_leaderboard[indeks][1] != matriks_leaderboard[indeks-1][1]:
                 temp = matriks_leaderboard[indeks]
                 matriks_leaderboard[indeks] = matriks_leaderboard[indeks-1]
                 matriks_leaderboard[indeks-1] = temp
 
             else:
-                temp = matriks_leaderboard[indeks]
-                matriks_leaderboard[indeks] = matriks_leaderboard[indeks-1]
-                matriks_leaderboard[indeks-1] = temp
+                if not(isTerurutLeksi(matriks_leaderboard[indeks-1][0], matriks_leaderboard[indeks][0])):
+                    temp = matriks_leaderboard[indeks]
+                    matriks_leaderboard[indeks] = matriks_leaderboard[indeks-1]
+                    matriks_leaderboard[indeks-1] = temp
 
+            print(matriks_leaderboard)
             indeks -= 1
 
     return matriks_leaderboard
@@ -837,10 +831,10 @@ def laporanCandi(matriks_user:MatriksData, matriks_candi:MatriksData, matriks_ba
 def printLeaderboard(matriks_user:MatriksData, matriks_candi:MatriksData, matriks_bahan:MatriksData, tipe:str) -> None:
     if tipe == "jin":
         nmaks = jumlahJin(matriks_user)[2]
-        matriks_leaderboard = dataJinPembangun(matriks_user, matriks_candi)
+        matriks_leaderboard = dataLeaderboard(matriks_user, matriks_candi, matriks_bahan, "jin")
     elif tipe == "candi":
         nmaks = 100
-        matriks_leaderboard = dataHargaCandi(matriks_candi)
+        matriks_leaderboard = dataLeaderboard(matriks_user, matriks_candi, matriks_bahan, "candi")
         
     neff = panjangMatriks(matriks_leaderboard, nmaks)
 
