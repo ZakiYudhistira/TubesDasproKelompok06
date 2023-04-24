@@ -115,12 +115,12 @@ if os.path.exists(save_directory):
         elif command == "leaderboardjin":
             print("Berikut merupakan leaderboard jin pembuat candi terbanyak:")
             time.sleep(0.5)
-            Module.printLeaderboard(Module.data_leaderboard(Module.dataJinPembangun(matriks_candi)))
+            Module.printLeaderboard(Module.dataLeaderboard(matriks_candi, "jin"))
         
         elif command == "leaderboardcandi":
             print("Berikut merupakan leaderboard candi dengan bahan termahal:")
             time.sleep(0.5)
-            Module.printLeaderboard(Module.data_leaderboard(Module.dataHargaCandi(matriks_candi)))
+            Module.printLeaderboard(Module.dataLeaderboard(matriks_candi, "candi"))
         
         elif command == "exit":
             if logged_in:
@@ -130,7 +130,7 @@ if os.path.exists(save_directory):
                     opsi = input("Apakah Anda mau melakukan penyimpanan file yang sudah diubah? (y/n) ").upper()
                     if opsi == "Y":
                         tuple_matriks_data = ([matriks_user, matriks_candi, matriks_bahan], 3)
-                        Module.save_data(tuple_matriks_data)
+                        Module.saveData(tuple_matriks_data)
                         time.sleep(0.5)
                         print("Terima kasih sudah menjalankan program!")
                         time.sleep(0.5)
@@ -145,7 +145,7 @@ if os.path.exists(save_directory):
         
         elif command == "save":
             tuple_matriks_data = ([matriks_user, matriks_candi, matriks_bahan], 3)
-            Module.save_data(tuple_matriks_data)
+            Module.saveData(tuple_matriks_data)
         
         elif command == "help":
             if logged_in:
