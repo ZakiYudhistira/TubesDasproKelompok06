@@ -325,14 +325,6 @@ def cekNamaJin(matriks_user:MatriksData,nama_jin:str) -> bool:
     return False
 
 
-#-------------------------------------------------Fungsi getIdJin-----------------------------------------------------------
-# Fungsi untuk mendapatkan Id jin berdasarkan dengan nama jin.
-def getIdJin(matriks_user:MatriksData,nama_jin:str) -> int:
-    for i in range(matriks_user.n_maks):
-        if nama_jin == matriks_user.matriks[i][0]:
-            return i
-
-
 #-------------------------------------------------Fungsi cekPanjangPassword-----------------------------------------------------------
 # Fungsi untuk memvalidasi panjang password yang sesuai.
 def cekPanjangPassword (password:str) -> bool:
@@ -443,7 +435,6 @@ def summonJin(matriks_user:MatriksData) -> None:
 def hapusJin(matriks_user:MatriksData, matriks_candi:MatriksData) -> None:
     nama_jin = input("Masukkan username jin: ")
     if cekNamaJin(matriks_user,nama_jin):
-        Id_jin = getIdJin(matriks_user,nama_jin)
         command = input(f"Apakah anda yakin ingin menghapus jin dengan username {nama_jin} (Y/N)? ").upper()
         while not(command == "Y" or command == "N"):
             print("Perintah tidak valid, tolong input ulang perintah.")
@@ -453,7 +444,6 @@ def hapusJin(matriks_user:MatriksData, matriks_candi:MatriksData) -> None:
             while getIndeks(matriks_candi.matriks, nama_jin, matriks_user.n_maks, 1) is not None:
                 hapusData(matriks_candi, nama_jin, 1)
             printJin(nama_jin,"hapus")
-            
         else:
             print(f"Jin {nama_jin} tidak jadi dihapus dari alam ghaib.")
     else:
@@ -465,7 +455,7 @@ def hapusJin(matriks_user:MatriksData, matriks_candi:MatriksData) -> None:
 def ubahTipeJin(matriks_user:MatriksData) -> None:
     nama_jin = input("Masukkan username jin: ")
     if cekNamaJin(matriks_user,nama_jin):
-        Id_jin = getIdJin(matriks_user,nama_jin)
+        Id_jin = getIndeks(matriks_user.matriks,nama_jin,matriks_user.n_maks,0)
         if matriks_user.matriks[Id_jin][2] == "jin_pengumpul":
             command = input(f"Jin ini bertipe “Pengumpul”. Yakin ingin mengubah ke tipe “Pembangun” (Y/N)? ")
             while not(command == "Y") and not(command == "N"):
@@ -513,19 +503,7 @@ def ubahBahan(matriks_bahan:MatriksData,pasir:int,batu:int,air:int) -> None:
             bahan = int(matriks_bahan.matriks[i][2])
             matriks_bahan.matriks[i][2] = str(air+bahan)
 
-
-#-------------------------------------------------Fungsi cariSlotCandi-----------------------------------------------------------
-# Fungsi untuk mencari slot candi yang kosong.
-def cariSlotCandi(matriks_candi:MatriksData) -> int|None:
-    kosong = True
-    for i in range(matriks_candi.n_maks):
-        if matriks_candi.matriks[i][0] == None:
-            kosong = False
-            return i
-    if kosong:
-        return None
     
-
 #-------------------------------------------------Prosedur kumpul-----------------------------------------------------------
 # Prosedur untuk mengumpulkan bahan dasar pembuatan candi.
 def kumpul(matriks_bahan:MatriksData, batch:bool) -> None:
@@ -539,7 +517,7 @@ def kumpul(matriks_bahan:MatriksData, batch:bool) -> None:
 # Prosedur untuk membangun candi.
 def bangun(matriks_bahan:MatriksData, matriks_candi:MatriksData, jin_pembangun:str, batch:bool) -> None:
     pasir,batu,air = generateBahan()
-    id_candi = cariSlotCandi(matriks_candi)
+    id_candi = getIndeks(matriks_candi.matriks,None,matriks_candi.n_maks,0)
     indeks = 0
     ada = True
     while indeks <= 99 and ada:
@@ -600,7 +578,7 @@ def batchBangun(matriks_bahan:MatriksData, matriks_candi:MatriksData, jin_pemban
         pasir_awal, batu_awal, air_awal = int(matriks_bahan.matriks[0][2]) , int(matriks_bahan.matriks[1][2]), int(matriks_bahan.matriks[2][2])    
         print(f"Mengerahkan {count} jin untuk membangun candi dengan total bahan {pasir} pasir, {batu} batu, dan {air} air.")
         if pasir_awal>=pasir and batu_awal>=batu and air_awal>=air:
-            id_candi = cariSlotCandi(matriks_candi)
+            id_candi = getIndeks(matriks_candi.matriks,None,matriks_candi.n_maks,0)
             indeks = 0
             ada = True
             while indeks <= 99 and ada:
@@ -840,5 +818,3 @@ def printLeaderboard(matriks_user:MatriksData, matriks_candi:MatriksData, matrik
 
     for data in range(neff):
         print(f"{data+1}. \"{matriks_leaderboard[data][0]}\": {matriks_leaderboard[data][1]}")
-
-
