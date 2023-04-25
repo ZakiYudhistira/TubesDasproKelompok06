@@ -518,7 +518,7 @@ def kumpul(matriks_bahan:MatriksData, batch:bool) -> None:
 def bangun(matriks_bahan:MatriksData, matriks_candi:MatriksData, jin_pembangun:str, batch:bool) -> None:
     pasir,batu,air = generateBahan()
     id_candi = None
-    indeks = 0
+    indeks = 1
     ada = True
     jumlahCandi = 0
     for i in range(matriks_candi.n_maks):
