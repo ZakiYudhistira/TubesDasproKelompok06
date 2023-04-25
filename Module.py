@@ -455,24 +455,24 @@ def hapusJin(matriks_user:MatriksData, matriks_candi:MatriksData) -> None:
 def ubahTipeJin(matriks_user:MatriksData) -> None:
     nama_jin = input("Masukkan username jin: ")
     if cekNamaJin(matriks_user,nama_jin):
-        Id_jin = getIndeks(matriks_user.matriks,nama_jin,matriks_user.n_maks,0)
-        if matriks_user.matriks[Id_jin][2] == "jin_pengumpul":
+        id_jin = getIndeks(matriks_user.matriks,nama_jin,matriks_user.n_maks)
+        if matriks_user.matriks[id_jin][2] == "jin_pengumpul":
             command = input(f"Jin ini bertipe “Pengumpul”. Yakin ingin mengubah ke tipe “Pembangun” (Y/N)? ")
             while not(command == "Y") and not(command == "N"):
                 print("Perintah tidak valid, tolong input ulang perintah.")
                 command = input(f"Jin ini bertipe “Pengumpul”. Yakin ingin mengubah ke tipe “Pembangun” (Y/N)? ")
             if command == "Y":
-                matriks_user.matriks[Id_jin][2] = "jin_pembangun"
+                matriks_user.matriks[id_jin][2] = "jin_pembangun"
                 printJin(nama_jin,"ganti")
             elif command == "N":
                 print(f"Jin pengumpul dengan username {nama_jin} tidak jadi diganti.")
-        elif matriks_user.matriks[Id_jin][2] == "jin_pembangun":
+        elif matriks_user.matriks[id_jin][2] == "jin_pembangun":
             command = input(f"Jin ini bertipe Pembangun”. Yakin ingin mengubah ke tipe “Pengumpul” (Y/N)? ")
             while not(command == "Y") and not(command == "N"):
                 print("Perintah tidak valid, tolong input ulang perintah.")
                 command = input(f"Jin ini bertipe “Pembangun”. Yakin ingin mengubah ke tipe “Pengumpul” (Y/N)? ")
             if command == "Y":
-                matriks_user.matriks[Id_jin][2] = "jin_pengumpul"
+                matriks_user.matriks[id_jin][2] = "jin_pengumpul"
                 printJin(nama_jin,"ganti")
             elif command == "N":
                 print(f"Jin pembangun dengan username {nama_jin} tidak jadi diganti.")
@@ -619,7 +619,8 @@ def hapusData(matriks_data:MatriksData, data:str|int, i_data=0) -> None:
         matriks_data.matriks[i_data][param] = None
 
     for data in range(i_data, neff):
-        matriks_data.matriks[data] = matriks_data.matriks[data + 1]
+        if data != neff-1:
+            matriks_data.matriks[data] = matriks_data.matriks[data + 1]
 
     for param in range(matriks_data.n_param):
         matriks_data.matriks[neff][param] = None
