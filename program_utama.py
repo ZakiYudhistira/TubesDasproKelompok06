@@ -64,7 +64,7 @@ if os.path.exists(save_directory):
             else:
                 print("User belum login.\nMohon lakukan login terlebih dahulu sebelum melakukan perintah.")
         
-        elif command == "summonJin":
+        elif command == "summonjin":
             if logged_in:
                 if logged_in_as == "bandung_bondowoso":
                     Module.summonJin(matriks_user)

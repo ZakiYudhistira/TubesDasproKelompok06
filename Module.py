@@ -517,9 +517,17 @@ def kumpul(matriks_bahan:MatriksData, batch:bool) -> None:
 # Prosedur untuk membangun candi.
 def bangun(matriks_bahan:MatriksData, matriks_candi:MatriksData, jin_pembangun:str, batch:bool) -> None:
     pasir,batu,air = generateBahan()
-    id_candi = getIndeks(matriks_candi.matriks,None,matriks_candi.n_maks,0)
+    id_candi = None
     indeks = 0
     ada = True
+    jumlahCandi = 0
+    for i in range(matriks_candi.n_maks):
+        if matriks_candi.matriks[i][0] == None:
+            id_candi = i
+            break
+    for i in range(matriks_candi.n_maks):
+        if matriks_candi.matriks[i][0] == None:
+            jumlahCandi += 1
     while indeks <= 99 and ada:
         ada = False
         for i in range(100):
@@ -534,10 +542,6 @@ def bangun(matriks_bahan:MatriksData, matriks_candi:MatriksData, jin_pembangun:s
             ubahBahan(matriks_bahan,pasir,batu,air)
             if not(batch):
                 print("Candi berhasil dibangun !")
-            jumlahCandi = 0
-            for i in range(matriks_candi.n_maks):
-                if matriks_candi.matriks[i][0] == None:
-                    jumlahCandi += 1
             if not(batch):
                 print(f"Sisa candi yang perlu dibangun: {jumlahCandi}")
             else: 
@@ -557,9 +561,10 @@ def batchKumpul(matriks_bahan:MatriksData, matriks_user:MatriksData) -> None:
     pasir_awal, batu_awal, air_awal = int(matriks_bahan.matriks[0][2]) , int(matriks_bahan.matriks[1][2]), int(matriks_bahan.matriks[2][2])
     if count == 0:
         print("Kumpul gagal. Anda tidak punya jin pengumpul. Silahkan summon terlebih dahulu.")
-    for i in range(count):
-        kumpul(matriks_bahan,True)
-    print(f"Mengerahkan {count} jin untuk mengumpulkan bahan.\nJin menemukan total {-1*pasir_awal + int(matriks_bahan.matriks[0][2])} pasir, {-1*batu_awal+int(matriks_bahan.matriks[1][2])} batu, dan {-1*air_awal+int(matriks_bahan.matriks[2][2])} air.")
+    else:
+        for i in range(count):
+            kumpul(matriks_bahan,True)
+        print(f"Mengerahkan {count} jin untuk mengumpulkan bahan.\nJin menemukan total {-1*pasir_awal + int(matriks_bahan.matriks[0][2])} pasir, {-1*batu_awal+int(matriks_bahan.matriks[1][2])} batu, dan {-1*air_awal+int(matriks_bahan.matriks[2][2])} air.")
 
 
 #-------------------------------------------------Prosedur batchBangun-----------------------------------------------------------
