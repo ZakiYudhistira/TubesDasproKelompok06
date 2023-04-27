@@ -43,7 +43,7 @@ if os.path.exists(save_directory):
         elif command == "bangun":
             if logged_in_as == "jin_pembangun":
                 pasir, batu, air = Module.generateBahan()
-                Module.bangun(matriks_bahan, matriks_candi, user, pasir, batu, air, False)
+                Module.bangun(matriks_bahan, matriks_candi, user, pasir, batu, air)
             else:
                 print("User bukan jin pembangun\nPembangunan candi tidak dilakukan.")
         
