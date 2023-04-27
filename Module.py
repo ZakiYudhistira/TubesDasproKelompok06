@@ -328,7 +328,7 @@ def cekNamaJin(matriks_user:MatriksData,nama_jin:str) -> bool:
 
 #-------------------------------------------------Fungsi cekPanjangPassword-----------------------------------------------------------
 # Fungsi untuk memvalidasi panjang password yang sesuai.
-def cekPanjangPassword (password:str) -> bool:
+def cekPanjangPassword(password:str) -> bool:
     char = 0
     for i in password:
         char+=1
@@ -386,8 +386,8 @@ def summonJin(matriks_user:MatriksData) -> None:
     else:
         while True:
             nomor_jin = int(input("Masukkan nomor jenis jin yang ingin dipanggil: "))
-            if nomor_jin == 1:
 
+            if nomor_jin == 1:
                 dotdotdot('Memilih jin "Pengumpul"', 3, 0.5)
                 nama_jin = str(input("Masukkan nama jin: "))
                 while cekNamaJin(matriks_user,nama_jin):
@@ -405,7 +405,6 @@ def summonJin(matriks_user:MatriksData) -> None:
                 break
 
             elif nomor_jin == 2:
-
                 dotdotdot('Memilih jin "Pembangun"', 3, 0.5)
                 nama_jin = str(input("Masukkan nama jin: "))
                 while cekNamaJin(matriks_user,nama_jin):
@@ -435,11 +434,14 @@ def summonJin(matriks_user:MatriksData) -> None:
 # Prosedur untuk menghapus jin dari matriks user utama.
 def hapusJin(matriks_user:MatriksData, matriks_candi:MatriksData) -> None:
     nama_jin = input("Masukkan username jin: ")
+
     if cekNamaJin(matriks_user,nama_jin):
+
         command = input(f"Apakah anda yakin ingin menghapus jin dengan username {nama_jin} (Y/N)? ").upper()
         while not(command == "Y" or command == "N"):
             print("Perintah tidak valid, tolong input ulang perintah.")
             command = input(f"Apakah anda yakin ingin menghapus jin dengan username {nama_jin} (Y/N)? ").upper()
+
         if command == "Y":
             hapusData(matriks_user, nama_jin)
             while getIndeks(matriks_candi.matriks, nama_jin, matriks_user.nmaks, 1) is not None:
@@ -447,6 +449,7 @@ def hapusJin(matriks_user:MatriksData, matriks_candi:MatriksData) -> None:
             printJin(nama_jin,"hapus")
         else:
             print(f"Jin {nama_jin} tidak jadi dihapus dari alam ghaib.")
+
     else:
         print("Tidak ada jin dengan username tersebut.")
 
@@ -457,21 +460,23 @@ def ubahTipeJin(matriks_user:MatriksData) -> None:
     nama_jin = input("Masukkan username jin: ")
     if cekNamaJin(matriks_user,nama_jin):
         id_jin = getIndeks(matriks_user.matriks,nama_jin,matriks_user.nmaks)
+
         if matriks_user.matriks[id_jin][2] == "jin_pengumpul":
-            command = input(f"Jin ini bertipe “Pengumpul”. Yakin ingin mengubah ke tipe “Pembangun” (Y/N)? ")
+            command = input(f"Jin ini bertipe “Pengumpul”. Yakin ingin mengubah ke tipe “Pembangun” (Y/N)? ").upper()
             while not(command == "Y") and not(command == "N"):
                 print("Perintah tidak valid, tolong input ulang perintah.")
-                command = input(f"Jin ini bertipe “Pengumpul”. Yakin ingin mengubah ke tipe “Pembangun” (Y/N)? ")
+                command = input(f"Jin ini bertipe “Pengumpul”. Yakin ingin mengubah ke tipe “Pembangun” (Y/N)? ").upper()
             if command == "Y":
                 matriks_user.matriks[id_jin][2] = "jin_pembangun"
                 printJin(nama_jin,"ganti")
             elif command == "N":
                 print(f"Jin pengumpul dengan username {nama_jin} tidak jadi diganti.")
+
         elif matriks_user.matriks[id_jin][2] == "jin_pembangun":
-            command = input(f"Jin ini bertipe Pembangun”. Yakin ingin mengubah ke tipe “Pengumpul” (Y/N)? ")
+            command = input(f"Jin ini bertipe Pembangun”. Yakin ingin mengubah ke tipe “Pengumpul” (Y/N)? ").upper()
             while not(command == "Y") and not(command == "N"):
                 print("Perintah tidak valid, tolong input ulang perintah.")
-                command = input(f"Jin ini bertipe “Pembangun”. Yakin ingin mengubah ke tipe “Pengumpul” (Y/N)? ")
+                command = input(f"Jin ini bertipe “Pembangun”. Yakin ingin mengubah ke tipe “Pengumpul” (Y/N)? ").upper()
             if command == "Y":
                 matriks_user.matriks[id_jin][2] = "jin_pengumpul"
                 printJin(nama_jin,"ganti")
@@ -509,7 +514,7 @@ def ubahBahan(matriks_bahan:MatriksData,pasir:int,batu:int,air:int) -> None:
 # Prosedur untuk mengumpulkan bahan dasar pembuatan candi.
 def kumpul(matriks_bahan:MatriksData, batch:bool) -> None:
     pasir,batu,air = generateBahan()
-    ubahBahan (matriks_bahan,pasir,batu,air)
+    ubahBahan(matriks_bahan,pasir,batu,air)
     if not(batch):
         print(f"Jin menemukan {pasir} pasir, {batu} batu, dan {air} air.")
 
@@ -621,16 +626,12 @@ def hapusData(matriks_data:MatriksData, data:str|int, i_ref=0) -> None:
     neff = panjangMatriks(matriks_data.matriks, matriks_data.nmaks)
     i_data = getIndeks(matriks_data.matriks, data, matriks_data.nmaks, i_ref)
 
-    for param in range(matriks_data.nparam):
-        matriks_data.matriks[i_data][param] = None
-
     for data in range(i_data, neff):
         if data != matriks_data.nmaks-1:
             matriks_data.matriks[data] = matriks_data.matriks[data+1]
 
     if neff == matriks_data.nmaks:
-        for param in range(matriks_data.nparam):
-            matriks_data.matriks[neff-1][param] = None
+        matriks_data.matriks[neff-1] = [None for i in range(matriks_data.nparam)]
 
             
 #-------------------------------------------------Prosedur ayamBerkokok-----------------------------------------------------------
