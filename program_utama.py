@@ -42,7 +42,8 @@ if os.path.exists(save_directory):
         
         elif command == "bangun":
             if logged_in_as == "jin_pembangun":
-                Module.bangun(matriks_bahan,matriks_candi,user,False)
+                pasir, batu, air = Module.generateBahan()
+                Module.bangun(matriks_bahan, matriks_candi, user, pasir, batu, air, False)
             else:
                 print("User bukan jin pembangun\nPembangunan candi tidak dilakukan.")
         
@@ -90,7 +91,7 @@ if os.path.exists(save_directory):
 
         elif command == "batchbangun":
             if logged_in_as == "bandung_bondowoso":
-                Module.batchBangun(matriks_bahan,matriks_candi,user,matriks_user)
+                Module.batchBangun(matriks_bahan,matriks_candi,matriks_user)
             else:
                 print("User bukan Bandung Bondowoso\nBatch bangun bahan tidak dilakukan.")
 

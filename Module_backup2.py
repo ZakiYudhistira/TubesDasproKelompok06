@@ -521,37 +521,45 @@ def kumpul(matriks_bahan:MatriksData, batch:bool) -> None:
 
 #-------------------------------------------------Prosedur bangun-----------------------------------------------------------
 # Prosedur untuk membangun candi.
-def bangun(matriks_bahan:MatriksData, matriks_candi:MatriksData, jin_pembangun:str, pasir:int, batu:int, air:int, batch=False) -> None:
-    nmaks = matriks_candi.nmaks
-    neff = panjangMatriks(matriks_candi.matriks, nmaks)
-    jumlah_candi = neff
-    i_kosong = neff
-    sisa_candi = nmaks - neff
+def bangun(matriks_bahan:MatriksData, matriks_candi:MatriksData, jin_pembangun:str, batch:bool) -> None:
+    pasir,batu,air = generateBahan()
+    id_candi = None
+    indeks = 1
+    ada = True
+    jumlahCandi = 0
 
-    for id in range(nmaks):
-        if getIndeks(matriks_candi.matriks, str(id), nmaks) is None:
-            id_candi = str(id)
+    for i in range(matriks_candi.nmaks):
+        if matriks_candi.matriks[i][0] == None:
+            id_candi = i
             break
+    for i in range(matriks_candi.nmaks):
+        if matriks_candi.matriks[i][0] == None:
+            jumlahCandi += 1
+    while indeks <= 99 and ada:
+        ada = False
+        for i in range(100):
+            if type(matriks_candi.matriks[i][0]) == str:
+                if indeks == int(matriks_candi.matriks[i][0]):
+                    ada = True
+                    indeks += 1
 
-    if int(matriks_bahan.matriks[0][2]) >= pasir and int(matriks_bahan.matriks[1][2]) >= batu and int(matriks_bahan.matriks[2][2]) >= air:
-
-        ubahBahan(matriks_bahan,pasir*-1,batu*-1,air*-1)
-
-        if jumlah_candi != 100:
-            matriks_candi.matriks[i_kosong][0] = id_candi
-            matriks_candi.matriks[i_kosong][1] = jin_pembangun
-            matriks_candi.matriks[i_kosong][2] = str(pasir)
-            matriks_candi.matriks[i_kosong][3] = str(batu)
-            matriks_candi.matriks[i_kosong][4] = str(air)
-
-            sisa_candi += 1
-
-        if not(batch):
-            print(f"Candi berhasil dibangun!\nSisa candi yang perlu dibangun: {sisa_candi}")
-
+    if id_candi != None:
+        if int(matriks_bahan.matriks[0][2]) >= pasir and int(matriks_bahan.matriks[1][2]) >= batu and int(matriks_bahan.matriks[2][2]) >= air:
+            matriks_candi.matriks[id_candi][0],matriks_candi.matriks[id_candi][1],matriks_candi.matriks[id_candi][2],matriks_candi.matriks[id_candi][3],matriks_candi.matriks[id_candi][4] = str(indeks),jin_pembangun,str(pasir),str(batu),str(air)
+            pasir,batu,air = pasir*-1,batu*-1,air*-1
+            ubahBahan(matriks_bahan,pasir,batu,air)
+            if not(batch):
+                print("Candi berhasil dibangun !")
+            if not(batch):
+                print(f"Sisa candi yang perlu dibangun: {jumlahCandi}")
+            else: 
+                print(f"Berhasil membuat {jumlahCandi}")
+        else:
+            if not(batch):
+                print("Bahan bangunan tidak mencukupi.\nCandi tidak bisa dibangun!")
     else:
         if not(batch):
-            print("Bahan bangunan tidak mencukupi.\nCandi tidak bisa dibangun!")
+            print("Candi sudah penuh.\nCandi tidak bisa dibangun!")
 
 
 #-------------------------------------------------Prosedur batchKumpul-----------------------------------------------------------
@@ -569,53 +577,40 @@ def batchKumpul(matriks_bahan:MatriksData, matriks_user:MatriksData) -> None:
 
 #-------------------------------------------------Prosedur batchBangun-----------------------------------------------------------
 # Prosedur yang mengerahkan jin yang ada untuk mengumpulkan bahan dasar pembuatan candi.
-def batchBangun(matriks_bahan:MatriksData, matriks_candi:MatriksData, matriks_user:MatriksData) -> None:
-    neff_user = panjangMatriks(matriks_user.matriks, matriks_user.nmaks)
-    jumlah_pembangun = jumlahJin(matriks_user)[2]
-
-    if jumlah_pembangun == 0:
+def batchBangun(matriks_bahan:MatriksData, matriks_candi:MatriksData, jin_pembangun:str, matriks_user:MatriksData) -> None:
+    a,b,count = jumlahJin(matriks_user)
+    if count == 0:
         print("Bangun candi gagal. Anda tidak punya jin pembangun. Silahkan summon terlebih dahulu.")
-    else:
-        pasir_awal, batu_awal, air_awal = int(matriks_bahan.matriks[0][2]), int(matriks_bahan.matriks[1][2]), int(matriks_bahan.matriks[2][2])
-        pasir_total, batu_total, air_total = 0, 0, 0
-        matriks_pembangun = [[None, 0, 0, 0] for i in range(jumlah_pembangun)]
+    else: 
+        pasir, batu, air = 0, 0, 0
+        for i in range(5):
+            x, y, z = generateBahan()
+            pasir += x
+            batu += y
+            air += z
+        pasir_awal, batu_awal, air_awal = int(matriks_bahan.matriks[0][2]) , int(matriks_bahan.matriks[1][2]), int(matriks_bahan.matriks[2][2])    
+        print(f"Mengerahkan {count} jin untuk membangun candi dengan total bahan {pasir} pasir, {batu} batu, dan {air} air.")
+        if pasir_awal>=pasir and batu_awal>=batu and air_awal>=air:
+            id_candi = getIndeks(matriks_candi.matriks,None,matriks_candi.nmaks,0)
+            indeks = 0
+            ada = True
+            while indeks <= 99 and ada:
+                ada = False
+                for i in range(100):
+                    if type(matriks_candi.matriks[i][0]) == str:
+                        if indeks == int(matriks_candi.matriks[i][0]):
+                            ada = True
+                            indeks += 1
 
-        for user in range(neff_user):
-            pembangun = matriks_user.matriks[user][0]
-            i_kosong = panjangMatriks(matriks_pembangun, jumlah_pembangun)
-
-            if matriks_user.matriks[user][2] == "jin_pembangun":
-                matriks_pembangun[i_kosong][0] = pembangun
-
-        for pembangun in range(jumlah_pembangun):
-            pasir, batu, air = generateBahan()
-            matriks_pembangun[pembangun][1] += pasir
-            pasir_total += pasir
-            matriks_pembangun[pembangun][2] += batu
-            batu_total += batu
-            matriks_pembangun[pembangun][3] += air
-            air_total += air
-
-        print(f"Mengerahkan {jumlah_pembangun} jin untuk membangun candi dengan total bahan {pasir_total} pasir, {batu_total} batu, dan {air_total} air.")
-
-        if pasir_awal >= pasir_total and batu_awal >= batu_total and air_awal >= air_total:
-            for pembangun in range(jumlah_pembangun):
-                jin_pembangun = matriks_pembangun[pembangun][0]
-                pasir = matriks_pembangun[pembangun][1]
-                batu = matriks_pembangun[pembangun][2]
-                air = matriks_pembangun[pembangun][3]
-
-                bangun(matriks_bahan, matriks_candi, jin_pembangun, pasir, batu, air, True)
-
-            print(f"Jin berhasil membangun total {jumlah_pembangun} candi.")
+            if id_candi != None:
+                if int(matriks_bahan.matriks[0][2]) >= pasir and int(matriks_bahan.matriks[1][2]) >= batu and int(matriks_bahan.matriks[2][2]) >= air:
+                    matriks_candi.matriks[id_candi][0],matriks_candi.matriks[id_candi][1],matriks_candi.matriks[id_candi][2],matriks_candi.matriks[id_candi][3],matriks_candi.matriks[id_candi][4] = str(indeks),jin_pembangun,str(pasir),str(batu),str(air)
+                    pasir,batu,air = pasir*-1,batu*-1,air*-1
+                    ubahBahan(matriks_bahan,pasir,batu,air)
+                    print(f"Berhasil membangun total {count} candi.")
             
         else:
-            array_kurang = [pasir_total-pasir_awal, batu_total-batu_awal, air_total-air_awal]
-            for bahan in range(3):
-                if array_kurang[bahan] < 0:
-                    array_kurang[bahan] = 0
-
-            print(f"Bangun gagal. Kurang {array_kurang[0]} pasir, {array_kurang[1]} batu, dan {array_kurang[2]} air.")
+            print(f"Bangun gagal. Kurang {pasir-pasir_awal} pasir, {batu-batu_awal} batu, dan {air-air_awal} air.")
 
 
 #-------------------------------------------------Prosedur showBahan-----------------------------------------------------------
@@ -690,17 +685,17 @@ def dataJinPembangun(matriks_user:MatriksData, matriks_candi:MatriksData) -> Mat
 
     for user in range(neff_user):
         pembangun = matriks_user.matriks[user][0]
-        i_kosong = panjangMatriks(matriks_data_pembangun, nmaks_pembangun)
+        id_kosong = panjangMatriks(matriks_data_pembangun, nmaks_pembangun)
 
         if matriks_user.matriks[user][2] == "jin_pembangun":
-            matriks_data_pembangun[i_kosong][0] = pembangun
+            matriks_data_pembangun[id_kosong][0] = pembangun
 
     for candi in range(matriks_candi.nmaks):
         pembangun = matriks_candi.matriks[candi][1]
-        i_pembuat = getIndeks(matriks_data_pembangun, pembangun, nmaks_pembangun)
+        id_pembuat = getIndeks(matriks_data_pembangun, pembangun, nmaks_pembangun)
 
-        if i_pembuat is not None:
-            matriks_data_pembangun[i_pembuat][1] += 1
+        if id_pembuat is not None:
+            matriks_data_pembangun[id_pembuat][1] += 1
 
     return matriks_data_pembangun
 
@@ -751,6 +746,7 @@ def dataLeaderboard(matriks_user:MatriksData, matriks_candi:MatriksData, matriks
                     matriks_leaderboard[indeks] = matriks_leaderboard[indeks-1]
                     matriks_leaderboard[indeks-1] = temp
 
+            print(matriks_leaderboard)
             indeks -= 1
 
     return matriks_leaderboard
@@ -831,8 +827,5 @@ def printLeaderboard(matriks_user:MatriksData, matriks_candi:MatriksData, matrik
         
     neff = panjangMatriks(matriks_leaderboard, nmaks)
 
-    if neff != 0:
-        for data in range(neff):
-            print(f"{data+1}. \"{matriks_leaderboard[data][0]}\": {matriks_leaderboard[data][1]}")
-    else:
-        print("Oh, data Anda kosong!")
+    for data in range(neff):
+        print(f"{data+1}. \"{matriks_leaderboard[data][0]}\": {matriks_leaderboard[data][1]}")
