@@ -312,9 +312,9 @@ def cekPanjangPassword(password:str) -> bool:
     else:
         return False
     
-# ----------------------------------------- Fungsi isiMatriksUser (credit: 19622199) -----------------------------------------
-# Fungsi untuk mengisi data ke matriks yang telah ditentukan.
-def isiMatriksUser(matriks_user:MatriksData,nama_jin:str,password_jin:str,role_jin:str) -> Matriks:
+# ----------------------------------------- Prosedur isiMatriksUser (credit: 19622199) -----------------------------------------
+# Prosedur untuk mengisi data ke matriks yang telah ditentukan.
+def isiMatriksUser(matriks_user:MatriksData,nama_jin:str,password_jin:str,role_jin:str) -> None:
     for i in range(matriks_user.nmaks):
         if matriks_user.matriks[i][0] == None:
             angka = i
