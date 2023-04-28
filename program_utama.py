@@ -17,8 +17,8 @@ if os.path.exists(save_directory):
     matriks_bahan = Module.MatriksData(f"{save_directory}\\bahan_bangunan.csv", "bahan_bangunan", 3, 3)
     tuple_matriks_data = ([matriks_user, matriks_candi, matriks_bahan], 3)
     
-    print("Selamat datang di program \"Manajerial Candi\"")
-    print("Ketik help untuk menampilkan command")
+    print("Selamat datang di program \"Manajerial Candi\"!")
+    print("Ketik help untuk menampilkan command.")
 
     program_jalan = True
     logged_in = False
