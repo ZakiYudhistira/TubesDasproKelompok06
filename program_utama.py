@@ -148,10 +148,10 @@ if os.path.exists(save_directory):
             if logged_in:
                 print("Mohon logout dulu sebelum keluar dari program.")
             else:
-                opsi = input("Apakah Anda mau melakukan penyimpanan file yang sudah diubah? (y/n) ").upper()
+                opsi = input("Apakah Anda mau melakukan penyimpanan file yang sudah diubah? (Y/N) ").upper()
                 while not(opsi == "Y" or opsi == "N"):
                     print("Perintah tidak valid, tolong input ulang perintah.")
-                    opsi = input("Apakah Anda mau melakukan penyimpanan file yang sudah diubah? (y/n) ").upper()
+                    opsi = input("Apakah Anda mau melakukan penyimpanan file yang sudah diubah? (Y/N) ").upper()
 
                 if opsi == "Y":
                     tuple_matriks_data = ([matriks_user, matriks_candi, matriks_bahan], 3)
