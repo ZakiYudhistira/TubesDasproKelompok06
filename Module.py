@@ -57,32 +57,6 @@ def getIndeks(matriks_data:Matriks, data:str|int, nmaks:int, i_ref=0) -> int:
     return indeks
 
 
-#-------------------------------------------------Fungsi bubbleSortMatriks-----------------------------------------------------------
-# Fungsi yang mengembalikan matriks yang sudah terurut berdasarkan data yang dijadikan referensi.
-def bubbleSortMatriks(matriks_data:Matriks, nmaks:int, i_data:int, naik=False) -> Matriks:
-    matriks_sorted = matriks_data
-    neff = panjangMatriks(matriks_sorted, nmaks)
-
-    for i in range(1, neff):
-        indeks = i
-        if naik:
-            while indeks > 0 and matriks_sorted[indeks][i_data] < matriks_sorted[indeks-1][i_data]:
-                temp = matriks_sorted[indeks]
-                matriks_sorted[indeks] = matriks_sorted[indeks-1]
-                matriks_sorted[indeks-1] = temp
-
-                indeks -= 1
-        else:
-            while indeks > 0 and matriks_sorted[indeks][i_data] > matriks_sorted[indeks-1][i_data]:
-                temp = matriks_sorted[indeks]
-                matriks_sorted[indeks] = matriks_sorted[indeks-1]
-                matriks_sorted[indeks-1] = temp
-
-                indeks -= 1
-
-    return matriks_sorted
-    
-
 #-------------------------------------------------Fungsi isTerurutLeksi-----------------------------------------------------------
 # Fungsi yang mengembalikan nilai True jika kedua kata terurut secara leksikografis.
 def isTerurutLeksi(kata1:str, kata2:str) -> bool:
@@ -198,6 +172,7 @@ def help(role:str) -> None:
     'kumpul: Mengumpulkan bahan bangunan candi.'
     ]
 
+    print("Berikut merupakan beberapa command yang bisa Anda lakukan sebagai")
     if role == "bandung_bondowoso":
         idx=0
         for i in range(8):
@@ -683,8 +658,9 @@ def hancurkanCandi(matriks_candi:MatriksData) -> None:
 
 #-------------------------------------------------Fungsi dataJinPembangun-----------------------------------------------------------
 # Fungsi yang mengembalikan matriks berisi data jumlah candi yang dibangun oleh setiap jin pembangun.
-def dataJinPembangun(matriks_user:MatriksData, matriks_candi:MatriksData) -> Matriks:
+def dataJinPembangun(matriks_user:MatriksData, matriks_candi:MatriksData, kategori:str) -> Matriks:
     neff_user = panjangMatriks(matriks_user.matriks, matriks_user.nmaks)
+    neff_candi = panjangMatriks(matriks_candi.matriks, matriks_candi.nmaks)
     nmaks_pembangun = jumlahJin(matriks_user)[2]
     matriks_data_pembangun = [[None, 0] for i in range(nmaks_pembangun)]
 
@@ -695,22 +671,37 @@ def dataJinPembangun(matriks_user:MatriksData, matriks_candi:MatriksData) -> Mat
         if matriks_user.matriks[user][2] == "jin_pembangun":
             matriks_data_pembangun[i_kosong][0] = pembangun
 
-    for candi in range(matriks_candi.nmaks):
+    if kategori == "total_pasir":
+        i_ref = 2
+    elif kategori == "total_batu":
+        i_ref = 3
+    elif kategori == "total_air":
+        i_ref = 4
+
+    for candi in range(neff_candi):
         pembangun = matriks_candi.matriks[candi][1]
         i_pembuat = getIndeks(matriks_data_pembangun, pembangun, nmaks_pembangun)
 
         if i_pembuat is not None:
-            matriks_data_pembangun[i_pembuat][1] += 1
+            if kategori == "total_candi":
+                matriks_data_pembangun[i_pembuat][1] += 1
+            elif kategori == "total_bahan":
+                total_bahan = 0
+                for i in range(3):
+                    total_bahan += int(matriks_candi.matriks[candi][i+2])
+                matriks_data_pembangun[i_pembuat][1] += total_bahan
+            else:
+                matriks_data_pembangun[i_pembuat][1] += int(matriks_candi.matriks[candi][i_ref])
 
     return matriks_data_pembangun
+
 
 
 #-------------------------------------------------Fungsi dataHargaCandi-----------------------------------------------------------
 # Fungsi yang mengembalikan matriks berisi data total harga yang diperlukan untuk setiap candi.
 def dataHargaCandi(matriks_candi:MatriksData) -> Matriks:
-    nmaks_candi = 100
-    neff_candi = panjangMatriks(matriks_candi.matriks, nmaks_candi)
-    matriks_data_harga = [[None, None] for i in range(nmaks_candi)]
+    neff_candi = panjangMatriks(matriks_candi.matriks, matriks_candi.nmaks)
+    matriks_data_harga = [[None, None] for i in range(neff_candi)]
 
     for candi in range(neff_candi):
         id_candi = matriks_candi.matriks[candi][0]
@@ -723,18 +714,14 @@ def dataHargaCandi(matriks_candi:MatriksData) -> Matriks:
 
     return matriks_data_harga
 
-
 #-------------------------------------------------Fungsi dataLeaderboard-----------------------------------------------------------
 # Fungsi yang mengembalikan matriks yang sudah terurut dari tertinggi ke terendah.
-def dataLeaderboard(matriks_user:MatriksData, matriks_candi:MatriksData, matriks_bahan:MatriksData, tipe:str) -> Matriks:
+def dataLeaderboard(matriks_user:MatriksData, matriks_candi:MatriksData, matriks_leaderboard:Matriks, tipe:str) -> Matriks:
     if tipe == "jin":
-        nmaks = jumlahJin(matriks_user)[2]
-        matriks_leaderboard = dataJinPembangun(matriks_user, matriks_candi)
+        neff = jumlahJin(matriks_user)[2]
     elif tipe == "candi":
-        nmaks = 100
-        matriks_leaderboard = dataHargaCandi(matriks_candi)
+        neff = panjangMatriks(matriks_candi.matriks, matriks_candi.nmaks)
 
-    neff = panjangMatriks(matriks_leaderboard, nmaks)
     for i in range(1, neff):
         indeks = i 
 
@@ -768,7 +755,8 @@ def laporanJin(matriks_user:MatriksData, matriks_candi:MatriksData, matriks_baha
     if total_jin > 0:
         i_maks = 0
         i_min = total_pembangun - 1
-        matriks_leaderboard = dataLeaderboard(matriks_user, matriks_candi, matriks_bahan, "jin")
+        data_jin = dataJinPembangun(matriks_user, matriks_candi, "total_candi")
+        matriks_leaderboard = dataLeaderboard(matriks_user, matriks_candi, data_jin, "jin")
 
         if matriks_leaderboard[i_maks][0] is not None:
             jin_terajin = matriks_leaderboard[i_maks][0]
@@ -777,6 +765,7 @@ def laporanJin(matriks_user:MatriksData, matriks_candi:MatriksData, matriks_baha
             jin_termalas = matriks_leaderboard[i_min][0]
 
     print(f"""
+Berikut merupakan laporan jin Anda:
 > Total Jin: {total_jin}
 > Total Jin Pengumpul: {total_pengumpul}
 > Total Jin Pembangun: {total_pembangun}
@@ -799,7 +788,8 @@ def laporanCandi(matriks_user:MatriksData, matriks_candi:MatriksData, matriks_ba
     if total_candi > 0:
         i_maks = 0
         i_min = total_candi - 1
-        matriks_leaderboard = dataLeaderboard(matriks_user, matriks_candi, matriks_bahan, "candi")
+        data_candi = dataHargaCandi(matriks_candi)
+        matriks_leaderboard = dataLeaderboard(matriks_user, matriks_candi, data_candi, "candi")
 
         if matriks_leaderboard[i_maks][0] is not None:
             id_termahal = matriks_leaderboard[i_maks][0]
@@ -810,6 +800,7 @@ def laporanCandi(matriks_user:MatriksData, matriks_candi:MatriksData, matriks_ba
             harga_termurah = f"""({matriks_leaderboard[i_min][1]})"""
         
     print(f"""
+Berikut merupakan laporan candi Anda:
 > Total Candi: {total_candi}
 > Total Pasir yang Digunakan: {total_pasir}
 > Total Air yang Digunakan: {total_air}
@@ -821,18 +812,59 @@ def laporanCandi(matriks_user:MatriksData, matriks_candi:MatriksData, matriks_ba
 
 #-------------------------------------------------Prosedur printLeaderboard-----------------------------------------------------------
 # Prosedur untuk menuliskan leaderboard berdasarkan matriks yang diberikan.
-def printLeaderboard(matriks_user:MatriksData, matriks_candi:MatriksData, matriks_bahan:MatriksData, tipe:str) -> None:
-    if tipe == "jin":
-        nmaks = jumlahJin(matriks_user)[2]
-        matriks_leaderboard = dataLeaderboard(matriks_user, matriks_candi, matriks_bahan, "jin")
-    elif tipe == "candi":
-        nmaks = 100
-        matriks_leaderboard = dataLeaderboard(matriks_user, matriks_candi, matriks_bahan, "candi")
-        
-    neff = panjangMatriks(matriks_leaderboard, nmaks)
+def printLeaderboard(matriks_user:MatriksData, matriks_candi:MatriksData) -> None:
 
-    if neff != 0:
-        for data in range(neff):
-            print(f"{data+1}. \"{matriks_leaderboard[data][0]}\": {matriks_leaderboard[data][1]}")
+    tipe = input("Leaderboard tipe apakah yang Anda diinginkan? (jin/candi) ")
+
+    while not(tipe == "jin" or tipe == "candi"):
+        print("Tipe yang tersedia hanyalah \"jin\" atau \"candi\". Tolong ulangi kembali.")
+        tipe = input("Leaderboard tipe apakah yang diinginkan? (jin/candi) ")
+    
+    if tipe == "candi":
+        neff = panjangMatriks(matriks_candi.matriks, matriks_candi.nmaks)
+        data_candi = dataHargaCandi(matriks_candi)
+        matriks_leaderboard = dataLeaderboard(matriks_user, matriks_candi, data_candi, tipe)
+
+        if neff != 0:
+            print("Berikut merupakan leaderboard candi saat ini berdasarkan total harga:")
+            for data in range(neff):
+                print(f"{data+1}. \"{matriks_leaderboard[data][0]}\": {matriks_leaderboard[data][1]}")
+                time.sleep(0.1)
+        else:
+            print("Oh maaf, data yang tersedia kosong!")
+
     else:
-        print("Oh, data Anda kosong!")
+        neff = jumlahJin(matriks_user)[2]
+        kategori = input("""Berikut merupakan beberapa kategori leaderboard jin pembangun:
+(1): total candi yang dibuat.
+(2): total bahan yang digunakan.
+(3): total pasir yang digunakan.
+(4): total batu yang digunakan.
+(5): total air yang digunakan.
+Pada kategori apakah Anda ingin melihat leaderboard jin pembangun? (1--5) """)
+        while not(kategori == "1" or kategori == "2" or kategori == "3" or kategori == "4"  or kategori == "5"):
+            print("Kategori yang tersedia hanya ada 5. Tolong ulangi kembali.")
+            kategori = input("Pada kategori apakah Anda ingin melihat leaderboard jin pembangun? (1--5) ")
+
+        if kategori == "1":
+            kategori = "total_candi"
+        elif kategori == "2":
+            kategori = "total_bahan"
+        elif kategori == "3":
+            kategori = "total_pasir"
+        elif kategori == "4":
+            kategori = "total_batu"
+        elif kategori == "5":
+            kategori = "total_air"
+
+        data_jin = dataJinPembangun(matriks_user, matriks_candi, kategori)
+        matriks_leaderboard = dataLeaderboard(matriks_user, matriks_candi, data_jin, tipe)
+
+        if neff != 0:
+            print(f"Berikut merupakan leaderboard jin pembangun saat ini pada kategori {kategori}:")
+            for data in range(neff):
+                print(f"{data+1}. \"{matriks_leaderboard[data][0]}\": {matriks_leaderboard[data][1]}")
+                time.sleep(0.1)
+        else:
+            print("Oh maaf, data yang tersedia kosong!")
+

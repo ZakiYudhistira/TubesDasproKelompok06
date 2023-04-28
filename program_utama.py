@@ -119,15 +119,8 @@ if os.path.exists(save_directory):
             else:
                 print("User bukan Roro Jonggrang\nAyam tidak mau berkokok!")
 
-        elif command == "leaderboardjin":
-            print("Berikut merupakan leaderboard jin pembuat candi terbanyak:")
-            time.sleep(0.5)
-            Module.printLeaderboard(matriks_user, matriks_candi, matriks_bahan, "jin")
-        
-        elif command == "leaderboardcandi":
-            print("Berikut merupakan leaderboard candi dengan bahan termahal:")
-            time.sleep(0.5)
-            Module.printLeaderboard(matriks_user, matriks_candi, matriks_bahan, "candi")
+        elif command == "leaderboard":
+            Module.printLeaderboard(matriks_user, matriks_candi)
 
         elif command == "showbahan":
             Module.showBahan(matriks_bahan)
@@ -163,9 +156,11 @@ if os.path.exists(save_directory):
             if logged_in:
                 Module.help(logged_in_as)
             else:
-                print("""1.login: Untuk masuk menggunakan akun.
-2.save: Untuk menyimpan hasil permainan.
-3.exit: untuk keluar dari program.""")
+                print("""Berikut merupakan beberapa command yang bisa Anda lakukan:
+1.login: untuk masuk menggunakan akun.
+2.save: untuk menyimpan hasil permainan.
+3.exit: untuk keluar dari program.
+2.leaderboard: untuk melihat leaderboard candi atau jin pembangun""")
 
         else:
             print("Perintah tidak dikenali")
