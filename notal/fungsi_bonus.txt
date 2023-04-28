@@ -1,0 +1,216 @@
+function isTerurutLeksi(kata1 : string, kata2 : string) -> boolean
+    { Mengembalikan nilai true jika kedua kata terurut berdasarkan leksikografis. }
+    KAMUS LOKAL
+        terurut : boolean
+        i_kata : integer
+    ALGORITMA
+        terurut <- True
+
+        if (len(kata1) > len(kata2)) then
+            ref_len <- len(kata2)
+        else<-
+            ref_len <- len(kata1)
+
+        i_huruf <- 0
+        iterate
+            if (kata1[i_huruf] /= kata2[i_huruf]) then
+                if (kata1[i_huruf] > kata2[i_huruf]) then
+                    terurut <- False
+                else
+                    {Tidak melakukan apa pun}
+            else
+                {Tidak melakukan apa pun}
+        stop (kata1[i_huruf] /= kata2[i_huruf] or (i_huruf = ref_len-1))
+            if (i_huruf = ref_len - 1) then
+                if (ref_len = len(kata2)) then
+                    terurut <- False
+                else
+                    {Tidak melakukan apa pun}
+            else
+                {Tidak melakukan apa pun}
+
+            i_huruf <- i_huruf + 1
+
+        -> terurut
+
+
+function dataJinPembangun(matriks_user : MatriksData, matriks_candi : MatriksData, kategori : string) -> Matriks
+    { Mengembalikan matriks berisi data setiap jin pembangun untuk setiap kategori. }
+    KAMUS LOKAL
+        neff_user, neff_candi : integer
+        nmaks_pembangun : integer
+        matriks_data_pembangun : array[0..(nmaks_pembangun-1)] of array[0..1] of string|integer
+        i, j : integer
+        user : integer
+        pembangun : string
+        i_kosong : integer
+        i_pembuat : integer
+        total_bahan : integer
+    ALGORITMA
+        neff_user <- panjangMatriks(matriks_user.matriks, matriks_user.nmaks)
+        neff_candi <- panjangMatriks(matriks_candi.matriks, matriks_candi.nmaks)
+        nmaks_pembangun <- jumlahJin(matriks_user)[2]
+        i traversal [0..(nmaks_pembangun-1)]
+            j traversal [0..1]
+                matriks_data_pembangun[i][j] <- 0
+
+        user traversal [0..(neff_user-1)]
+            pembangun <- matriks_user.matriks[user][0]
+            i_kosong <- panjangMatriks(matriks_data_pembangun, nmaks_pembangun)
+
+            if (matriks_user.matriks[user][2] = "jin_pembangun") then
+                matriks_data_pembangun[i_kosong][0] <- pembangun
+            else
+                {Tidak melakukan apa pun}
+
+        if (kategori = "total_pasir") then
+            i_ref <- 2
+        else if (kategori = "total_batu") then
+            i_ref <- 3
+        else if (kategori = "total_air") then
+            i_ref <- 4
+        else
+            {Tidak melakukan apa pun}
+        
+        candi traversal [0..(neff_candi-1)]
+            pembangun <- matriks_candi.matriks[candi][1]
+            i_pembuat <- getIndeks(matriks_data_pembangun, pembangun, nmaks_pembangun)
+
+            if (i_pembuat /= None) then
+                if (kategori = "total_candi") then
+                    matriks_data_pembangun[i_pembuat][1] <- matriks_data_pembangun[i_pembuat][1] + 1
+                else if  (kategori = "total_bahan") then
+                    total_bahan <- 0
+                    i traversal [0..2]
+                        total_bahan <- total_bahan + matriks_candi.matriks[candi][i + 2]
+                    matriks_data_pembangun[i_pembuat][1] <- matriks_data_pembangun[i_pembuat][1] + total_bahan
+                else
+                    matriks_data_pembangun[i_pembuat][1] <- matriks_data_pembangun[i_pembuat][1] + matriks_candi.matriks[candi][i_ref]
+            else
+                {Tidak melakukan apa pun}
+ 
+        -> matriks_data_pembangun
+
+
+function dataHargaCandi(matriks_candi : MatriksData) -> Matriks
+    { Mengembalikan matriks berisi data total harga yang diperlukan untuk setiap candi. }
+    KAMUS LOKAL
+        neff_candi : integer
+        matriks_data_harga : array[0..(neff_candi-1)] of array[0..1] of string|integer
+        i, j : integer
+        candi : integer
+        id_candi : integer
+        pasir, batu, air : integer
+        harga : integer
+    ALGORITMA
+        neff_candi <- panjangMatriks(matriks_candi.matriks, matriks_candi.nmaks)
+        i traversal [0..(neff_candi-1)]
+            j traversal [0..1]
+                matriks_data_harga[i] <- 0
+
+        for candi in range(neff_candi)then
+            id_candi <- matriks_candi.matriks[candi][0]
+            pasir <- matriks_candi.matriks[candi][2]
+            batu <- matriks_candi.matriks[candi][3]
+            air <- matriks_candi.matriks[candi][4]
+            harga <- (pasir*10000) + (batu*15000) + (air*7500)
+
+            matriks_data_harga[candi] <- [id_candi, harga]
+
+        -> matriks_data_harga
+
+
+function dataLeaderboard(matriks_user : MatriksData, matriks_candi : MatriksData, matriks_leaderboard : Matriks, tipe : str) -> Matriks
+    { Mengembalikan matriks_leaderboard yang sudah terurut dari tertinggi ke terendah. }
+    KAMUS LOKAL
+        neff : integer
+        i, indeks : integer
+        temp : array[0..1] of string|integer
+    ALGORITMA
+        if (tipe = "jin") then
+            neff <- jumlahJin(matriks_user)[2]
+        else if (tipe = "candi") then
+            neff <- panjangMatriks(matriks_candi.matriks, matriks_candi.nmaks)
+
+        i traversal [1..(neff-1)]
+            indeks <- i 
+
+            while ((indeks > 0) and (matriks_leaderboard[indeks][1] >= matriks_leaderboard[indeks-1][1])) do
+
+                if (matriks_leaderboard[indeks][1] /<- matriks_leaderboard[indeks-1][1]) then
+                    temp <- matriks_leaderboard[indeks]
+                    matriks_leaderboard[indeks] <- matriks_leaderboard[indeks-1]
+                    matriks_leaderboard[indeks-1] <- temp
+
+                else
+                    if not(isTerurutLeksi(matriks_leaderboard[indeks-1][0], matriks_leaderboard[indeks][0])) then
+                        temp <- matriks_leaderboard[indeks]
+                        matriks_leaderboard[indeks] <- matriks_leaderboard[indeks-1]
+                        matriks_leaderboard[indeks-1] <- temp
+                    else
+                        {Tidak melakukan apa pun}
+
+                indeks <- indeks - 1
+
+        -> matriks_leaderboard
+
+
+procedure printLeaderboard(input matriks_user : MatriksData, input matriks_candi : MatriksData)
+    { Menuliskan leaderboard berdasarkan tipe dan kategori yang diberikan.
+      I.S.: matriks_user dan matriks_candi telah terdefinisi.
+      F.S.: mengoutput leaderboard berdasarkan tipe dan katergori.}
+    KAMUS LOKAL
+        tipe : string
+        neff : integer
+        kategori : string
+        data_candi, data_jin : array[0..(neff-1)] of array[0..1] of string|integer
+        matriks_leaderboard : array[0..(neff-1)] of array[0..1] of string|integer
+        data : integer
+    ALGORITMA
+        iterate
+            tipe <- input("Leaderboard tipe apakah yang Anda inginkan? (jin/candi) ")
+        stop (tipe = "jin" or tipe = "candi")
+            output("Tipe yang tersedia hanyalah \"jin\" atau \"candi\". Tolong ulangi kembali.")
+
+        if (tipe = "candi") then
+            neff <- panjangMatriks(matriks_candi.matriks, matriks_candi.nmaks)
+            data_candi <- dataHargaCandi(matriks_candi)
+            matriks_leaderboard <- dataLeaderboard(matriks_user, matriks_candi, data_candi, tipe)
+
+            if (neff /= 0) then
+                output("Berikut merupakan leaderboard candi saat ini berdasarkan total harga:")
+                data traversal [0..(neff-1)]
+                    output(data + 1, ". \"{matriks_leaderboard[data][0]}\":", matriks_leaderboard[data][1])
+            else
+                output("Oh maaf, data yang tersedia kosong!")
+
+        else
+            neff <- jumlahJin(matriks_user)[2]
+            iterate
+                kategori <- input("Berdasarkan kategori apakah Anda ingin melihat leaderboard jin pembangun? (1--5) ")
+            stop (kategori = "1" or kategori = "2" or kategori = "3" or kategori = "4" or kategori = "5")
+                output("Kategori yang tersedia hanya ada 5. Tolong ulangi kembali.")
+
+            if (kategori = "1") then
+                kategori <- "total_candi"
+            else if (kategori = "2") then
+                kategori <- "total_bahan"
+            else if (kategori = "3") then
+                kategori <- "total_pasir"
+            else if (kategori = "4") then
+                kategori <- "total_batu"
+            else if (kategori = "5") then
+                kategori <- "total_air"
+            else
+                {Tidak melakukan apa pun}
+
+            data_jin <- dataJinPembangun(matriks_user, matriks_candi, kategori)
+            matriks_leaderboard <- dataLeaderboard(matriks_user, matriks_candi, data_jin, tipe)
+
+            if (neff /= 0) then
+                output("Berikut merupakan leaderboard jin pembangun saat ini berdasarkan", kategori, ":")
+                data traversal [0..(neff-1)]
+                    output(data+1, ".", matriks_leaderboard[data][0], ":", matriks_leaderboard[data][1])
+            else
+                output("Oh maaf, data yang tersedia kosong!")
+    

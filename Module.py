@@ -35,7 +35,7 @@ def panjangMatriks(matriks_data:Matriks, nmaks:int) -> int:
 
 # ------------------------------------------- Fungsi getIndeks (credit: 16522028) --------------------------------------------
 # Fungsi yang mengembalikan indeks dari sebuah data yang dipilih pada sebuah matriks.
-def getIndeks(matriks_data:Matriks, data:str|int, nmaks:int, i_ref=0) -> int:
+def getIndeks(matriks_data:Matriks, data:str|int, nmaks:int, i_ref=0) -> int|None:
     indeks = None
     neff = panjangMatriks(matriks_data, nmaks)
     for i in range(neff):
@@ -102,7 +102,7 @@ def login(matriks_data_user:MatriksData) -> tuple[bool,str,str]:
 def logout() -> tuple[bool,str,str]:
     return False, " ", " "
 
-# --------------------------------------- Prosedur Help (credit: 19622199 & 19622010) ----------------------------------------
+# --------------------------------------- Prosedur Help (credit: 19622010 & 19622199) ----------------------------------------
 # Prosedur untuk mengoutput keterangan command sesuai dengan current role pengguna.
 def help(role:str) -> None:
 
@@ -234,11 +234,12 @@ def dotdotdot(teks:str, n_dot:int, interval:int) -> None:
     print()
 
 # ------------------------------------------- Fungsi jumlahBahan (credit: 16522028)-------------------------------------------
-# Fungsi yang mengembalikan 3 data bahan (pasir, batu, air) pada data bahan_bangunan.
+# Fungsi yang mengembalikan 3 data bahan (pasir, batu, air) berdasarkan data pada matriks_bahan.
 def jumlahBahan(matriks_candi:MatriksData) -> tuple[int, int, int]:
     pasir, batu, air = 0, 0, 0
+    neff = panjangMatriks(matriks_candi.matriks, matriks_candi.nmaks)
 
-    for candi in range(panjangMatriks(matriks_candi.matriks, matriks_candi.nmaks)):
+    for candi in range(neff):
         pasir += int(matriks_candi.matriks[candi][2])
         batu += int(matriks_candi.matriks[candi][3])
         air += int(matriks_candi.matriks[candi][4])
@@ -246,7 +247,7 @@ def jumlahBahan(matriks_candi:MatriksData) -> tuple[int, int, int]:
     return pasir, batu, air
 
 # ------------------------------------------- Fungsi jumlahJin (credit: 16522028) --------------------------------------------
-# Fungsi yang mengembalikan 3 data total jin (total, pengumpul, pembangun) pada data user.
+# Fungsi yang mengembalikan 3 data total jin (total, pengumpul, pembangun) berdasarkan data pada matriks_user.
 def jumlahJin(matriks_user:MatriksData) -> tuple[int, int, int]:
     jumlah_jin, jumlah_pengumpul, jumlah_pembangun = 0, 0, 0
     neff = panjangMatriks(matriks_user.matriks, matriks_user.nmaks)
@@ -456,6 +457,8 @@ def batchBangun(matriks_bahan:MatriksData, matriks_candi:MatriksData, matriks_us
     else:
         pasir_awal, batu_awal, air_awal = int(matriks_bahan.matriks[0][2]), int(matriks_bahan.matriks[1][2]), int(matriks_bahan.matriks[2][2])
         pasir_total, batu_total, air_total = 0, 0, 0
+
+        # Matriks untuk menyimpan informasi bahan dan pembuatnya dari setiap pembuatan candi
         matriks_pembangun = [[None, 0, 0, 0] for i in range(jumlah_pembangun)]
 
         for user in range(neff_user):
@@ -465,6 +468,7 @@ def batchBangun(matriks_bahan:MatriksData, matriks_candi:MatriksData, matriks_us
             if matriks_user.matriks[user][2] == "jin_pembangun":
                 matriks_pembangun[i_kosong][0] = pembangun
 
+        # Menghitung total bahan yang diperlukan serta mengisi matriks_pembangun untuk setiap pembuat dan bahannya.
         for pembangun in range(jumlah_pembangun):
             pasir, batu, air = generateBahan()
             matriks_pembangun[pembangun][1] += pasir
@@ -618,7 +622,7 @@ def bangun(matriks_bahan:MatriksData, matriks_candi:MatriksData, jin_pembangun:s
             matriks_candi.matriks[i_kosong][2] = str(pasir)
             matriks_candi.matriks[i_kosong][3] = str(batu)
             matriks_candi.matriks[i_kosong][4] = str(air)
-            sisa_candi = matriks_candi.nmaks - panjangMatriks(matriks_candi.matriks, nmaks)
+            sisa_candi -= 1
         if not(batch):
             print(f"Candi berhasil dibangun!\nSisa candi yang perlu dibangun: {sisa_candi}")
     else:
@@ -694,7 +698,7 @@ def isTerurutLeksi(kata1:str, kata2:str) -> bool:
     return terurut
 
 # ---------------------------------------- Fungsi dataJinPembangun (credit: 16522028) ----------------------------------------
-# Fungsi yang mengembalikan matriks berisi data jumlah candi yang dibangun oleh setiap jin pembangun.
+# Fungsi yang Mengembalikan matriks berisi data setiap jin pembangun untuk setiap kategori.
 def dataJinPembangun(matriks_user:MatriksData, matriks_candi:MatriksData, kategori:str) -> Matriks:
     neff_user = panjangMatriks(matriks_user.matriks, matriks_user.nmaks)
     neff_candi = panjangMatriks(matriks_candi.matriks, matriks_candi.nmaks)
@@ -750,7 +754,7 @@ def dataHargaCandi(matriks_candi:MatriksData) -> Matriks:
     return matriks_data_harga
 
 # ---------------------------------------- Fungsi dataLeaderboard (credit: 16522028) -----------------------------------------
-# Fungsi yang mengembalikan matriks yang sudah terurut dari tertinggi ke terendah.
+# Fungsi yang mengembalikan matriks_leaderboard yang sudah terurut dari tertinggi ke terendah.
 def dataLeaderboard(matriks_user:MatriksData, matriks_candi:MatriksData, matriks_leaderboard:Matriks, tipe:str) -> Matriks:
     if tipe == "jin":
         neff = jumlahJin(matriks_user)[2]
@@ -778,7 +782,7 @@ def dataLeaderboard(matriks_user:MatriksData, matriks_candi:MatriksData, matriks
     return matriks_leaderboard
 
 # --------------------------------------- Prosedur printLeaderboard (credit: 16522028) ---------------------------------------
-# Prosedur untuk menuliskan leaderboard berdasarkan matriks yang diberikan.
+# Prosedur untuk menuliskan leaderboard berdasarkan tipe dan kategori yang diberikan.
 def printLeaderboard(matriks_user:MatriksData, matriks_candi:MatriksData) -> None:
 
     tipe = input("Leaderboard tipe apakah yang Anda inginkan? (jin/candi) ")

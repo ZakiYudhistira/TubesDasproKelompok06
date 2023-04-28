@@ -1,0 +1,35 @@
+function jumlahBahan(matriks_candi : MatriksData) -> (int, int, int)
+    { Mengembalikan 3 data bahan (pasir, batu, air) berdasarkan data pada matriks_bahan. }
+    KAMUS LOKAL
+        neff : integer
+        candi : integer
+        pasir, batu, air : integer
+    ALGORITMA
+        pasir, batu, air <- 0, 0 ,0
+        neff <- panjangMatriks(matriks_user.matriks, matriks_user.nmaks)
+
+        candi traversal [0..(neff-1)]
+            pasir <- pasir + matriks_candi.matriks[candi][2]
+            batu <- batu + matriks_candi.matriks[candi][3]
+            air <- air + matriks_candi.matriks[candi][4]
+
+        -> (pasir, batu, air)
+
+function jumlahJin(matriks_candi : MatriksData) -> (int, int, int)
+    { Mengembalikan 3 data total jin (total, pengumpul, pembangun) berdasarkan data pada matriks_user. }
+    KAMUS LOKAL
+        neff : integer
+        jin : integer
+        jumlah_jin, jumlah_pengumpul, jumlah_pembangun : integer
+    ALGORITMA
+        jumlah_jin, jumlah_pengumpul, jumlah_pembangun <- 0, 0, 0
+        neff <- panjangMatriks(matriks_user.matriks, matriks_user.nmaks)
+
+        jin traversal [2..(neff-1)]
+            jumlah_jin <- jumlah_jin + 1
+            if (matriks_user.matriks[jin][2] = "jin_pengumpul") then
+                jumlah_pengumpul <- jumlah_pengumpul + 1
+            else
+                jumlah_pembangun <- jumlah_pembangun+ 1
+
+        -> (jumlah_jin, jumlah_pengumpul, jumlah_pembangun)

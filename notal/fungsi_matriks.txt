@@ -1,0 +1,65 @@
+function panjangMatriks(matriks_data : Matriks, nmaks : integer) -> integer
+    { Menghitung jumlah elemen pada matriks yang terisi. }
+    KAMUS LOKAL
+        count : integer
+        baris : integer
+        lanjut : boolean
+    ALGORITMA
+        count <- 0
+        baris <- 0
+        iterate
+            if matriks_data[baris][0] /= None then
+                count <- count + 1
+            else
+
+        stop ((matriks_data[baris][0] = None) or (baris = nmaks - 1))
+            baris <- baris + 1
+        
+        -> count
+
+
+function getIndeks(matriks_data : Matriks, data : string|integer, nmaks : integer, i_ref : integer) -> integer|None
+    { Mengembalikan indeks ditemukannya data pertama kali pada sebuah tipe buatan Matriks. }
+    KAMUS LOKAL
+        indeks : integer
+        neff : integer
+        i : integer
+    ALGORITMA
+        indeks <- None
+        i <- 0
+        neff <- panjangMatriks(matriks_data, nmaks)
+        iterate
+            if (matriks_data[i][i_ref] = data) then
+                indeks <- i
+            else
+                {Tidak melakukan apa pun}
+        stop ((matriks_data[i][i_ref] = data) or (i = neff - 1))
+            i <- i + 1
+
+        -> indeks
+
+
+procedure hapusData(input/output matriks_data : MatriksData, input data : string|integer, input i_ref : integer)
+    {I.S.: matriks_data, data, dan i_ref telah terdefinisi dengan matriks_data masih terdapat nilai "data".
+     F.S.: nilai "data" yang terdapat pada matriks_data dihilangkan dengan "memajukan" semua data dibelakangnya. }
+     KAMUS LOKAL
+        neff : integer
+        i_data : integer
+        data : integer
+        i : integer
+    ALGORITMA
+        neff <- panjangMatriks(matriks_data.matriks, matriks_data.nmaks)
+        i_data <- getIndeks(matriks_data.matriks, data, matriks_data.nmaks, i_ref)
+
+        data traversal [i_data..neff]
+            if (data /= matriks_data.nmaks-1) then
+                matriks_data.matriks[data] <- matriks_data.matriks[data+1]
+            else
+                {Tidak melakukan apa pun}
+
+        if (neff = matriks_data.nmaks) then
+            i traversal [0..2]
+                matriks_data.matriks[neff-1][i] = None
+        else
+            {Tidak melakukan apa pun}
+

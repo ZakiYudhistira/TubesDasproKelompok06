@@ -1,0 +1,87 @@
+{fungsi+procedure sebelumnya}
+
+
+procedure laporanJin(input matriks_user : MatriksData, input matriks_candi : MatriksData, input matriks_bahan : MatriksData)
+    { Menuliskan laporan akhir dari semua jin yang telah membantu Bondowoso.
+      I.S: matriks_user, matriks_candi, dan matriks_bahan telah terdefinisi.
+      F.S: mengoutput laporan akhir jin.}
+    KAMUS LOKAL
+        total_jin, total_pengumpul, total_pembangun : integer
+        sisa_pasir, sisa_batu, sisa_air : integer
+        jin_terajin, jin_termalas : string
+        i_maks, i_min : integer
+    ALGORITMA
+        total_jin, total_pengumpul, total_pembangun <- jumlahJin(matriks_user)
+        sisa_pasir <- matriks_bahan.matriks[0][2]
+        sisa_batu <- matriks_bahan.matriks[1][2]
+        sisa_air <- matriks_bahan.matriks[2][2]
+        jin_terajin, jin_termalas <- "-", "-"
+
+        if (total_jin > 0) then
+            i_maks <- 0
+            i_min <- total_pembangun - 1
+            data_jin <- dataJinPembangun(matriks_user, matriks_candi, "total_candi")
+            matriks_leaderboard <- dataLeaderboard(matriks_user, matriks_candi, data_jin, "jin")
+
+            if (matriks_leaderboard[i_maks][0] /= None) then
+                jin_terajin <- matriks_leaderboard[i_maks][0]
+            else
+                {Tidak melakukan apa pun}
+
+            if (matriks_leaderboard[i_min][0] /= None) then
+                jin_termalas <- matriks_leaderboard[i_min][0]
+            else
+                {Tidak melakukan apa pun}
+
+        output("Berikut merupakan laporan jin Anda:")
+        output("> Total Jin:", total_jin)
+        output("> Total Jin Pengumpul:", total_pengumpul)
+        output("> Total Jin Pembangun:", total_pembangun)
+        output("> Jin Terajin:", jin_terajin)
+        output("> Jin Termalas:", jin_termalas)
+        output("> Jumlah Pasir Tersisa:", sisa_pasir, "unit")
+        output("> Jumlah Air Tersisa:", sisa_air, "unit")
+        output("> Jumlah Batu Tersisa:", sisa_batu, "unit")
+
+
+procedure laporanCandi(input matriks_user : MatriksData, input matriks_candi : MatriksData, input matriks_bahan : MatriksData)
+    { Menuliskan menuliskan laporan akhir dari semua candi yang berhasil dibangun Bondowoso bersama semua jinnya.
+      I.S: matriks_user, matriks_candi, dan matriks_bahan telah terdefinisi.
+      F.S: mengoutput laporan akhir candi.}
+    KAMUS LOKAL
+        total_candi : integer
+        total_pasir, total_batu, total_air : integer
+        id_termahal, id_termurah : string
+        harga_termahal, harga_termurah : integer
+    ALGORITMA
+        total_candi <- panjangMatriks(matriks_candi.matriks, matriks_candi.nmaks)
+        total_pasir, total_batu, total_air <- jumlahBahan(matriks_candi)
+        id_termahal, id_termurah <- "-", "-"
+        harga_termahal, harga_termurah <- 0, 0
+
+        if (total_candi > 0) then
+            i_maks <- 0
+            i_min <- total_candi - 1
+            data_candi <- dataHargaCandi(matriks_candi)
+            matriks_leaderboard <- dataLeaderboard(matriks_user, matriks_candi, data_candi, "candi")
+
+            if (matriks_leaderboard[i_maks][0] /= None) then
+                id_termahal <- matriks_leaderboard[i_maks][0]
+                harga_termahal <- matriks_leaderboard[i_maks][1]
+            else
+                {Tidak melakukan apa pun}
+
+            if (matriks_leaderboard[i_min][0] /= None) then
+                id_termurah <- matriks_leaderboard[i_min][0]
+                harga_termurah <- matriks_leaderboard[i_min][1]
+            else
+                {Tidak melakukan apa pun}
+
+        output("Berikut merupakan laporan jin Anda:")
+        output("> Total Candi:", total_candi)
+        output("> Total Pasir yang Digunakan:", total_pasir)
+        output("> Total Air yang Digunakan:", total_air)
+        output("> Total Batu yang Digunakan:", total_batu)
+        output("> ID Candi Termahal:", id_termahal, harga_termahal)
+        output("> ID Candi Termurah:", id_termurah, harga_termurah)
+

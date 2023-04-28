@@ -1,0 +1,41 @@
+procedure ayamBerkokok(input matriks_candi : MatriksData)
+    { Menyelesaikan permainan dan menentukan pemenang berdasarkan jumlah candi yang berhasil dibuat.
+      I.S.: matriks_candi telah terdefinisi.
+      F.S.: mengoutput pemenang permainan.}
+    KAMUS LOKAL
+        jumlah_candi : integer
+    ALGORITMA
+        jumlah_candi <- panjangMatriks(matriks_candi.matriks, matriks_candi.nmaks)
+
+        if (jumlah_candi < 100) then
+            output("Selamat, Roro Jonggrang memenangkan permainan!")
+        else
+            output("Yah, Bandung Bondowoso memenangkan permainan!")
+
+
+procedure hancurkanCandi(input/output matriks_candi : MatriksData)
+    { Menghancurkan candi berdasarkan id yang diinginkan Roro.
+      I.S.: matriks_candi telah terdefinisi dan candi dengan id yang diinginkan Roro masih ada.
+      F.S.: candi dengan id yang diinginkan Roro telah dihilangkan dari matriks_candi.}
+    KAMUS LOKAL
+        indeks : integer
+        id : integer
+        opsi : string
+    ALGORITMA
+        id = input("Masukkan ID candi: ")
+        indeks = getIndeks(matriks_candi.matriks, id, matriks_candi.nmaks)
+
+    if (indeks = None) then
+        output("Tidak ada candi dengan ID tersebut.")
+    else:
+        iterate
+            opsi = input(f"Apakah anda yakin ingin menghancurkan candi ID: {id} (Y/N)? ")
+        stop ((opsi = "Y") or (opsi = "N") or (opsi = "y") or (opsi = "n"))
+            output("Perintah tidak valid, tolong input ulang perintah.")
+
+        if ((opsi = "Y") or (opsi = "y")) then
+            hapusData(matriks_candi, id, 0)
+            output("Candi telah berhasil dihancurkan.")
+        else
+            output("Understandable, have a nice day.")
+
