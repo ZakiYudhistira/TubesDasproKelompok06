@@ -148,32 +148,36 @@ def login(matriks_data_user:MatriksData) -> tuple[bool,str,str]:
 #----------------------------------------------Prosedur Help------------------------------------------------
 # Prosedur untuk mengoutput keterangan command sesuai dengan current role pengguna.
 def help(role:str) -> None:
-    'logout: Untuk keluar dari akun yang digunakan sekarang.',
-    'bangun: Membangun candi dari bahan yang sudah terkumpulkan.'
 
-    print("Berikut merupakan beberapa command yang bisa Anda lakukan sebagai")
     if role == "bandung_bondowoso":
-        print("""logout: Untuk keluar dari akun yang digunakan sekarang.
-summonjin: Untuk memanggil jin.
-hapusjin: Untuk menghilangkan jin.
-ubahjin: Untuk mengubah Jin pengumpul jadi jin pembangun dan sebaliknya.
-batchkumpul: Untuk menyuruh semua jin pengumpul mengumpulkan bahan candi.
-batchbangun: Untuk menyuruh semua jin pembangun membuat candi.
-laporanjin: Menunjukkan jumlah jin yang ada dan propertinya.
-laporancandi: Menunjukkan jumlah candi yang sudah terbangung dan propertinya.""")
+        print("""Berikut merupakan beberapa command yang bisa Anda lakukan:
+1.logout: Untuk keluar dari akun yang digunakan sekarang.
+2.summonjin: Untuk memanggil jin.
+3.hapusjin: Untuk menghilangkan jin.
+4.ubahjin: Untuk mengubah Jin pengumpul jadi jin pembangun dan sebaliknya.
+5.batchkumpul: Untuk menyuruh semua jin pengumpul mengumpulkan bahan candi.
+6.batchbangun: Untuk menyuruh semua jin pembangun membuat candi.
+7.laporanjin: Menunjukkan jumlah jin yang ada dan propertinya.
+8.laporancandi: Menunjukkan jumlah candi yang sudah terbangung dan propertinya.
+9.leaderboard: Menunjukkan leaderboard jin pembangun atau candi saat ini.""")
 
     elif role == "roro_jonggrang":
-        print("""logout: Untuk keluar dari akun yang digunakan sekarang.
-ayamberkokok: Memalsukan waktu dan mengakhiri permainan.
-hancurkancandi: Menghancurkan candi yang telah dibuat.""")
+        print("""Berikut merupakan beberapa command yang bisa Anda lakukan:
+1.logout: Untuk keluar dari akun yang digunakan sekarang.
+2.ayamberkokok: Memalsukan waktu dan mengakhiri permainan.
+3.hancurkancandi: Menghancurkan candi yang telah dibuat.""")
 
     elif role == "jin_pengumpul":
-       print("""logout: Untuk keluar dari akun yang digunakan sekarang.
-bangun: Membangun candi dari bahan yang sudah terkumpulkan.""")
+       print("""Berikut merupakan beberapa command yang bisa Anda lakukan:
+1.logout: Untuk keluar dari akun yang digunakan sekarang.
+2.bangun: Membangun candi dari bahan yang sudah terkumpulkan.""")
 
     elif role == "jin_pembangun":
-        print("""logout: Untuk keluar dari akun yang digunakan sekarang.
-bangun: Membangun candi dari bahan yang sudah terkumpulkan.""")
+        print("""Berikut merupakan beberapa command yang bisa Anda lakukan:
+1.logout: Untuk keluar dari akun yang digunakan sekarang.
+2.bangun: Membangun candi dari bahan yang sudah terkumpulkan.""")
+        
+
 #-------------------------------------------------Fungsi logout-----------------------------------------------------------
 def logout() -> tuple[bool,str,str]:
     return False, " ", " "
@@ -462,7 +466,7 @@ def kumpul(matriks_bahan:MatriksData, batch:bool) -> None:
 
 #-------------------------------------------------Prosedur bangun-----------------------------------------------------------
 # Prosedur untuk membangun candi dan mengeluarkan nilai boolean untuk mengindikasikan keberhasilan pembangunan candi.
-def bangun(matriks_bahan:MatriksData, matriks_candi:MatriksData, jin_pembangun:str, pasir:int, batu:int, air:int , batch=False):
+def bangun(matriks_bahan:MatriksData, matriks_candi:MatriksData, jin_pembangun:str, pasir:int, batu:int, air:int, batch=False):
     nmaks = matriks_candi.nmaks
     neff = panjangMatriks(matriks_candi.matriks, nmaks)
     jumlah_candi = neff
@@ -488,8 +492,8 @@ def bangun(matriks_bahan:MatriksData, matriks_candi:MatriksData, jin_pembangun:s
         if not(batch):
             print(f"Candi berhasil dibangun!\nSisa candi yang perlu dibangun: {sisa_candi}")
     else:
-            if not(batch):
-                print("Bahan bangunan tidak mencukupi.\nCandi tidak bisa dibangun!")
+        if not(batch):
+            print("Bahan bangunan tidak mencukupi.\nCandi tidak bisa dibangun!")
 
 
 #-------------------------------------------------Prosedur batchKumpul-----------------------------------------------------------

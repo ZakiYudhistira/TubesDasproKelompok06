@@ -47,6 +47,12 @@ if os.path.exists(save_directory):
             else:
                 print("User bukan jin pembangun\nPembangunan candi tidak dilakukan.")
         
+        elif command == "showbahan":
+            if logged_in_as == "bandung_bondowoso":
+                Module.showBahan(matriks_bahan)
+            else:
+                print("User bukan Bandung Bondowoso\nTidak bisa mengecek jumlah bahan yang tersedia.")
+
         elif command == "hapusjin":
             if logged_in:
                 if logged_in_as == "bandung_bondowoso":
@@ -107,6 +113,12 @@ if os.path.exists(save_directory):
             else:
                 print("User bukan Bandung Bondowoso\nTidak bisa mengambil laporan candi!")
 
+        elif command == "leaderboard":
+            if logged_in_as == "bandung_bondowoso":
+                Module.printLeaderboard(matriks_user, matriks_candi)
+            else:
+                print("User bukan Bandung Bondowoso\nTidak bisa melihat leaderboard!")
+
         elif command == "hancurkancandi":
             if logged_in_as == "roro_jonggrang":
                 Module.hancurkanCandi(matriks_candi)
@@ -119,12 +131,19 @@ if os.path.exists(save_directory):
             else:
                 print("User bukan Roro Jonggrang\nAyam tidak mau berkokok!")
 
-        elif command == "leaderboard":
-            Module.printLeaderboard(matriks_user, matriks_candi)
-
-        elif command == "showbahan":
-            Module.showBahan(matriks_bahan)
+        elif command == "save":
+            tuple_matriks_data = ([matriks_user, matriks_candi, matriks_bahan], 3)
+            Module.saveData(tuple_matriks_data)
         
+        elif command == "help":
+            if logged_in:
+                Module.help(logged_in_as)
+            else:
+                print("""Berikut merupakan beberapa command yang bisa Anda lakukan:
+1.login: untuk masuk menggunakan akun.
+2.save: untuk menyimpan hasil permainan.
+3.exit: untuk keluar dari program.""")
+                
         elif command == "exit":
             if logged_in:
                 print("Mohon logout dulu sebelum keluar dari program.")
@@ -147,20 +166,6 @@ if os.path.exists(save_directory):
                     time.sleep(0.5)
 
                 program_jalan = False
-        
-        elif command == "save":
-            tuple_matriks_data = ([matriks_user, matriks_candi, matriks_bahan], 3)
-            Module.saveData(tuple_matriks_data)
-        
-        elif command == "help":
-            if logged_in:
-                Module.help(logged_in_as)
-            else:
-                print("""Berikut merupakan beberapa command yang bisa Anda lakukan:
-1.login: untuk masuk menggunakan akun.
-2.save: untuk menyimpan hasil permainan.
-3.exit: untuk keluar dari program.
-2.leaderboard: untuk melihat leaderboard candi atau jin pembangun""")
 
         else:
             print("Perintah tidak dikenali")
