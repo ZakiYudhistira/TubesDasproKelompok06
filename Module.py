@@ -62,8 +62,8 @@ def hapusData(matriks_data:MatriksData, data:str|int, i_ref=0) -> None:
 # ============================================== FUNGSI DAN PROSEDUR TEKNIS ==================================================
 # Fungsi dan prosedur teknis yang digunakan pada awal dan akhir penjalanan program
 
-# --------------------------------------------- PROSEDUR login (credit: 19622199) ----------------------------------------------
-# Prosedur login yang akan mengoutput True bila login berhasil dan False bila login tidak berhasil.
+# --------------------------------------------- Fungsi login (credit: 19622199) ----------------------------------------------
+# Fungsi login yang akan mengoutput True bila login berhasil dan False bila login tidak berhasil.
 def login(matriks_data_user:MatriksData) -> tuple[bool,str,str]:
     data_user = matriks_data_user.matriks
     user = input("Masukkan username: ")
@@ -220,6 +220,7 @@ def saveData(data:tuple[list[MatriksData]|int]) -> None:
     time.sleep(0.5)
     print(f"Berhasil menyimpan data di folder {save_directory}!")
 
+
 # =============================================== FUNGSI DAN PROSEDUR GENERAL ================================================
 # Fungsi dan prosedur yang digunakan pada fungsi dan prosedur lainnya serta tidak terkhususkan pada suatu role
 
@@ -311,8 +312,8 @@ def cekPanjangPassword(password:str) -> bool:
     else:
         return False
     
-# ----------------------------------------- Prosedur isiMatriksUser (credit: 19622199) -----------------------------------------
-# Prosedur untuk mengisi data ke matriks yang telah ditentukan.
+# ----------------------------------------- Fungsi isiMatriksUser (credit: 19622199) -----------------------------------------
+# Fungsi untuk mengisi data ke matriks yang telah ditentukan.
 def isiMatriksUser(matriks_user:MatriksData,nama_jin:str,password_jin:str,role_jin:str) -> Matriks:
     for i in range(matriks_user.nmaks):
         if matriks_user.matriks[i][0] == None:
@@ -838,3 +839,4 @@ Berdasarkan kategori apakah Anda ingin melihat leaderboard jin pembangun? (1--5)
                 time.sleep(0.1)
         else:
             print("Oh maaf, data yang tersedia kosong!")
+
