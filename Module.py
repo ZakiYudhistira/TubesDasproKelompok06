@@ -136,7 +136,7 @@ def help(role:str) -> None:
 
 # -------------------------------------------- Fungsi loadData (credit: 16522028) --------------------------------------------
 # Fungsi yang mengembalikan sebuah martriks berisi data yang dibaca dengan jumlah baris nmaks dan jumlah kolom nparam.
-def loadData(path_file:str, nparam:int, nmaks:int) -> None:
+def loadData(path_file:str, nparam:int, nmaks:int) -> Matriks:
 
     with open(path_file, 'r') as file:
         data_file = file.read()

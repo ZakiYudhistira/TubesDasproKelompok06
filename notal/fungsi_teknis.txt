@@ -1,0 +1,140 @@
+function loadData(path_file : string, nparam : integer, nmaks : integer) -> Matriks
+    { Mengembalikan sebuah matriks berdimensi (nmaks)X(nparam) yang diisi data berdasarkan file yang diberikan. }
+    KAMUS LOKAL
+        data_file : SEQFILE  of 
+                    huruf : character
+        matriks_data : array [0..(nmaks-1)] of array [0..(nparam-1)] of string
+        data : string
+        indeks_baris, indeks_kolom : integer
+        i, j : integer
+    ALGORITMA
+        assign (data_file, path_file)
+        i traversal [0..(nmaks-1)]
+            j traversal [0..(nparam-1)]
+                matriks_data <- None
+        data <- ''
+        indeks_baris <- 0
+        indeks_kolom <- 0
+
+        open (data_file, huruf)
+
+            if (huruf /= '') then
+
+                while (huruf /= '') do
+                    if ((huruf = ';') or (huruf = '\n')) then
+                        if (huruf /= '\n') then
+                            if (indeks_baris /= 0) then
+                                matriks_data[indeks_baris-1][indeks_kolom] <- data
+                            else
+                                {Tidak melakukan apa pun}
+                            
+                            indeks_kolom <- indeks_kolom + 1
+
+                        else
+                            if (indeks_baris /= 0) then
+                                matriks_data[indeks_baris-1][indeks_kolom] <- data
+                            else
+                                {Tidak melakukan apa pun}
+
+                            indeks_baris <- indeks_baris + 1
+                            indeks_kolom <- 0
+
+                        data <- ''
+
+                    else
+                        data <- data + huruf
+
+            else
+                {Tidak melakukan apa pun}
+
+        if ((data /= '') and (indeks_baris /= 0)) then
+            matriks_data[indeks_baris-1][indeks_kolom] <- data
+        else
+            {Tidak melakukan apa pun}
+
+        close (data_file)
+
+    -> matriks_data
+
+
+function tulisMatriksData(matriks_data : MatriksData) -> string
+    { Mengembalikan string berisi data setiap MatriksData dengan format yang sama dengan isi file eksternal. }
+    KAMUS LOKAL
+        neff : integer
+        baris, param : integer
+        string_data : string
+    ALGORITMA
+        neff <- panjangMatriks(matriks_data.matriks, matriks_data.nmaks)
+
+        if (matriks_data.nama_data = "user") then
+            string_data <- "username;password;role"
+        else if (matriks_data.nama_data = "candi") then
+            string_data <- "id;pembuat;pasir;batu;air"
+        else if (matriks_data.nama_data = "bahan_bangunan") then
+            string_data <- "nama;deskripsi;jumlah"
+        else
+            {Tidak melakukan apa pun}
+
+        if (neff /= 0) then
+            string_data = string_data + '\n'
+        else
+            {Tidak melakukan apa pun}
+
+        baris traversal [0..(neff-1)]
+            param traversal [0..(matriks_data.nparam-1)]
+                if (param /= (matriks_data.nparam - 1)) then
+                    string_data <- string_data + matriks_data.matriks[baris][param] + ';'
+                else
+                    if (baris /= (neff - 1)) then
+                        string_data <- string_data + matriks_data.matriks[baris][param] + '\n'
+                    else
+                        string_data <- string_data + matriks_data.matriks[baris][param]
+
+        -> string_data
+
+
+procedure saveFile(input path : string, input data : string)
+    { Menyimpan file berdasarkan path dan data yang diberikan. 
+      I.S: path dan data telah terdefinisi.
+      F.S: "data" yang diberikan telah tersimpan pada file "path".}
+    KAMUS LOKAL
+        file : SEQFILE of
+                data : string
+    ALGORITMA
+        assign (file, path)
+        rewrite (file)
+        write (file, data)
+        close (file)
+
+
+procedure saveData(input data : (array[0..2] of MatriksData, int))
+    { Menyimpan data yang telah digunakan ke sebuah folder eksternal.
+      I.S.: data telah terdefinisi.
+      F.S.: semua data yang terdapat pada "data" telah tersimpan pada folder yang diinginkan.}
+    KAMUS LOKAL
+        nama_folder : string
+        parent_folder : string
+        save_directory : string
+        path_file : string
+        i : integer
+    ALGORITMA
+        nama_folder <- input("Masukkan nama folder: ")
+        parent_folder <- "save"
+        save_directory = parent_folder + "\" + nama_folder
+        
+        i traversal [0..(len(save_directory)-1)]
+            if ((save_directory[i] = '/') or (save_directory[i] = '\\') or (i = (len(save_directory) - 1))) then
+                if (not os.path.exists(save_directory)) then
+                    output("Membuat folder", save_directory, "...")
+                    os.makedirs(save_directory)
+                else
+                    {Tidak melakukan apa pun}
+            else
+                {Tidak melakukan apa pun}
+
+        i traversal [0..(data[1]-1)]:
+            path_file <- save_directory + "\" + data[0][i].nama_data + ".csv"
+            saveFile(path_file, tulisMatriksData(data[0][i]))
+
+        output("Berhasil menyimpan data di folder ", save_directory)
+
