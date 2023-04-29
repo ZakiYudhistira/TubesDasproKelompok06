@@ -107,7 +107,7 @@ procedure saveFile(input path : string, input data : string)
         close (file)
 
 
-procedure saveData(input data : (array[0..2] of MatriksData, int))
+procedure saveData(input data : (array[0..2] of MatriksData, integer))
     { Menyimpan data yang telah digunakan ke sebuah folder eksternal.
       I.S.: data telah terdefinisi.
       F.S.: semua data yang terdapat pada "data" telah tersimpan pada folder yang diinginkan.}

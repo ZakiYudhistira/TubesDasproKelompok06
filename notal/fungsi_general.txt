@@ -1,4 +1,4 @@
-function jumlahBahan(matriks_candi : MatriksData) -> (int, int, int)
+function jumlahBahan(matriks_candi : MatriksData) -> (integer, integer, integer)
     { Mengembalikan 3 data bahan (pasir, batu, air) berdasarkan data pada matriks_bahan. }
     KAMUS LOKAL
         neff : integer
@@ -15,7 +15,7 @@ function jumlahBahan(matriks_candi : MatriksData) -> (int, int, int)
 
         -> (pasir, batu, air)
 
-function jumlahJin(matriks_candi : MatriksData) -> (int, int, int)
+function jumlahJin(matriks_candi : MatriksData) -> (integer, integer, integer)
     { Mengembalikan 3 data total jin (total, pengumpul, pembangun) berdasarkan data pada matriks_user. }
     KAMUS LOKAL
         neff : integer

@@ -8,7 +8,7 @@ function isTerurutLeksi(kata1 : string, kata2 : string) -> boolean
 
         if (len(kata1) > len(kata2)) then
             ref_len <- len(kata2)
-        else<-
+        else
             ref_len <- len(kata1)
 
         i_huruf <- 0
@@ -19,15 +19,15 @@ function isTerurutLeksi(kata1 : string, kata2 : string) -> boolean
                 else
                     {Tidak melakukan apa pun}
             else
-                {Tidak melakukan apa pun}
-        stop (kata1[i_huruf] /= kata2[i_huruf] or (i_huruf = ref_len-1))
-            if (i_huruf = ref_len - 1) then
-                if (ref_len = len(kata2)) then
-                    terurut <- False
+                if (i_huruf = ref_len - 1) then
+                    if (ref_len = len(kata2)) then
+                        terurut <- False
+                    else
+                        {Tidak melakukan apa pun}
                 else
                     {Tidak melakukan apa pun}
-            else
-                {Tidak melakukan apa pun}
+
+        stop (kata1[i_huruf] /= kata2[i_huruf] or (i_huruf = ref_len-1))
 
             i_huruf <- i_huruf + 1
 
@@ -120,7 +120,7 @@ function dataHargaCandi(matriks_candi : MatriksData) -> Matriks
         -> matriks_data_harga
 
 
-function dataLeaderboard(matriks_user : MatriksData, matriks_candi : MatriksData, matriks_leaderboard : Matriks, tipe : str) -> Matriks
+function dataLeaderboard(matriks_user : MatriksData, matriks_candi : MatriksData, matriks_leaderboard : Matriks, tipe : string) -> Matriks
     { Mengembalikan matriks_leaderboard yang sudah terurut dari tertinggi ke terendah. }
     KAMUS LOKAL
         neff : integer
@@ -137,7 +137,7 @@ function dataLeaderboard(matriks_user : MatriksData, matriks_candi : MatriksData
 
             while ((indeks > 0) and (matriks_leaderboard[indeks][1] >= matriks_leaderboard[indeks-1][1])) do
 
-                if (matriks_leaderboard[indeks][1] /<- matriks_leaderboard[indeks-1][1]) then
+                if (matriks_leaderboard[indeks][1] /= matriks_leaderboard[indeks-1][1]) then
                     temp <- matriks_leaderboard[indeks]
                     matriks_leaderboard[indeks] <- matriks_leaderboard[indeks-1]
                     matriks_leaderboard[indeks-1] <- temp
