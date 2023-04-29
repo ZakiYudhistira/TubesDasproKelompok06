@@ -99,7 +99,7 @@ procedure saveFile(input path : string, input data : string)
       F.S: "data" yang diberikan telah tersimpan pada file "path".}
     KAMUS LOKAL
         file : SEQFILE of
-                data : string
+                huruf : string
     ALGORITMA
         assign (file, path)
         rewrite (file)
