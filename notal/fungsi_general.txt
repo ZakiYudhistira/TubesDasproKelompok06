@@ -15,6 +15,7 @@ function jumlahBahan(matriks_candi : MatriksData) -> (integer, integer, integer)
 
         -> (pasir, batu, air)
 
+
 function jumlahJin(matriks_candi : MatriksData) -> (integer, integer, integer)
     { Mengembalikan 3 data total jin (total, pengumpul, pembangun) berdasarkan data pada matriks_user. }
     KAMUS LOKAL
@@ -33,3 +34,4 @@ function jumlahJin(matriks_candi : MatriksData) -> (integer, integer, integer)
                 jumlah_pembangun <- jumlah_pembangun+ 1
 
         -> (jumlah_jin, jumlah_pengumpul, jumlah_pembangun)
+
