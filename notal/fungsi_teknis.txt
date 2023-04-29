@@ -54,7 +54,7 @@ function loadData(path_file : string, nparam : integer, nmaks : integer) -> Matr
 
         close (data_file)
 
-    -> matriks_data
+        -> matriks_data
 
 
 function tulisMatriksData(matriks_data : MatriksData) -> string
