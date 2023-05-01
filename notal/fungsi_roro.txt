@@ -29,7 +29,7 @@ procedure hancurkanCandi(input/output matriks_candi : MatriksData)
             output("Tidak ada candi dengan ID tersebut.")
         else:
             iterate
-                opsi = input(f"Apakah anda yakin ingin menghancurkan candi ID: {id} (Y/N)? ")
+                opsi = input("Apakah anda yakin ingin menghancurkan candi ID: ", id, " (Y/N)? ")
             stop ((opsi = "Y") or (opsi = "N") or (opsi = "y") or (opsi = "n"))
                 output("Perintah tidak valid, tolong input ulang perintah.")
 

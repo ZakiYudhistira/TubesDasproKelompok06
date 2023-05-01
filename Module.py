@@ -337,12 +337,12 @@ def summonJin(matriks_user:MatriksData) -> None:
 
             if nomor_jin == 1:
                 dotdotdot('Memilih jin "Pengumpul"', 3, 0.5)
-                nama_jin = str(input("Masukkan nama jin: "))
+                nama_jin = input("Masukkan nama jin: ")
                 while cekNamaJin(matriks_user,nama_jin):
                     print(f"Username “{nama_jin}” sudah diambil!\n")
                     nama_jin = input("Masukkan nama jin: ")
 
-                password_jin = str(input("Masukkan password jin: "))
+                password_jin = input("Masukkan password jin: ")
                 while cekPanjangPassword(password_jin):
                     print("Password panjangnya harus 5-25 karakter!\n")
                     password_jin = input("Masukkan password jin: ")
@@ -354,12 +354,12 @@ def summonJin(matriks_user:MatriksData) -> None:
 
             elif nomor_jin == 2:
                 dotdotdot('Memilih jin "Pembangun"', 3, 0.5)
-                nama_jin = str(input("Masukkan nama jin: "))
+                nama_jin = input("Masukkan nama jin: ")
                 while cekNamaJin(matriks_user,nama_jin):
                     print(f"Username “{nama_jin}” sudah diambil!\n")
                     nama_jin = input("Masukkan nama jin: ")
 
-                password_jin = str(input("Masukkan password jin: "))
+                password_jin = input("Masukkan password jin: ")
                 while cekPanjangPassword(password_jin):
                     print("Password panjangnya harus 5-25 karakter!\n")
                     password_jin = input("Masukkan password jin: ")
