@@ -830,4 +830,3 @@ Berdasarkan kategori apakah Anda ingin melihat leaderboard jin pembangun? (1--5)
                 time.sleep(0.1)
         else:
             print("Oh maaf, data yang tersedia kosong!")
-
