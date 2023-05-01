@@ -17,7 +17,7 @@ if os.path.exists(save_directory):
     matriks_bahan = Module.MatriksData(f"{save_directory}\\bahan_bangunan.csv", "bahan_bangunan", 3, 3)
     tuple_matriks_data = ([matriks_user, matriks_candi, matriks_bahan], 3)
     
-    print("Selamat datang di program \"Manajerial Candi\"!")
+    print("Selamat datang di program “Manajerial Candi”!")
     print("Ketik help untuk menampilkan command.")
 
     program_jalan = True
@@ -26,7 +26,7 @@ if os.path.exists(save_directory):
     user = ""
 
     while program_jalan:
-        command = input(">>> ")
+        command = input(">>> ").lower()
         if command == "login":
             if logged_in:
                 print("Login gagal! Anda telah login dengan username "+user+", silakan lakukan “logout” sebelum melakukan login kembali.")
@@ -140,9 +140,9 @@ if os.path.exists(save_directory):
                 Module.help(logged_in_as)
             else:
                 print("""Berikut merupakan beberapa command yang bisa Anda lakukan:
-1.login: untuk masuk menggunakan akun.
-2.save: untuk menyimpan hasil permainan.
-3.exit: untuk keluar dari program.""")
+1.login: Untuk masuk menggunakan akun.
+2.save: Untuk menyimpan hasil permainan.
+3.exit: Untuk keluar dari program.""")
                 
         elif command == "exit":
             if logged_in:
@@ -171,4 +171,4 @@ if os.path.exists(save_directory):
             print("Perintah tidak dikenali")
             
 else:
-    print(f"Folder \"{nama_folder}\" tidak ditemukan.")
+    print(f"Folder “{nama_folder}” tidak ditemukan.")
